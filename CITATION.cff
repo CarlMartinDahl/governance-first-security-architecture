@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use or adapt this architecture project, please cite it using these metadata."
+title: "Governance-First Security Architecture Project"
+abstract: "A documentation-only architecture project for reviewing authority, evidence, decision boundaries, stop states, accountability, and human-AI boundaries before implementation."
+authors:
+  - family-names: "Dahl"
+    given-names: "Martin"
+version: "0.1"
+license: CC-BY-SA-4.0
+repository: "https://github.com/CarlMartinDahl/governance-first-security-architecture"
+url: "https://github.com/CarlMartinDahl/governance-first-security-architecture"
+keywords:
+  - "AI governance"
+  - "decision accountability"
+  - "security architecture"
+  - "evidence governance"
+  - "human-AI boundaries"
+  - "stop states"

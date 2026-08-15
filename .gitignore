@@ -1,0 +1,19 @@
+.DS_Store
+**/.DS_Store
+
+# Local working and rendering artifacts
+tmp/
+output/
+
+# Editor and operating-system artifacts
+*.swp
+*.swo
+*~
+~$*
+
+# Local environment and credential files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
