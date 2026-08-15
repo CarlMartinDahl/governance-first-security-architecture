@@ -3,9 +3,11 @@
 ## Current Release Decision
 
 ```text
-Local release candidate: LOCALLY_VALIDATED
+Local release candidate: GITHUB_PRIVATE_VERIFIED
 Initial GitHub visibility: PRIVATE
-Public release: PENDING_PRIVATE_RENDER_REVIEW
+Private repository: ACTIVE
+Private render review: VERIFIED
+Public release: BLOCKED_PENDING_CONTACT_ROUTE_AND_EXPLICIT_APPROVAL
 Implementation repository: NO
 GitHub Actions: NOT_ENABLED
 ```
@@ -62,18 +64,40 @@ Recommended first tag after review:
 review-v0.1
 ```
 
+## Private Launch Record
+
+```text
+Repository: https://github.com/CarlMartinDahl/governance-first-security-architecture
+Created: 2026-08-15
+Visibility: PRIVATE
+Default branch: main
+Initial commit: 71943b86f14dd6e3edc00fb070801717f865c562
+Initial commit identity: Martin Dahl / CarlMartinDahl
+```
+
+This record confirms repository publication mechanics and GitHub rendering only. It does not validate the model, authorize implementation, or approve public release.
+
 ## Private Repository Verification
 
 After the private repository is created and before any public release:
 
-- [ ] Confirm GitHub displays the intended author identity on the initial commit.
-- [ ] Confirm GitHub detects the CC BY-SA 4.0 license.
-- [ ] Create the `review-feedback` label used by the issue form.
-- [ ] Enable GitHub private vulnerability reporting.
+- [x] Confirm GitHub displays the intended author identity on the initial commit.
+- [x] Confirm GitHub detects the CC BY-SA 4.0 license.
+- [x] Create the `review-feedback` label used by the issue form.
+- [x] Confirm GitHub private vulnerability reporting is unavailable while the repository remains private and defer activation to the immediate post-public-visibility step.
 - [ ] Verify a private conduct-reporting contact route.
-- [ ] Review README, index, issue form, pull-request template, links, and rendered Markdown in GitHub.
-- [ ] Confirm GitHub renders the intended citation metadata and canonical repository URL.
-- [ ] Confirm repository topics, description, and visibility contain no unsupported claim.
+- [x] Review README, index, issue form, pull-request template, links, and rendered Markdown in GitHub.
+- [x] Confirm GitHub renders the intended citation metadata and canonical repository URL.
+- [x] Confirm repository topics, description, and visibility contain no unsupported claim.
+
+Current blocker: no private conduct-reporting contact method is published on the repository owner's GitHub profile. Do not invent or expose a private address to satisfy this gate.
+
+Repository topics remain intentionally empty during private review because GitHub documents that topic names are always public, including topics added to private repositories.
+
+Platform source baseline reviewed 2026-08-15:
+
+- [GitHub: Configuring private vulnerability reporting for a repository](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configuring-private-vulnerability-reporting-for-a-repository) - available to public repositories.
+- [GitHub: Classifying your repository with topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics) - topic names are public even for private repositories.
 
 ## Public Release Gate
 
@@ -86,7 +110,8 @@ Before changing repository visibility to public:
 - [x] Reviewers remain anonymized.
 - [x] Legal and regulatory references are linked to current primary sources and bounded against compliance claims.
 - [x] Provider policy references are re-verified for the documentation boundary; implementation-specific permission remains unverified and unauthorized.
-- [ ] Private vulnerability reporting and the private conduct-reporting route are verified.
-- [ ] A final private-render review confirms that no private or sensitive material remains in tracked content.
+- [ ] A private conduct-reporting route is verified before the visibility change.
+- [ ] After public visibility is explicitly approved and enabled, immediately enable and verify private vulnerability reporting before public review outreach.
+- [x] A final private-render review confirms that no private or sensitive material remains in tracked content at the recorded private launch state.
 
 Changing repository visibility does not authorize implementation or alter the documentation freeze.

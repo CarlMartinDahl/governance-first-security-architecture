@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-006
+
+```text
+feedback_id: GFSA-REV-006
+reviewer_id: INT-PUB-003
+reviewer_type: Private GitHub launch and platform-gate verification
+date_received: 2026-08-15
+source_document: Private repository launch, rendered GitHub review, and current GitHub platform documentation
+feedback_summary: The frozen package was published to a private GitHub repository and its initial commit identity, license detection, README, Mermaid diagram, citation metadata, issue form, review label, document index, pull-request template, links, description, and visibility were checked. The existing release gate incorrectly assumed that GitHub private vulnerability reporting could be enabled while the repository remained private. Current GitHub documentation limits that feature to public repositories and also states that repository topic names are public even when a repository is private.
+source_reference: INTERNAL-PRIVATE-GITHUB-LAUNCH-003; GitHub private vulnerability reporting documentation reviewed 2026-08-15; GitHub repository topics documentation reviewed 2026-08-15
+affected_document: GITHUB-RELEASE-CHECKLIST.md; Post-Review Revision Log
+affected_section: Current release decision; private repository verification; public release sequence; current review state
+feedback_category: SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY
+severity: MEDIUM
+action_type: CLARIFY_TEXT; NARROW_SCOPE
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_GOVERNANCE_REVIEWER
+status: RESOLVED
+resolution_summary: Recorded the private repository launch and successful rendering checks; created the review-feedback label; deferred private vulnerability reporting to the immediate post-public-visibility step; left repository topics empty during private review; and retained the missing private conduct-reporting route as an explicit public-release blocker.
+linked_change: GITHUB-RELEASE-CHECKLIST.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; private GitHub repository metadata and review-feedback label
+do_not_claim_impact: A successful private GitHub launch and render check do not validate the model, establish security or compliance, demonstrate product-market fit, authorize implementation, or approve public release.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: The repository remains private. Public visibility requires a verified private conduct-reporting route and explicit project-owner approval; private vulnerability reporting must then be enabled immediately before public review outreach.
+```
+
 ### Feedback Item GFSA-REV-005
 
 ```text
@@ -466,6 +492,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-006 | SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY | MEDIUM | Private GitHub launch; render checks; platform-gate sequencing | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-005 | SCOPE; DOCUMENTATION_CLARITY; ROLE_AUTHORITY | LOW | Public name; canonical source; attribution; governance; identity; citation; future license boundary | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-004 | TERMINOLOGY; DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK | MEDIUM | Reviewer entry points; canonical vocabulary; release, license, community, provider, and Git metadata | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-003 | SCOPE; OVERCLAIM; PRIVACY_RISK | LOW | README; document index; license; contribution rules; historical sections | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -507,8 +534,9 @@ Blocking feedback open: NO
 Prototype implementation authorized: NO
 Prototype design discussion authorized: NOT YET; requires targeted external review
 Commercial validation authorized: WORKSHOP/ASSESSMENT DISCOVERY ONLY
-Private GitHub preparation authorized: YES
-Public GitHub release authorized: NO; requires private render review and explicit approval
+Private GitHub repository: ACTIVE_AND_VERIFIED
+Public release blockers open: YES; private conduct-reporting route and explicit approval
+Public GitHub release authorized: NO; private vulnerability reporting must be enabled immediately after any approved visibility change and before review outreach
 ```
 
 ## Current Decision
