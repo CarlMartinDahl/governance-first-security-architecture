@@ -3,11 +3,11 @@
 ## Current Release Decision
 
 ```text
-Local release candidate: GITHUB_PRIVATE_VERIFIED
+Local release candidate: GITHUB_PUBLIC_VERIFIED
 Initial GitHub visibility: PRIVATE
-Private repository: ACTIVE
-Private render review: VERIFIED
-Public release: PENDING_EXPLICIT_OWNER_APPROVAL
+Public repository: ACTIVE
+Public render review: VERIFIED
+Public release: APPROVED_AND_PUBLISHED
 Implementation repository: NO
 GitHub Actions: NOT_ENABLED
 ```
@@ -93,7 +93,7 @@ After the private repository is created and before any public release:
 
 Verified contact route: the public GitHub profile links to a professional contact page with a private messaging path. Verified 2026-08-21. Sensitive conduct details must not be posted in a public GitHub issue.
 
-Repository topics remain intentionally empty during private review because GitHub documents that topic names are always public, including topics added to private repositories.
+Repository topics remained intentionally empty during private review because GitHub documents that topic names are always public, including topics added to private repositories. The bounded public topic set was added only after explicit public-release approval.
 
 Platform source baseline reviewed 2026-08-15:
 
@@ -104,7 +104,7 @@ Platform source baseline reviewed 2026-08-15:
 
 Before changing repository visibility to public:
 
-- [ ] Public release is explicitly approved after private rendering is reviewed.
+- [x] Public release is explicitly approved after private rendering is reviewed.
 - [x] CC BY-SA 4.0 is selected for original project documentation.
 - [x] Official project name, canonical source, attribution, and independent-fork language are explicit.
 - [x] Third-party materials are excluded from the project license unless separately permitted.
@@ -112,13 +112,35 @@ Before changing repository visibility to public:
 - [x] Legal and regulatory references are linked to current primary sources and bounded against compliance claims.
 - [x] Provider policy references are re-verified for the documentation boundary; implementation-specific permission remains unverified and unauthorized.
 - [x] A private conduct-reporting route is verified before the visibility change.
-- [ ] After public visibility is explicitly approved and enabled, immediately enable and verify private vulnerability reporting before public review outreach.
+- [x] After public visibility is explicitly approved and enabled, immediately enable and verify private vulnerability reporting before public review outreach.
 - [x] A final private-render review confirms that no private or sensitive material remains in tracked content at the recorded private launch state.
 
 ## Public Surface Cleanup
 
 - [x] Direct external collaborator access is reviewed and removed where it is not part of the intended public maintainer model.
-- [ ] Disable the empty Wiki and Projects features before the visibility change.
+- [x] Disable the empty Wiki and Projects features before the visibility change.
 - [x] Retain GitHub's default labels alongside `review-feedback`; they are cosmetic and do not alter the review process.
+
+## Public Launch Record
+
+```text
+Repository: https://github.com/CarlMartinDahl/governance-first-security-architecture
+Owner approval recorded: 2026-08-21
+Published: 2026-08-21
+Visibility: PUBLIC
+Default branch: main
+Visibility-change baseline commit: e2aabfe78fd3a75d5263c72a113434ff93fc19f7
+Public contact route: VERIFIED
+External direct collaborators: NONE
+Private vulnerability reporting: ENABLED
+Public visitor reporting action: VERIFIED
+Remote release-preparation branch: REMOVED_AFTER_MERGE
+Wiki: DISABLED
+Projects: DISABLED
+Topics: ai-governance; auditability; decision-governance; documentation; human-in-the-loop; security-architecture
+Public review outreach: NOT_STARTED
+```
+
+The public launch record confirms repository visibility, public rendering, contact routing, and GitHub reporting mechanics only. It does not validate the model, authorize implementation, establish security or compliance, or demonstrate product-market fit.
 
 Changing repository visibility does not authorize implementation or alter the documentation freeze.
