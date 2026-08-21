@@ -80,6 +80,21 @@ before governed action.
 - synthetic-only test and prototype boundaries,
 - restrained legal, regulatory, security, and commercial language.
 
+## Practical Use Boundary
+
+This repository is review and thinking material, not deployable software.
+
+| Appropriate use | Current boundary |
+| --- | --- |
+| Challenge an AI, security, or governance design | Supported as a critical review lens |
+| Run a decision assessment for one sensitive AI-assisted workflow | Intended commercial-discovery use through the bounded workshop offer |
+| Reuse concepts such as stop states, role boundaries, decision matrices, or egress classes | Permitted under CC BY-SA 4.0 with attribution and share-alike obligations where applicable |
+| Deploy the documentation as a live control plane | Not supported or authorized |
+| Claim security, GDPR compliance, EU AI Act compliance, certification, or production readiness | Prohibited by the project claim boundary |
+| Build a prototype or operational system from the package | Not authorized while the documentation freeze remains active |
+
+The primary review audience includes CISOs, AI-governance leads, legal and risk functions, security reviewers, and enterprise architects who need to explain decision authority, required evidence, stop conditions, egress limits, and accountability.
+
 ## Reading Paths
 
 ### Executive Path
