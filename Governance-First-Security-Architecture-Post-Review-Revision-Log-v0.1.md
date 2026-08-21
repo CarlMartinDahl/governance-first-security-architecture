@@ -277,7 +277,7 @@ decision: ACCEPT
 assigned_owner: Project owner
 required_reviewer: ROLE_GOVERNANCE_REVIEWER
 status: RESOLVED
-resolution_summary: Published the documentation-only repository; verified public visibility and rendering; retained only the project owner as a direct contributor; removed the merged remote preparation branch; disabled Wiki and Projects; added six bounded governance and documentation topics; enabled private vulnerability reporting; and anonymously verified that an external visitor is offered the Report a vulnerability action.
+resolution_summary: Published the documentation-only repository; verified public visibility and rendering; retained no external direct collaborators; removed the merged remote preparation branch; disabled Wiki and Projects; added six bounded governance and documentation topics; enabled private vulnerability reporting; and anonymously verified that an external visitor is offered the Report a vulnerability action.
 linked_change: GITHUB-RELEASE-CHECKLIST.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; GitHub repository visibility, feature, topic, and security settings
 do_not_claim_impact: Public release and successful GitHub configuration do not validate the model, authorize implementation, establish security or compliance, demonstrate product-market fit, or convert the repository into a software product or platform.
 prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
