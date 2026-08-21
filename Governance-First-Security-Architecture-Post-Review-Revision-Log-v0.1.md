@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-008
+
+```text
+feedback_id: GFSA-REV-008
+reviewer_id: OWNER-PUB-002
+reviewer_type: Project owner public-release authorization and verification
+date_received: 2026-08-21
+source_document: Explicit public-release approval and completed GitHub post-release verification
+feedback_summary: The project owner explicitly approved public release after the private render, contact-route, access, content-boundary, and documentation checks were completed. The approved release sequence required removal of the merged remote preparation branch, disabling empty Wiki and Projects features, changing repository visibility to public, adding a bounded topic set, enabling private vulnerability reporting, and verifying the external visitor reporting action before any public review outreach.
+source_reference: OWNER-PUBLIC-RELEASE-DECISION-002; PUBLIC-GITHUB-VERIFICATION-004
+affected_document: GITHUB-RELEASE-CHECKLIST.md; Post-Review Revision Log; GitHub repository settings
+affected_section: Public release decision; public launch record; public surface; vulnerability-reporting route; current review state
+feedback_category: SCOPE; PRIVACY_RISK; ROLE_AUTHORITY; DOCUMENTATION_CLARITY
+severity: LOW
+action_type: CLARIFY_TEXT; NARROW_SCOPE
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_GOVERNANCE_REVIEWER
+status: RESOLVED
+resolution_summary: Published the documentation-only repository; verified public visibility and rendering; retained no external direct collaborators; removed the merged remote preparation branch; disabled Wiki and Projects; added six bounded governance and documentation topics; enabled private vulnerability reporting; and anonymously verified that an external visitor is offered the Report a vulnerability action.
+linked_change: GITHUB-RELEASE-CHECKLIST.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; GitHub repository visibility, feature, topic, and security settings
+do_not_claim_impact: Public release and successful GitHub configuration do not validate the model, authorize implementation, establish security or compliance, demonstrate product-market fit, or convert the repository into a software product or platform.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Public review outreach has not started. No reviewer name, private message, personal address, implementation, runtime, automation, live integration, scanning, remediation, real data, compliance claim, or security claim is included.
+```
+
 ### Feedback Item GFSA-REV-007
 
 ```text
@@ -518,6 +544,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-008 | SCOPE; PRIVACY_RISK; ROLE_AUTHORITY; DOCUMENTATION_CLARITY | LOW | Public release decision; GitHub visibility, surface, topics, and reporting route | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-007 | DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY | MEDIUM | Practical use; contact route; repository access; public release sequence | ACCEPT_WITH_MODIFICATION | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-006 | SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY | MEDIUM | Private GitHub launch; render checks; platform-gate sequencing | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-005 | SCOPE; DOCUMENTATION_CLARITY; ROLE_AUTHORITY | LOW | Public name; canonical source; attribution; governance; identity; citation; future license boundary | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -561,11 +588,14 @@ Blocking feedback open: NO
 Prototype implementation authorized: NO
 Prototype design discussion authorized: NOT YET; requires targeted external review
 Commercial validation authorized: WORKSHOP/ASSESSMENT DISCOVERY ONLY
-Private GitHub repository: ACTIVE_AND_VERIFIED
+Initial private GitHub launch: COMPLETED_AND_RETAINED_AS_HISTORY
 Public contact route verified: YES
 External direct collaborators: NONE
-Public release blockers open: YES; explicit project-owner approval
-Public GitHub release authorized: NO; private vulnerability reporting must be enabled immediately after any approved visibility change and before review outreach
+Public GitHub repository: ACTIVE_AND_VERIFIED
+Public release blockers open: NO
+Public GitHub release authorized: YES; documentation-only public review
+Private vulnerability reporting: ENABLED_AND_PUBLIC_PATH_VERIFIED
+Public review outreach: NOT_STARTED
 ```
 
 ## Current Decision
