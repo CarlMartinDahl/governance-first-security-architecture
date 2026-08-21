@@ -7,7 +7,7 @@ Local release candidate: GITHUB_PRIVATE_VERIFIED
 Initial GitHub visibility: PRIVATE
 Private repository: ACTIVE
 Private render review: VERIFIED
-Public release: BLOCKED_PENDING_CONTACT_ROUTE_AND_EXPLICIT_APPROVAL
+Public release: PENDING_EXPLICIT_OWNER_APPROVAL
 Implementation repository: NO
 GitHub Actions: NOT_ENABLED
 ```
@@ -85,12 +85,13 @@ After the private repository is created and before any public release:
 - [x] Confirm GitHub detects the CC BY-SA 4.0 license.
 - [x] Create the `review-feedback` label used by the issue form.
 - [x] Confirm GitHub private vulnerability reporting is unavailable while the repository remains private and defer activation to the immediate post-public-visibility step.
-- [ ] Verify a private conduct-reporting contact route.
+- [x] Verify a private conduct-reporting contact route.
+- [x] Confirm direct repository access matches the intended public maintainer scope; the pre-public check shows zero external collaborators.
 - [x] Review README, index, issue form, pull-request template, links, and rendered Markdown in GitHub.
 - [x] Confirm GitHub renders the intended citation metadata and canonical repository URL.
 - [x] Confirm repository topics, description, and visibility contain no unsupported claim.
 
-Current blocker: no private conduct-reporting contact method is published on the repository owner's GitHub profile. Do not invent or expose a private address to satisfy this gate.
+Verified contact route: the public GitHub profile links to a professional contact page with a private messaging path. Verified 2026-08-21. Sensitive conduct details must not be posted in a public GitHub issue.
 
 Repository topics remain intentionally empty during private review because GitHub documents that topic names are always public, including topics added to private repositories.
 
@@ -110,8 +111,14 @@ Before changing repository visibility to public:
 - [x] Reviewers remain anonymized.
 - [x] Legal and regulatory references are linked to current primary sources and bounded against compliance claims.
 - [x] Provider policy references are re-verified for the documentation boundary; implementation-specific permission remains unverified and unauthorized.
-- [ ] A private conduct-reporting route is verified before the visibility change.
+- [x] A private conduct-reporting route is verified before the visibility change.
 - [ ] After public visibility is explicitly approved and enabled, immediately enable and verify private vulnerability reporting before public review outreach.
 - [x] A final private-render review confirms that no private or sensitive material remains in tracked content at the recorded private launch state.
+
+## Public Surface Cleanup
+
+- [x] Direct external collaborator access is reviewed and removed where it is not part of the intended public maintainer model.
+- [ ] Disable the empty Wiki and Projects features before the visibility change.
+- [x] Retain GitHub's default labels alongside `review-feedback`; they are cosmetic and do not alter the review process.
 
 Changing repository visibility does not authorize implementation or alter the documentation freeze.

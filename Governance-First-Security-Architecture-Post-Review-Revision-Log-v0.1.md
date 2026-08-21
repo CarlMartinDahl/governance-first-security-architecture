@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-007
+
+```text
+feedback_id: GFSA-REV-007
+reviewer_id: EXT-TECH-001
+reviewer_type: External technical and pre-publication reviewer
+date_received: 2026-08-21
+source_document: Private pre-publication follow-up and practical-use summary
+feedback_summary: The reviewer confirmed the private-first release sequence and identified two owner-controlled prerequisites before public visibility: a project-safe contact route visible on the public GitHub profile and explicit owner approval. After any approved visibility change, private vulnerability reporting should be enabled and its public reporting path verified before review outreach. The reviewer also recommended checking direct collaborator access and noted optional cleanup of empty repository features. A separate practical-use summary distinguished review, workshop, and licensed vocabulary reuse from live control-plane use, security or compliance claims, and unauthorized prototype development.
+source_reference: PRIVATE-REVIEW-EVIDENCE-003
+affected_document: README.md; GITHUB-RELEASE-CHECKLIST.md; Post-Review Revision Log; GitHub repository settings
+affected_section: Practical use boundary; private contact route; repository access; public release sequence; public surface cleanup
+feedback_category: DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY
+severity: MEDIUM
+action_type: CLARIFY_TEXT; NARROW_SCOPE; REQUIRE_ADDITIONAL_REVIEW
+decision: ACCEPT_WITH_MODIFICATION
+assigned_owner: Project owner
+required_reviewer: ROLE_GOVERNANCE_REVIEWER
+status: RESOLVED
+resolution_summary: Added a compact practical-use boundary to README; verified a professional contact route on the public GitHub profile; removed unintended direct external collaborator access; recorded optional repository-surface cleanup; and retained explicit owner approval plus immediate post-public vulnerability-reporting verification as release gates.
+linked_change: README.md; GITHUB-RELEASE-CHECKLIST.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; GitHub repository access settings
+do_not_claim_impact: These launch and usability clarifications do not validate the model, establish security or compliance, demonstrate product-market fit, authorize implementation, or make the repository a software product.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: The repository remains private. No reviewer name, private message, personal address, or private source document is included. Public visibility still requires explicit project-owner approval at the visibility-change step.
+```
+
 ### Feedback Item GFSA-REV-006
 
 ```text
@@ -492,6 +518,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-007 | DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY | MEDIUM | Practical use; contact route; repository access; public release sequence | ACCEPT_WITH_MODIFICATION | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-006 | SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY | MEDIUM | Private GitHub launch; render checks; platform-gate sequencing | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-005 | SCOPE; DOCUMENTATION_CLARITY; ROLE_AUTHORITY | LOW | Public name; canonical source; attribution; governance; identity; citation; future license boundary | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-004 | TERMINOLOGY; DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK | MEDIUM | Reviewer entry points; canonical vocabulary; release, license, community, provider, and Git metadata | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -535,7 +562,9 @@ Prototype implementation authorized: NO
 Prototype design discussion authorized: NOT YET; requires targeted external review
 Commercial validation authorized: WORKSHOP/ASSESSMENT DISCOVERY ONLY
 Private GitHub repository: ACTIVE_AND_VERIFIED
-Public release blockers open: YES; private conduct-reporting route and explicit approval
+Public contact route verified: YES
+External direct collaborators: NONE
+Public release blockers open: YES; explicit project-owner approval
 Public GitHub release authorized: NO; private vulnerability reporting must be enabled immediately after any approved visibility change and before review outreach
 ```
 
