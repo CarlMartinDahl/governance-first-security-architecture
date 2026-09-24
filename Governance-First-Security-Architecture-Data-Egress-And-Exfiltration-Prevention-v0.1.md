@@ -1,0 +1,128 @@
+# Governance-First Security Architecture
+## Data Egress And Exfiltration Prevention
+**Version:** 0.1 — Initial Release
+**Status:** Active
+**Classification:** Governance Policy
+
+---
+
+## 1. Purpose
+
+This policy governs what data may leave the organisation's governed environment, through which channels, in which formats, with what authorisation, and under what conditions. Data egress is not only a security boundary — it is a governance boundary. The same data that is appropriately held inside the environment becomes a liability the moment it exits without authorisation, classification control, or audit trail.
+
+This policy addresses both intentional egress (approved data transfers, API outputs, agent tool calls, external communications) and unintentional or malicious exfiltration (data leaving the environment in ways that were not authorised).
+
+---
+
+## 2. Scope
+
+Applies to all data leaving the governed environment by any mechanism: human-initiated file transfer, API calls, email and messaging, agentic system tool use, automated pipeline outputs, backup replication to external locations, and third-party integrations. Applies to structured and unstructured data, to outputs generated from governed data, and to data carried in AI system outputs.
+
+---
+
+## 3. Core Governance Principle
+
+> **Data does not leave the governed environment by default. Egress is a privilege that requires a defined channel, a defined authorisation, and a complete audit trail. The absence of an explicit egress authorisation is an implicit denial. An agentic system's ability to call an external API is not an authorisation to send governed data through it.**
+
+---
+
+## 4. Egress Classification By Data Tier
+
+| Data Classification | Egress Default | Authorisation Required | Channel Requirements |
+|---|---|---|---|
+| Public | Permitted | None beyond standard process | No restrictions |
+| Internal | Restricted | Line manager or equivalent | Approved channels only; no personal storage services |
+| Confidential | Denied by default | Named data owner + Security Governance | Encrypted channel; recipient identity verified; logged |
+| Restricted | Denied by default | Named data owner + Security Governance + legal review where applicable | End-to-end encrypted; recipient vetted; audit record mandatory; GDPR transfer rules apply |
+
+AI-generated outputs that contain or are derived from Confidential or Restricted data inherit that classification for egress purposes.
+
+---
+
+## 5. Approved Egress Channels
+
+Data may only leave the governed environment through explicitly approved channels. Approved channels are:
+
+- Organisation-controlled email with TLS enforcement
+- Approved secure file transfer platforms with access logging
+- API integrations explicitly listed in the Third-Party Governance register
+- Encrypted backup replication to approved offsite locations under BCP/DR Governance
+- Approved cloud storage platforms with access controls equivalent to the data's classification
+
+The following are not approved egress channels for Confidential or Restricted data:
+
+- Personal email accounts
+- Consumer cloud storage (personal accounts on any platform)
+- Messaging applications not approved for the data's classification tier
+- Removable media unless under an explicit documented exception
+- Agentic system tool calls to external APIs not listed in the system's Operational Mandate
+
+---
+
+## 6. Agentic System Egress Controls
+
+Agentic systems present a distinct exfiltration risk: a system with legitimate internal access and external tool access can transfer data across the boundary without a human explicitly initiating the transfer.
+
+- Every external API call made by an agentic system is an egress event and is logged as such
+- Agentic systems may only send data to external endpoints explicitly listed in their Operational Mandate under the Agentic Operational Boundary
+- An agentic system that encounters a task requiring data to be sent to an endpoint not in its Operational Mandate must treat this as a Tier C escalation — it does not proceed autonomously
+- Data classification is checked before any external API call; a call that would send Confidential or Restricted data is Tier B minimum (confirm before execute)
+- Agentic system outputs that are delivered externally — reports, summaries, generated content — are assessed for derived classification before delivery
+- Prompt injection attempts that instruct an agent to exfiltrate data to an external endpoint are a Tier D stop condition
+
+---
+
+## 7. Derived And Synthesised Data
+
+Data synthesised or generated from governed sources — summaries, analyses, AI-generated reports, aggregations — inherits the classification of the most sensitive source used in its generation. This applies to:
+
+- AI model outputs generated using Confidential or Restricted input data
+- Aggregations that, while individually non-sensitive, reveal sensitive patterns in combination
+- Reports generated by agentic systems from governed data sources
+- Training data derivatives and model outputs where the model was trained on classified data
+
+The originating system or person is responsible for assessing derived classification before initiating egress.
+
+---
+
+## 8. Exfiltration Detection Indicators
+
+The following patterns trigger investigation under Log Integrity And Tamper-Evidence and Insider Threat Governance:
+
+- Bulk data access followed by external transfer within the same session
+- Data transfer to a destination not previously observed in the individual's or system's behaviour pattern
+- Transfer volume significantly above the individual's or system's established baseline
+- Repeated access to Confidential or Restricted data outside normal working hours followed by external transfer
+- Use of an unapproved egress channel for data above Internal classification
+- Agentic system API calls to external endpoints not listed in its Operational Mandate
+- Attempts to compress, encode, or obfuscate data immediately before external transfer
+- Access to audit logs or egress monitoring configuration proximate to a large data transfer
+
+---
+
+## 9. GDPR And Cross-Border Transfer
+
+Personal data transferred outside the EEA is subject to GDPR Chapter V restrictions. Egress of personal data:
+
+- Is assessed for cross-border transfer requirements before approval
+- Requires an adequacy decision, Standard Contractual Clauses, or equivalent lawful mechanism for transfers outside EEA
+- Is logged with the transfer mechanism and recipient country
+- AI system outputs containing personal data are assessed under the same rules as direct personal data transfers
+
+This is governed in full by GDPR And EU AI Act Alignment; this policy provides the egress control framework within which those obligations are operationalised.
+
+---
+
+## 10. Related Documents
+
+- Ingress Egress Policy
+- Data Classification And Handling Policy
+- Agentic Operational Boundary
+- Insider Threat Governance
+- Log Integrity And Tamper-Evidence Policy
+- Third-Party Governance
+- Identity And Credential Governance
+- GDPR And EU AI Act Alignment
+- Business Continuity And Disaster Recovery Governance
+- Audit And Accountability
+- Stop-State Policy
