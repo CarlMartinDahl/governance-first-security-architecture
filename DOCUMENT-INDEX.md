@@ -53,6 +53,8 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Insider Threat Governance](Governance-First-Security-Architecture-Insider-Threat-Governance-v0.1.md) - Structural blast-radius controls, separation of duties, four-eyes principle, offboarding risk window, negligence vs. malice framework, and GDPR monitoring constraints.
 - [Cryptographic Standards Policy](Governance-First-Security-Architecture-Cryptographic-Standards-Policy-v0.1.md) - Approved and prohibited algorithms, TLS requirements, password hashing standards, certificate governance, key management, and post-quantum transition alignment.
 - [Security Awareness And Training Governance](Governance-First-Security-Architecture-Security-Awareness-And-Training-Governance-v0.1.md) - Role-differentiated training requirements, phishing simulation governance, effectiveness metrics, non-completion consequences, and post-incident training response.
+- [Agentic Operational Boundary](Governance-First-Security-Architecture-Agentic-Operational-Boundary-v0.1.md) - Action authority tiers (Autonomous/Confirm/Escalate/Stop), Operational Mandate requirements, tool use governance, memory and persistence controls, multi-agent pipeline governance, and prompt injection response.
+- [Business Continuity And Disaster Recovery Governance](Governance-First-Security-Architecture-Business-Continuity-And-Disaster-Recovery-Governance-v0.1.md) - RTO/RPO/MTO definitions, system criticality tiers, continuity strategy requirements, disaster declaration governance, continuity testing programme, and return-to-normal criteria.
 
 ## Legal, Provider, And Future Readiness
 
