@@ -72,11 +72,30 @@ before governed action.
 - decision authority and role separation,
 - evidence quality, source authority, staleness, and counter-evidence,
 - ingress and egress as separate control boundaries,
+- data classification, handling requirements, and breach impact mapping,
 - explicit allow, review, block, quarantine, lockdown, and incident outcomes,
 - AI recommendation versus human review, approval, and accountability,
+- agentic system action authority tiers and operational mandate requirements,
+- agentic operational boundaries, tool use governance, and prompt injection response,
+- AI model provenance, integrity verification, and behavioural drift monitoring,
 - capability-change gates,
+- network segmentation including a dedicated AI and agentic segment,
+- data egress classification, approved egress channels, and exfiltration detection,
+- identity and credential lifecycle, scope minimisation, and compromise response,
+- privileged access management, just-in-time access, and break-glass governance,
+- insider threat structural controls and separation of duties,
+- lateral movement containment and default-deny east-west posture,
+- log integrity, tamper-evidence, and forensic preservation,
+- social engineering, BEC, deepfake governance, and out-of-band confirmation,
+- secrets sprawl prevention, rotation schedules, and CI/CD pipeline governance,
+- cryptographic standards, prohibited algorithms, and post-quantum transition alignment,
+- third-party and supply chain governance including agentic AI supply chain threats,
+- vulnerability disclosure, patch governance, and zero-day protocol,
+- ransomware recovery, backup architecture, and sanctions screening,
+- business continuity, disaster recovery, and return-to-normal criteria,
 - audit and decision traceability,
 - recovery and rollback expectations,
+- GDPR and EU AI Act alignment goals,
 - synthetic-only test and prototype boundaries,
 - restrained legal, regulatory, security, and commercial language.
 
@@ -103,6 +122,18 @@ The primary review audience includes CISOs, AI-governance leads, legal and risk 
 2. [Technical Review Brief](Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md)
 3. [External Review Checklist](Governance-First-Security-Architecture-External-Review-Checklist-v0.1.md)
 
+### Security Practitioner Path
+
+1. [Threat Model](Governance-First-Security-Architecture-Threat-Model-v0.1.md)
+2. [Risk And Action Taxonomy](Governance-First-Security-Architecture-Risk-And-Action-Taxonomy-v0.1.md)
+3. [Trust Boundaries](Governance-First-Security-Architecture-Trust-Boundaries-v0.1.md)
+4. [Abuse Case Library](Governance-First-Security-Architecture-Abuse-Case-Library-v0.1.md)
+5. [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md)
+6. [Data Egress And Exfiltration Prevention](Governance-First-Security-Architecture-Data-Egress-And-Exfiltration-Prevention-v0.1.md)
+7. [Network Segmentation Architecture](Governance-First-Security-Architecture-Network-Segmentation-Architecture-v0.1.md)
+8. [Log Integrity And Tamper-Evidence Policy](Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md)
+9. [Security Reviewer Bundle](Security-Reviewer-Bundle-v0.1.md)
+
 ### Technical Path
 
 1. [Minimal Viable Governance Kernel](Governance-First-Security-Architecture-Minimal-Viable-Governance-Kernel-v0.1.md)
@@ -114,9 +145,11 @@ The primary review audience includes CISOs, AI-governance leads, legal and risk 
 ### AI Governance Path
 
 1. [AI-Human Governance](Governance-First-Security-Architecture-AI-Human-Governance-v0.1.md)
-2. [Evidence And Source Policy](Governance-First-Security-Architecture-Evidence-And-Source-Policy-v0.1.md)
-3. [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md)
-4. [GDPR And EU AI Act Alignment](Governance-First-Security-Architecture-GDPR-EU-AI-Act-Alignment-v0.1.md)
+2. [Agentic Operational Boundary](Governance-First-Security-Architecture-Agentic-Operational-Boundary-v0.1.md)
+3. [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md)
+4. [Evidence And Source Policy](Governance-First-Security-Architecture-Evidence-And-Source-Policy-v0.1.md)
+5. [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md)
+6. [GDPR And EU AI Act Alignment](Governance-First-Security-Architecture-GDPR-EU-AI-Act-Alignment-v0.1.md)
 
 ### Commercial Discovery Path
 
