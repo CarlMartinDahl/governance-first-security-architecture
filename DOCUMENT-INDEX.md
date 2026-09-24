@@ -42,6 +42,11 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Identity And Credential Governance](Governance-First-Security-Architecture-Identity-And-Credential-Governance-v0.1.md) - Credential lifecycle, scope minimisation, rotation, revocation, and compromise response.
 - [Continuous Validation Policy](Governance-First-Security-Architecture-Continuous-Validation-Policy-v0.1.md) - Ongoing session trust, revalidation schedule, agentic actor controls, and fail-closed default.
 - [Vendor Offboarding And Revocation](Governance-First-Security-Architecture-Vendor-Offboarding-And-Revocation-v0.1.md) - Planned and emergency vendor offboarding, credential confirmation, and residual access checks.
+- [Social Engineering And Human Manipulation Policy](Governance-First-Security-Architecture-Social-Engineering-Policy-v0.1.md) - Verification tiers, BEC controls, SIM-swapping response, deepfake governance, and out-of-band confirmation requirements.
+- [Secrets Sprawl And Hardcoded Credentials Policy](Governance-First-Security-Architecture-Secrets-Sprawl-And-Hardcoded-Credentials-v0.1.md) - Secret lifecycle, prohibited patterns, rotation schedules, CI/CD pipeline governance, and remediation workflow.
+- [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md) - Default-deny east-west traffic, segment classification, lateral movement indicators, mandatory isolation triggers, and break-glass authorisation.
+- [Log Integrity And Tamper-Evidence Policy](Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md) - Write-once log forwarding, immutability controls, absence-as-alert, forensic preservation, and retention requirements.
+- [Ransomware Recovery Policy](Governance-First-Security-Architecture-Ransomware-Recovery-Policy-v0.1.md) - 3-2-1-1 backup architecture, payment decision governance, containment phases, sanctions screening, GDPR notification obligations, and recovery process.
 
 ## Legal, Provider, And Future Readiness
 
