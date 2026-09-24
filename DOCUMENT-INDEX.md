@@ -58,6 +58,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Data Egress And Exfiltration Prevention](Governance-First-Security-Architecture-Data-Egress-And-Exfiltration-Prevention-v0.1.md) - Egress classification per data tier, approved egress channels, agentic system egress controls, derived data classification, exfiltration detection indicators, and GDPR cross-border transfer governance.
 - [Network Segmentation Architecture](Governance-First-Security-Architecture-Network-Segmentation-Architecture-v0.1.md) - Eight-segment classification (including dedicated AI And Agentic segment), default-deny boundary posture, micro-segmentation for agentic systems, inspecting egress gateway, and segmentation validation requirements.
 - [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md) - Model provenance requirements, cryptographic integrity verification, training data poisoning controls, weight file integrity, behavioural drift monitoring, agentic reasoning model integrity, and model integrity incident response.
+- [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset.
 
 ## Legal, Provider, And Future Readiness
 
