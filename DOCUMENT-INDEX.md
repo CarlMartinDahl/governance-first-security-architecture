@@ -27,6 +27,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Trust Boundaries](Governance-First-Security-Architecture-Trust-Boundaries-v0.1.md) - Human, AI, tool, authority, data, and integration boundaries.
 - [Risk And Action Taxonomy](Governance-First-Security-Architecture-Risk-And-Action-Taxonomy-v0.1.md) - Risk levels, action classes, escalation, and hard blocks.
 - [Abuse Case Library](Governance-First-Security-Architecture-Abuse-Case-Library-v0.1.md) - Misuse and attack scenarios for review.
+- [Supply Chain Abuse Cases](Governance-First-Security-Architecture-Supply-Chain-Abuse-Cases-v0.1.md) - Third-party, supplier, and supply chain attack scenarios including agentic AI threats.
 
 ## Governance Policies
 
@@ -37,6 +38,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Stop-State Policy](Governance-First-Security-Architecture-Stop-State-Policy-v0.1.md) - Earlier policy-level stop and blocked outcomes.
 - [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md) - Decision records, approval chains, AI assistance, and traceability.
 - [Recovery Rollback Incidents](Governance-First-Security-Architecture-Recovery-Rollback-Incidents-v0.1.md) - Freeze, isolation, rollback, incident review, and recovery.
+- [Third-Party Governance](Governance-First-Security-Architecture-Third-Party-Governance-v0.1.md) - Supplier authority, access lifecycle, scope boundaries, and compromised third-party response.
 
 ## Legal, Provider, And Future Readiness
 
