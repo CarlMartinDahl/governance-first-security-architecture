@@ -39,6 +39,9 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md) - Decision records, approval chains, AI assistance, and traceability.
 - [Recovery Rollback Incidents](Governance-First-Security-Architecture-Recovery-Rollback-Incidents-v0.1.md) - Freeze, isolation, rollback, incident review, and recovery.
 - [Third-Party Governance](Governance-First-Security-Architecture-Third-Party-Governance-v0.1.md) - Supplier authority, access lifecycle, scope boundaries, and compromised third-party response.
+- [Identity And Credential Governance](Governance-First-Security-Architecture-Identity-And-Credential-Governance-v0.1.md) - Credential lifecycle, scope minimisation, rotation, revocation, and compromise response.
+- [Continuous Validation Policy](Governance-First-Security-Architecture-Continuous-Validation-Policy-v0.1.md) - Ongoing session trust, revalidation schedule, agentic actor controls, and fail-closed default.
+- [Vendor Offboarding And Revocation](Governance-First-Security-Architecture-Vendor-Offboarding-And-Revocation-v0.1.md) - Planned and emergency vendor offboarding, credential confirmation, and residual access checks.
 
 ## Legal, Provider, And Future Readiness
 
