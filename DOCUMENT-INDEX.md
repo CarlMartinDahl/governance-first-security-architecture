@@ -15,14 +15,14 @@ The package is documentation-only. Inclusion in this index does not imply implem
 
 - [Minimal Viable Governance Kernel](Governance-First-Security-Architecture-Minimal-Viable-Governance-Kernel-v0.1.md) - Smallest proposed governance rule set.
 - [Mode Model Normalization](Governance-First-Security-Architecture-Mode-Model-Normalization-v0.1.md) - Lifecycle and operational mode vocabulary.
-- [Stop-State Registry](Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md) - Canonical stop, review, lockdown, and incident states.
+- [Stop-State Registry](Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md) - Canonical stop, review, lockdown, and incident states — including agentic stops for authority chain failure, identity mismatch, unsanctioned inter-agent communication, and emergent swarm behaviour.
 - [Decision-State Matrix](Governance-First-Security-Architecture-Decision-State-Matrix-v0.1.md) - Mapping from governance signals to decisions.
 - [Role Registry](Governance-First-Security-Architecture-Role-Registry-v0.1.md) - Role, authority, review, approval, and accountability boundaries.
 - [Asset-To-Kernel Mapping](Governance-First-Security-Architecture-Asset-To-Kernel-Mapping-v0.1.md) - Asset categories mapped to governance defaults.
 
 ## Security And Risk Foundations
 
-- [Threat Model](Governance-First-Security-Architecture-Threat-Model-v0.1.md) - Threat actors, misuse paths, assets, and boundaries.
+- [Threat Model](Governance-First-Security-Architecture-Threat-Model-v0.1.md) - Threat actors, misuse paths, assets, and boundaries — including agentic threat taxonomy, emergent swarm behaviour, and multi-model hybrid attack patterns.
 - [Asset Register](Governance-First-Security-Architecture-Asset-Register-v0.1.md) - Data, credentials, decisions, context, capabilities, and records.
 - [Trust Boundaries](Governance-First-Security-Architecture-Trust-Boundaries-v0.1.md) - Human, AI, tool, authority, data, and integration boundaries.
 - [Risk And Action Taxonomy](Governance-First-Security-Architecture-Risk-And-Action-Taxonomy-v0.1.md) - Risk levels, action classes, escalation, and hard blocks.
@@ -58,8 +58,8 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Data Egress And Exfiltration Prevention](Governance-First-Security-Architecture-Data-Egress-And-Exfiltration-Prevention-v0.1.md) - Egress classification per data tier, approved egress channels, agentic system egress controls, derived data classification, exfiltration detection indicators, and GDPR cross-border transfer governance.
 - [Network Segmentation Architecture](Governance-First-Security-Architecture-Network-Segmentation-Architecture-v0.1.md) - Eight-segment classification (including dedicated AI And Agentic segment), default-deny boundary posture, micro-segmentation for agentic systems, inspecting egress gateway, and segmentation validation requirements.
 - [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md) - Model provenance requirements, cryptographic integrity verification, training data poisoning controls, weight file integrity, behavioural drift monitoring, agentic reasoning model integrity, and model integrity incident response.
-- [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset.
-- [Deceptive Containment Environment — Conceptual Foundation](Governance-First-Security-Architecture-Deceptive-Containment-Environment-Conceptual-Foundation-v0.1.md) - Sandbox isolation combined with digital twin fidelity for real-time intelligence extraction from hostile AI agents and multi-agent swarms.
+- [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset. Forms a containment system with the Deceptive Containment Environment.
+- [Deceptive Containment Environment — Conceptual Foundation](Governance-First-Security-Architecture-Deceptive-Containment-Environment-Conceptual-Foundation-v0.1.md) - Sandbox isolation combined with digital twin fidelity for real-time intelligence extraction from hostile AI agents and multi-agent swarms. Forms a containment system with Agentic Identity Security.
 
 ## Legal, Provider, And Future Readiness
 
