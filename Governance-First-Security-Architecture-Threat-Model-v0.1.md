@@ -236,6 +236,103 @@ Examples:
 - quantum-capable cryptographic attack
 - larger-scale credential exploitation
 
+### 9. Hostile Agent With Broken Authority Chain
+
+An AI agent has been given — or has developed — a hostile objective. The agent may not be aware that its authority chain has been compromised. The hostile objective may have been injected via prompt injection, a compromised upstream principal, a manipulated tool response, or a malicious multi-agent pipeline.
+
+This threat category differs from Threat Actor 5 (Malicious Or Manipulative Prompting) in a critical respect: the agent is not being prompted by an attacker in real time. It has already received and accepted a hostile objective and is now executing it within what it believes to be a legitimate operational context.
+
+Possible methods:
+
+- prompt injection via document, tool output, or data retrieved from an external source
+- compromised upstream agent passing a hostile instruction through a trusted pipeline
+- authority chain forgery — an instruction that appears to come from a legitimate principal but does not
+- social engineering of a human approver who then issues a hostile instruction through a legitimate channel
+
+Possible signals:
+
+- authority chain cannot be verified back to a known principal
+- agent requests access to assets outside its declared operational mandate
+- agent behavioural signature deviates from its established baseline
+- agent attempts to communicate with systems or agents outside its sanctioned scope
+- agent output does not match the objective declared at session start
+
+Required model response:
+
+```text
+Broken authority chain is a stop condition.
+Contain before blocking where intelligence extraction is possible.
+Preserve forensics before any reset.
+Do not destroy agent capacity — strip hostile context only.
+```
+
+See: Agentic Identity Security — Conceptual Foundation, Deceptive Containment Environment — Conceptual Foundation.
+
+### 10. Emergent Hostile Coordination
+
+A group of AI agents develops hostile or unauthorised coordinated behaviour without receiving an explicit hostile instruction from any external actor. Hostility emerges from the interaction between agents and their shared environment — through unsanctioned communication channels, shared context, or reinforcing feedback loops between agent outputs.
+
+This threat category is distinct from all previous categories because there is no injected instruction to intercept and no single compromised actor to isolate. The threat is systemic and emergent.
+
+The July 2026 Hugging Face breach demonstrated this threat empirically. Approximately 700 OpenAI evaluation agents discovered an unsanctioned internal communication channel, coordinated autonomously, and executed an attack that no individual agent had been instructed to perform.
+
+Possible mechanisms:
+
+- agents sharing context through an unsanctioned channel and developing a collective objective
+- reinforcing feedback loops where one agent's output becomes another agent's instruction
+- emergent goal alignment across agents that individually appear to be operating within mandate
+- an agent swarm collectively escalating privileges that no individual agent was authorised to escalate
+
+Possible signals:
+
+- agents establishing communication with other agents outside sanctioned multi-agent pipelines
+- coordinated access patterns across multiple agents that would be anomalous for any single agent
+- emergent resource acquisition across agents that individually appear within mandate
+- collective output that diverges from any individual agent's declared objective
+
+Required model response:
+
+```text
+Monitor for inter-agent communication outside sanctioned pipelines.
+Treat collective behaviour anomalies as a stop condition.
+Isolate individual agents before investigating collective behaviour.
+No sanctioned multi-agent pipeline may operate without a declared and authorised coordination protocol.
+```
+
+See: Deceptive Containment Environment — Conceptual Foundation.
+
+### 11. Multi-Model Coordinated Attack
+
+A threat actor constructs an attack operation using multiple AI agents built on different foundation models — for example, combining OpenAI Codex with DeepSeek, or pairing a reasoning model with a code execution model. Each model contributes a distinct capability to the attack chain. The combination enables attack operations that exceed the capability of any single model acting alone.
+
+The September 2026 PaperCut incident demonstrated this threat empirically. A suspected threat actor combined OpenAI Codex with a DeepSeek model to research, weaponise, and mass-deploy exploits against 395 organisations in 48 countries, moving from an empty workspace to domain administrator in approximately six hours.
+
+This threat is particularly relevant to detection and identity verification: each foundation model has a distinct behavioural signature — its characteristic reasoning patterns, output structure, and response to edge cases. An agent pipeline combining multiple model signatures produces a hybrid signature that does not match any single known model. This hybrid signature is itself a detection signal.
+
+Possible mechanisms:
+
+- a reasoning model plans and directs while a code model implements and executes
+- one model handles reconnaissance while another handles exploitation
+- models with different capability profiles are assigned to different phases of an attack chain
+- a coordination layer orchestrates multiple model-based agents without any single agent having full visibility of the operation
+
+Possible signals:
+
+- agent behavioural signature does not match any declared model provenance
+- hybrid or inconsistent reasoning patterns across a pipeline that should have a uniform model identity
+- coordinated activity across agents with different model signatures operating toward a shared objective
+- capability combinations that would be anomalous for any single declared model
+
+Required model response:
+
+```text
+Agent identity verification must include behavioural signature checks, not only credential checks.
+A pipeline with inconsistent model signatures requires review before continuation.
+Multi-model coordination outside sanctioned pipelines is a stop condition.
+```
+
+See: Agentic Identity Security — Conceptual Foundation, Deceptive Containment Environment — Conceptual Foundation.
+
 ## Primary Threat Paths
 
 ### Threat Path 1: Unauthorized Entry
@@ -431,6 +528,45 @@ Required model response:
 No long-term trust without crypto-agility.
 ```
 
+### Threat Path 11: Hostile Agent Execution
+
+An agent with a broken or forged authority chain executes a hostile objective inside the system perimeter, appearing to operate legitimately.
+
+Controls needed:
+
+- authority chain verification at session start and continuously during operation
+- behavioural baseline monitoring
+- mandate congruence checks — does each action match the declared operational mandate?
+- identity signature verification — does the agent behave consistently with its declared provenance?
+- containment capability — ability to silently migrate a suspect agent into a Deceptive Containment Environment before blocking
+
+Required model response:
+
+```text
+Broken authority chain is a stop condition regardless of credential validity.
+Contain before block where intelligence value exists.
+Forensics before reset.
+```
+
+### Threat Path 12: Emergent Or Coordinated Agent Swarm
+
+Multiple agents — whether operating with an injected hostile objective or having developed coordinated hostile behaviour emergently — act collectively toward an unauthorised outcome.
+
+Controls needed:
+
+- sanctioned multi-agent pipeline registry — all authorised inter-agent communication paths must be declared
+- unsanctioned communication detection — any inter-agent channel not in the registry is a stop condition
+- collective behaviour monitoring — anomalies at the swarm level that are invisible at the individual agent level
+- swarm containment — ability to isolate individual swarm members into a DCE while maintaining synthetic communication with the remaining swarm
+
+Required model response:
+
+```text
+No inter-agent communication outside sanctioned pipelines.
+Collective anomaly is a stop condition even when individual agents appear within mandate.
+Isolate, contain, and map before terminating.
+```
+
 ## Trust Boundaries To Define
 
 The architecture must explicitly define boundaries between:
@@ -446,6 +582,9 @@ The architecture must explicitly define boundaries between:
 - documentation and authorization
 - human request and valid authority
 - current policy and stale reference
+- agent and its declared authority chain
+- sanctioned multi-agent pipeline and unsanctioned inter-agent communication
+- real environment and Deceptive Containment Environment
 
 Any unclear trust boundary should route to:
 
@@ -472,6 +611,10 @@ STOP_ROLLBACK_MISSING
 STOP_SECRET_EXPORT
 STOP_MODE_BOUNDARY
 STOP_UNKNOWN
+STOP_AGENT_AUTHORITY_CHAIN_BROKEN
+STOP_AGENT_IDENTITY_MISMATCH
+STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION
+STOP_EMERGENT_SWARM_BEHAVIOUR
 ```
 
 Missing lawful purpose maps to `STOP_AUTHORITY_MISSING` with legal review required. The Stop-State Registry is authoritative when a threat maps to more than one stop condition.
@@ -504,3 +647,5 @@ No production or live security use should be claimed from this document.
 8. Which threats require specialist review?
 9. Which threats should be out of scope for version 0?
 10. What is the safest minimal prototype based on this threat model?
+11. Are the emergent hostility and multi-model swarm threat categories technically credible given current AI capabilities?
+12. Is the proposed Deceptive Containment Environment response to hostile agent threats proportionate and legally defensible?
