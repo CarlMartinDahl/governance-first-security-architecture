@@ -32,15 +32,32 @@ Applies to all accounts, roles, and credentials that hold elevated permissions: 
 |---|---|---|
 | Tier 0 — Identity Infrastructure | Control over the identity and authentication plane itself | Identity provider admin, PKI admin, secret store admin, MFA system admin |
 | Tier 1 — Systems And Infrastructure | Control over operating systems, hypervisors, cloud infrastructure | Server admin, cloud IAM admin, network device admin, container orchestration admin |
-| Tier 2 — Applications And Data | Elevated access within applications or data stores | Database admin, application admin, data lake admin, AI model platform admin |
-| Tier 3 — Security And Audit | Access to security tooling, logs, and audit trails | SIEM admin, vulnerability scanner admin, log management admin |
+| Tier 2 — Applications, Data, And Audit Infrastructure | Elevated access within applications, data stores, or audit and log infrastructure | Database admin, application admin, data lake admin, AI model platform admin, raw gateway log read access, agent audit log read access |
+| Tier 3 — Security And Audit Tools | Access to security tooling, log query interfaces, and processed audit outputs | SIEM admin, vulnerability scanner admin, log management admin |
 | Break-Glass | Emergency access outside normal provisioning | Disaster recovery accounts, emergency admin credentials |
 
 Tier 0 is the most sensitive. A compromise of Tier 0 accounts can invalidate all other access controls.
 
 ---
 
-## 5. Account Separation Requirements
+## 5. Log And Audit Infrastructure As Privileged Access
+
+Raw log access — particularly access to gateway logs, API proxy logs, and agent audit logs in their unprocessed form — is a privileged access class, not a read-only operational convenience. This classification follows directly from the attack surface these logs represent: an unprocessed log may contain authentication tokens, session identifiers, API keys, or other credentials that were inadvertently captured before scrubbing controls were applied.
+
+The following rules apply to all raw log and audit infrastructure access:
+
+- **Raw gateway logs, API proxy logs, and agent audit logs are classified as Tier 2 Privileged Access.** Read access to these resources requires the same governance controls as write access to Tier 2 application systems.
+- **Access is just-in-time.** No standing read access to raw logs is permitted. Access is requested for a defined purpose and time window, provisioned at request time, and automatically revoked at window expiry.
+- **All access is logged** in a separate audit trail that is itself stored under Log Integrity And Tamper-Evidence controls. The audit trail for log access must be stored in a location that cannot be accessed by the same access path as the logs being accessed.
+- **Bulk export of raw logs requires Governance Authority approval** and is treated as a high-severity audit event regardless of the stated purpose.
+- **Processed and anonymised log outputs** — dashboards, aggregated metrics, alert summaries, and query results that do not expose raw request content — may be accessed under standard role-based access controls without Tier 2 treatment. The boundary between raw and processed must be enforced technically, not by convention.
+- **Configuration of log scrubbing pipelines** — the systems responsible for removing credentials and sensitive content from logs before storage — is Tier 1 access. Modifying scrubbing configuration can expose credentials retroactively in future log entries and is treated with corresponding severity.
+
+This section remediates Gap F identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
+---
+
+## 6. Account Separation Requirements
 
 - Privileged accounts must be **separate identities** from the individual's standard user account. An administrator does not use their admin account for email, browsing, or non-administrative tasks.
 - Privileged account usernames must not be personally identifiable by convention — they are tracked in the Role Registry, not embedded in the account name
@@ -50,7 +67,7 @@ Tier 0 is the most sensitive. A compromise of Tier 0 accounts can invalidate all
 
 ---
 
-## 6. Just-In-Time Access
+## 7. Just-In-Time Access
 
 Standing privileged access — where an account holds elevated permissions continuously rather than for a defined task window — is the highest-risk configuration and must be eliminated where technically feasible:
 
@@ -62,7 +79,7 @@ Standing privileged access — where an account holds elevated permissions conti
 
 ---
 
-## 7. Session Recording And Monitoring
+## 8. Session Recording And Monitoring
 
 - All privileged sessions for Tier 0 and Tier 1 accounts must be recorded where technically feasible
 - Session recordings are stored in the centralised log management system under Log Integrity And Tamper-Evidence controls
@@ -77,7 +94,7 @@ Standing privileged access — where an account holds elevated permissions conti
 
 ---
 
-## 8. Break-Glass Accounts
+## 9. Break-Glass Accounts
 
 Break-glass accounts exist for emergency scenarios where normal just-in-time provisioning is unavailable. They are not for convenience.
 
@@ -90,7 +107,7 @@ Break-glass accounts exist for emergency scenarios where normal just-in-time pro
 
 ---
 
-## 9. Privileged Access Review
+## 10. Privileged Access Review
 
 - All privileged account assignments are reviewed quarterly by the Security Governance role
 - Review confirms: the individual still requires the access, the access scope remains appropriate, the account has been used within the review period (unused privileged accounts are revoked)
@@ -99,7 +116,7 @@ Break-glass accounts exist for emergency scenarios where normal just-in-time pro
 
 ---
 
-## 10. Privileged Service Accounts
+## 11. Privileged Service Accounts
 
 Service accounts (non-human identities used by systems and automation) with privileged access follow the same governance principles with adaptations:
 
@@ -111,7 +128,7 @@ Service accounts (non-human identities used by systems and automation) with priv
 
 ---
 
-## 11. Insider Threat Indicators
+## 12. Insider Threat Indicators
 
 Privileged access abuse — whether by a malicious insider or a compromised account — presents distinct indicators. The following trigger mandatory investigation under this policy:
 
@@ -121,10 +138,11 @@ Privileged access abuse — whether by a malicious insider or a compromised acco
 - Privileged account credentials shared between individuals
 - Privileged access requested at unusual frequency without corresponding operational justification
 - Privileged account active during a period when the named individual is on leave or has departed
+- Raw log access outside a documented just-in-time window
 
 ---
 
-## 12. Related Documents
+## 13. Related Documents
 
 - Identity And Credential Governance
 - Role Registry
@@ -136,3 +154,4 @@ Privileged access abuse — whether by a malicious insider or a compromised acco
 - Vendor Offboarding And Revocation
 - Social Engineering And Human Manipulation Policy
 - Continuous Validation Policy
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap F

@@ -102,7 +102,29 @@ Activity outside permitted operating hours is flagged immediately as an anomaly.
 
 ---
 
-## 5. Baseline Maintenance
+## 5. Model Update Observation Period
+
+A model update is not a routine configuration change. When an agent's underlying model is replaced — whether through a version increment, a fine-tune update, a provider-side update, or a full model swap — the behavioural characteristics of the agent may change in ways that are not visible through cryptographic integrity checks alone. A model that passes all hash and signature validations at deployment may still carry altered behaviour.
+
+The following requirements apply to every model update for an agent operating within the governed boundary:
+
+**Mandatory observation period:** Every model update must be followed by a supervised observation period before the agent is returned to full autonomous operation. The minimum observation period is **48 hours of active operational use** or **10 complete task sessions**, whichever is longer. Clock time without active use does not count toward the minimum.
+
+**Confirm mode during observation:** During the observation period, the agent must operate in Confirm mode (Tier B) for all actions regardless of their normal authority tier. No autonomous execution of Tier A actions is permitted during the observation window. All actions require explicit human confirmation.
+
+**Behavioural comparison:** During the observation period, the agent's behaviour is actively compared against the pre-update baseline across all five profile dimensions. Any deviation from the pre-update baseline that cannot be explained by the documented scope of the model update is treated as an anomaly and escalated to the Governance Authority before the observation period is extended or the agent is returned to full operation.
+
+**Observation sign-off:** The observation period does not end automatically at the time or session minimum. It ends when the Security Reviewer formally signs off that observed behaviour is consistent with the pre-update baseline and the documented update scope. Sign-off is logged in Audit And Accountability.
+
+**Emergency rollback trigger:** If during the observation period the agent exhibits behaviour that would constitute a Tier D stop in normal operation, the update is rolled back immediately to the prior approved model version. The incident is investigated before any further model update is attempted.
+
+**No production promotion without sign-off:** An updated model that has not completed its observation period and received Security Reviewer sign-off may not be promoted to full production operation. Deployment gates must enforce this requirement technically, not rely on manual process compliance alone.
+
+This section remediates Gap B identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
+---
+
+## 6. Baseline Maintenance
 
 A baseline profile must be updated whenever:
 
@@ -114,6 +136,7 @@ A baseline profile must be updated whenever:
 | Actual resource usage consistently exceeds alert thresholds | Resource dimension recalibration; Governance Authority notification |
 | Scheduled review date reached | Full five-dimension review; re-approval or confirmation of no change |
 | Incident involving this agent | Full profile review as part of post-incident root cause analysis |
+| Model update completed and observation period signed off | Identity dimension updated with new model version reference; baseline recalibrated against observation period data |
 
 Scheduled review frequency: **quarterly** for high-capability agents; **semi-annually** for low-capability or restricted agents.
 
@@ -121,7 +144,7 @@ A profile that has not been reviewed within its scheduled period is automaticall
 
 ---
 
-## 6. Anomaly Detection Integration
+## 7. Anomaly Detection Integration
 
 The monitoring layer uses the baseline profile as its primary reference. An anomaly is any observed agent behaviour that deviates from the baseline in one or more dimensions:
 
@@ -139,7 +162,7 @@ Critical and High anomalies must be escalated to the Attribution Playbook workfl
 
 ---
 
-## 7. Baseline Profile Registry
+## 8. Baseline Profile Registry
 
 All approved baseline profiles are stored in the agent baseline registry:
 - One entry per deployed agent instance
@@ -149,7 +172,7 @@ All approved baseline profiles are stored in the agent baseline registry:
 
 ---
 
-## 8. Related Documents
+## 9. Related Documents
 
 - Agent-Attribution-Playbook-v0.1
 - Agentic-Identity-Security-Conceptual-Foundation-v0.1
@@ -159,6 +182,7 @@ All approved baseline profiles are stored in the agent baseline registry:
 - Log-Integrity-And-Tamper-Evidence-v0.1
 - Stop-State-Policy-v0.1
 - Identity-And-Credential-Governance-v0.1
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap B
 
 ---
 

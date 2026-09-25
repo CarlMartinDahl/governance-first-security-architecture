@@ -47,6 +47,7 @@ Continuous validation applies to:
 - AI agent sessions and tool use
 - API and integration connections
 - administrative and privileged sessions
+- persistent memory stores used by agentic systems
 
 ## Validation Dimensions
 
@@ -68,6 +69,12 @@ Behavioural consistency:
 Context consistency:
   Has the organisational or security context changed since the session was established?
   Is there an active incident or lockdown that should affect this session's continued validity?
+
+Memory integrity (agentic systems only):
+  Is the persistent memory store consistent with entries written by verified, authorised sources?
+  Are there entries without valid provenance metadata?
+  Is there a pattern of low-authority entries that collectively assert normative context inconsistent
+  with high-authority sources?
 ```
 
 ## Revalidation Schedule
@@ -83,8 +90,40 @@ Revalidation intervals are shorter for higher-risk session classes:
 | AI agent and automated system | Continuous, per action or at short fixed interval |
 | Standard human user | Standard interval, defined per role |
 | Read-only and low-privilege | Extended interval, defined per risk classification |
+| Agentic persistent memory store | Scheduled integrity check, minimum weekly |
 
 Specific interval values are not defined in this document. They are defined during implementation review and governed by the capability change gate before any interval is extended.
+
+## Memory Bank Integrity Validation
+
+Persistent memory used by agentic systems is a trust surface that requires explicit revalidation on schedule, not only at the point of read. A memory store that was clean at creation may be progressively compromised through gradual poisoning — a technique where low-authority actors plant false normative context in small increments over time, each individually innocuous but collectively redirecting agent behaviour.
+
+Memory bank integrity validation is a scheduled governance control, not an optional enhancement:
+
+**Scheduled integrity check — minimum weekly:**
+Every persistent memory store used by an agentic system must undergo an integrity check at minimum once per week. The check is performed by the Governance Authority or a delegated Security Reviewer, not by the agent itself.
+
+**What the integrity check covers:**
+- All entries are verified to carry valid provenance metadata (source identity, authority level, timestamp, session reference) as required by Agentic-Operational-Boundary-v0.1 section on Memory Provenance Control
+- Entries without valid provenance metadata are quarantined immediately and flagged for Governance Authority review
+- The distribution of entry authority levels is reviewed: if the proportion of low-authority entries has increased materially since the last check, this is treated as a potential poisoning signal
+- Entry content is spot-checked against known high-authority sources to detect contradiction — entries that assert normative context inconsistent with established operator or Governance Authority records are flagged
+- The volume and timing of writes from each source identity over the check period is reviewed for anomalous patterns
+
+**Quarantine protocol:**
+An entry that fails integrity validation is moved to a quarantine store. The agent continues operating without the quarantined entry. The agent is not informed of the quarantine — the quarantine decision is a governance action, not an agent-visible event. The Governance Authority reviews quarantined entries within 48 hours and determines: reinstate, permanently remove, or escalate to incident.
+
+**Freeze on suspicious pattern:**
+If the integrity check identifies a pattern of low-authority entries that collectively assert false normative context — even if each individual entry passed provenance validation — the memory store is frozen pending Governance Authority review. The agent operates in Confirm mode (Tier B) for all actions until the freeze is lifted.
+
+**Integration with event-triggered revalidation:**
+Memory integrity validation is also triggered immediately (outside the weekly schedule) when:
+- A new actor is granted write access to the memory store
+- An incident is declared involving the agent
+- The agent exhibits behaviour inconsistent with its baseline that cannot be explained by recent operator instructions
+- A provenance validation failure is detected at read time
+
+This section remediates Gap G identified in GFSA-RED-TEAM-FINDINGS-v0.1.
 
 ## Event-Triggered Revalidation
 
@@ -98,6 +137,7 @@ Revalidation is triggered immediately on any of the following signals, regardles
 - stop state is triggered in any adjacent system
 - AI agent attempts a capability or action outside its defined boundary
 - privileged action attempted outside a defined maintenance window
+- memory integrity validation failure detected
 
 ## Revalidation Outcomes
 
@@ -162,6 +202,8 @@ A validation outage is treated as a potential attack signal, not as a technical 
 - Ingress Egress Policy: sessions that fail revalidation are fail-closed at all egress points
 - Audit And Accountability: all revalidation events and outcomes are subject to audit requirements
 - AI-Human Governance: agentic actor validation rules interact with AI capability boundaries
+- Agentic-Operational-Boundary-v0.1: memory provenance control and memory bank integrity validation are interdependent
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap G
 
 ## Open Questions
 
