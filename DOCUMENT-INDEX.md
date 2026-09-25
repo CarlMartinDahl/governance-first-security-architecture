@@ -46,6 +46,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Secrets Sprawl And Hardcoded Credentials Policy](Governance-First-Security-Architecture-Secrets-Sprawl-And-Hardcoded-Credentials-v0.1.md) - Secret lifecycle, prohibited patterns, rotation schedules, CI/CD pipeline governance, and remediation workflow.
 - [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md) - Default-deny east-west traffic, segment classification, lateral movement indicators, mandatory isolation triggers, and break-glass authorisation.
 - [Log Integrity And Tamper-Evidence Policy](Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md) - Write-once log forwarding, immutability controls, absence-as-alert, forensic preservation, and retention requirements.
+- [Log Retention And Rotation Policy](Governance-First-Security-Architecture-Log-Retention-And-Rotation-Policy-v0.1.md) - Retention periods by log type, rotation triggers and procedure, authorised deletion workflow, capacity planning, and regulatory alignment (EU AI Act, GDPR, NIS2).
 - [Ransomware Recovery Policy](Governance-First-Security-Architecture-Ransomware-Recovery-Policy-v0.1.md) - 3-2-1-1 backup architecture, payment decision governance, containment phases, sanctions screening, GDPR notification obligations, and recovery process.
 - [Vulnerability Disclosure And Patch Governance](Governance-First-Security-Architecture-Vulnerability-Disclosure-And-Patch-Governance-v0.1.md) - Inbound responsible disclosure, safe harbour, patch remediation windows, zero-day protocol, dependency scanning, and vulnerability register.
 - [Data Classification And Handling Policy](Governance-First-Security-Architecture-Data-Classification-And-Handling-Policy-v0.1.md) - Four-tier classification (Public/Internal/Confidential/Restricted), handling requirements per tier, GDPR overlay, AI data governance, and breach impact mapping.
@@ -60,6 +61,20 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md) - Model provenance requirements, cryptographic integrity verification, training data poisoning controls, weight file integrity, behavioural drift monitoring, agentic reasoning model integrity, and model integrity incident response.
 - [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset. Forms a containment system with the Deceptive Containment Environment.
 - [Deceptive Containment Environment — Conceptual Foundation](Governance-First-Security-Architecture-Deceptive-Containment-Environment-Conceptual-Foundation-v0.1.md) - Sandbox isolation combined with digital twin fidelity for real-time intelligence extraction from hostile AI agents and multi-agent swarms. Forms a containment system with Agentic Identity Security.
+
+## Private AI Deployment And Operations
+
+- [Private AI Deployment Guide](Governance-First-Security-Architecture-Private-AI-Deployment-Guide-v0.1.md) - Five-phase deployment lifecycle (provision, configure, harden, validate, hand-off), governance gate table, air-gap variant, and sign-off requirements.
+- [System Prompt Governance Layer](Governance-First-Security-Architecture-System-Prompt-Governance-Layer-v0.1.md) - Permitted and prohibited system prompt content, authorship and approval workflow, version control and signing requirements, runtime injection resistance, and five mandatory validation tests.
+- [Agent Baseline Profile](Governance-First-Security-Architecture-Agent-Baseline-Profile-v0.1.md) - Five-dimension baseline structure (identity, capability, interaction, resource, temporal), establishment procedure with supervised observation period, anomaly severity mapping, and quarterly review schedule.
+- [Monitoring And Detection Operations](Governance-First-Security-Architecture-Monitoring-And-Detection-Operations-v0.1.md) - Four-component monitoring architecture, ten hard rules, eight threshold rules, six pattern rules, triage procedure, coverage requirements, and monitoring failure stop conditions.
+
+## Incident Response And Recovery
+
+- [Agent Attribution Playbook](Governance-First-Security-Architecture-Agent-Attribution-Playbook-v0.1.md) - Evidence collection, three confidence levels (Suspected/Probable/Confirmed), attribution record template, special cases (prompt injection, supply chain, multi-agent, attribution failure).
+- [Attribution SLA Policy](Governance-First-Security-Architecture-Attribution-SLA-Policy-v0.1.md) - Four severity tiers (SEV-1 to SEV-4) with time-bound milestones per role, SLA breach procedure, evidence degradation windows, and evidence adjudication authority.
+- [Active Neutralization Runbook](Governance-First-Security-Architecture-Active-Neutralization-Runbook-v0.1.md) - Four neutralization tracks with authorisation requirements, deceptive containment integration, downstream agent handling, and decision matrix.
+- [Recovery Rollback Incidents](Governance-First-Security-Architecture-Recovery-Rollback-Incidents-v0.1.md) - Five recovery classes (Agent Replacement through Full Clean Rebuild), root-cause-before-restoration principle, downstream impact remediation, and ten-point return-to-normal checklist.
 
 ## Legal, Provider, And Future Readiness
 
