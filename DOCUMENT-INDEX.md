@@ -59,6 +59,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Network Segmentation Architecture](Governance-First-Security-Architecture-Network-Segmentation-Architecture-v0.1.md) - Eight-segment classification (including dedicated AI And Agentic segment), default-deny boundary posture, micro-segmentation for agentic systems, inspecting egress gateway, and segmentation validation requirements.
 - [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md) - Model provenance requirements, cryptographic integrity verification, training data poisoning controls, weight file integrity, behavioural drift monitoring, agentic reasoning model integrity, and model integrity incident response.
 - [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset.
+- [Deceptive Containment Environment — Conceptual Foundation](Governance-First-Security-Architecture-Deceptive-Containment-Environment-Conceptual-Foundation-v0.1.md) - Sandbox isolation combined with digital twin fidelity for real-time intelligence extraction from hostile AI agents and multi-agent swarms.
 
 ## Legal, Provider, And Future Readiness
 
