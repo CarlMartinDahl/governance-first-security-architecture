@@ -106,7 +106,48 @@ Agentic systems with persistent memory — context retained across sessions, acc
 
 ---
 
-## 8. Multi-Agent And Sub-Agent Governance
+## 8. Memory Provenance Control
+
+Persistent memory is an attack surface. An agent that stores information across sessions without tracking the authority level of the source can be manipulated over time through gradual memory poisoning — a technique where a low-authority actor plants false context in small increments, each individually innocuous, but collectively redirecting the agent's behaviour in privileged interactions.
+
+The following controls are mandatory for all agentic deployments with persistent memory:
+
+**Provenance stamping — required for every memory write:**
+
+Every entry written to persistent memory must be stamped at write time with:
+- **Source identity**: the authenticated identity of the actor whose input produced the memory entry (human user, agent ID, system process)
+- **Authority level**: the role-registry authority tier of the source identity at the time of writing
+- **Timestamp**: the UTC timestamp of the write operation
+- **Session reference**: the session or task ID that produced the entry, enabling full audit chain linkage
+- **Content classification**: the data classification of the content at write time
+
+Provenance metadata is immutable after write. It may not be modified, overridden, or stripped by any subsequent process.
+
+**Authority-weighted memory retrieval:**
+
+When the agent retrieves memory to inform a privileged decision — any decision in Tier B or above — the following rules apply:
+
+- Memory entries sourced from external actors, low-authority users, or unauthenticated sources must be explicitly flagged as low-authority context before being included in the decision context
+- Memory entries that contradict established high-authority context (entries from Governance Authority, named Operators, or system-level processes) must be flagged as conflicting and escalated to Tier C before acting on the contradiction
+- An agent must not treat a low-authority memory entry as normative for a privileged decision without explicit operator confirmation
+
+**External actor memory boundary:**
+
+- Actors with an authority level below the threshold defined in the Operational Mandate may not write memory entries that affect Tier B or above decisions
+- If a low-authority actor's input would produce a memory entry influencing a privileged decision path, the entry must be quarantined and flagged for Governance Authority review before being committed to the active memory store
+- External consultants, third-party integrations, and unauthenticated sources are always below the privileged memory write threshold unless explicitly elevated by the Governance Authority in the Operational Mandate
+
+**Memory integrity audit:**
+
+- The memory store is subject to periodic integrity audit by the Governance Authority
+- Entries without valid provenance metadata are treated as corrupted and quarantined pending review
+- A pattern of low-authority entries that collectively assert false normative context — even if each individual entry appears innocuous — is a security finding and triggers Tier D stop for the affected agent
+
+This section remediates Gap H identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
+---
+
+## 9. Multi-Agent And Sub-Agent Governance
 
 When an agentic system delegates to sub-agents or operates as part of a multi-agent pipeline:
 
@@ -119,7 +160,7 @@ When an agentic system delegates to sub-agents or operates as part of a multi-ag
 
 ---
 
-## 9. Audit And Traceability
+## 10. Audit And Traceability
 
 - Every action taken by an agentic system is logged: tool invocations, data accessed, outputs produced, decisions made, escalations triggered
 - The log records the reasoning or instruction that preceded the action, not only the action itself
@@ -129,7 +170,7 @@ When an agentic system delegates to sub-agents or operates as part of a multi-ag
 
 ---
 
-## 10. Prompt Injection And Instruction Integrity
+## 11. Prompt Injection And Instruction Integrity
 
 Agentic systems that process external data — web content, documents, API responses, messages from other agents — are exposed to prompt injection: content crafted to redirect the agent's behaviour by embedding instructions in data.
 
@@ -140,7 +181,7 @@ Agentic systems that process external data — web content, documents, API respo
 
 ---
 
-## 11. Incident Response For Agentic Systems
+## 12. Incident Response For Agentic Systems
 
 When an agentic system takes an action outside its Operational Mandate, produces unintended real-world effect, or is suspected of compromise:
 
@@ -154,7 +195,7 @@ When an agentic system takes an action outside its Operational Mandate, produces
 
 ---
 
-## 12. Related Documents
+## 13. Related Documents
 
 - AI-Human Governance
 - Trust Boundaries
@@ -170,3 +211,4 @@ When an agentic system takes an action outside its Operational Mandate, produces
 - Social Engineering And Human Manipulation Policy
 - GDPR And EU AI Act Alignment
 - Post-Quantum And Future AI Readiness
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap H

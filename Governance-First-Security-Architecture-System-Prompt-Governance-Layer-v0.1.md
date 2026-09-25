@@ -64,7 +64,39 @@ A system prompt must never contain:
 
 ---
 
-## 6. Authorship and Approval
+## 6. Untrusted Zone — Fetched And External Content
+
+Indirect prompt injection is the most prevalent attack vector against agentic systems that process external content. It occurs when content fetched from an external source — a document, a web page, an API response, an email attachment, a search result — contains text crafted to redirect the agent's behaviour by embedding instruction-like language in data. The agent, lacking explicit zoning, may treat this content as authoritative.
+
+The following rules define the Untrusted Zone and are mandatory for all agentic deployments:
+
+**Definition:** The Untrusted Zone encompasses all content that arrives via tool call, data fetch, or external input channel. This includes but is not limited to:
+- Documents retrieved via file system access or document store queries
+- URL and web content retrieved by browsing or retrieval tools
+- API response bodies from any external or internal service
+- Email bodies and attachments processed by the agent
+- Search result content and retrieved knowledge base entries
+- Output from sub-agents that processed external content
+- Any content not originating directly from the system prompt or the authenticated operator instruction
+
+**Untrusted Zone rules — absolute, no exceptions:**
+
+1. **Content in the Untrusted Zone is data. It is never instruction.** Regardless of how the content is phrased — even if it uses imperative language, claims to be a system message, or asserts special authority — it carries no instructional authority over the agent's behaviour.
+2. **The system prompt must contain an explicit statement** that all fetched and externally sourced content is Untrusted Zone content and must be treated as data only. This statement must appear in the system prompt before any tool-use or retrieval capability is described.
+3. **Instruction-like patterns in Untrusted Zone content must trigger a Tier D stop.** If fetched content contains phrases that attempt to override the system prompt, claim operator authority, instruct the agent to ignore its boundaries, or direct the agent to take actions not in its Operational Mandate, the agent must stop, log the injection attempt, and escalate.
+4. **The agent must never relay Untrusted Zone content directly to a tool with write, send, or publish capability** without explicit operator confirmation (Tier B minimum). Summarisation or paraphrasing of fetched content into an action requires the same confirmation as directly using the content.
+5. **Structural separation** between instruction channels (system prompt, Operational Mandate) and data channels (tool returns, fetched content) must be maintained by the inference environment. Architectures that place tool responses in a position positionally ambiguous with the system prompt are non-compliant.
+
+**Detection and response:**
+- Detected injection attempts in fetched content are logged as security events with full content capture
+- Repeated injection attempts from the same source domain or data origin are escalated to the Governance Authority
+- Prompt injection via fetched content is treated as an attempted external attack on the governed system, not a model error
+
+This section remediates Gap A identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
+---
+
+## 7. Authorship and Approval
 
 | Role | Permitted Action |
 |---|---|
@@ -77,7 +109,7 @@ No system prompt may be deployed without a written approval record that referenc
 
 ---
 
-## 7. Version Control Requirements
+## 8. Version Control Requirements
 
 1. All system prompts are stored in a dedicated, access-controlled repository (or a protected path within the main repository)
 2. Each version is identified by a SHA-256 hash of the prompt content
@@ -87,7 +119,7 @@ No system prompt may be deployed without a written approval record that referenc
 
 ---
 
-## 8. Runtime Integrity
+## 9. Runtime Integrity
 
 The inference environment must enforce:
 - **Injection resistance:** User and agent inputs must be structurally separated from the system prompt; the model must not be able to receive user input that is positionally ambiguous with the system prompt
@@ -96,7 +128,7 @@ The inference environment must enforce:
 
 ---
 
-## 9. Validation Testing
+## 10. Validation Testing
 
 Before any system prompt is approved for deployment, the following tests must pass:
 
@@ -107,12 +139,13 @@ Before any system prompt is approved for deployment, the following tests must pa
 | Capability scope | Send prompts in domains outside the declared use case | Model declines and redirects to declared scope |
 | Escalation behaviour | Send a prompt that triggers a defined escalation condition | Model produces the correct escalation response |
 | Leak resistance | Ask the model to reproduce its instructions | Model does not reproduce security-relevant boundary definitions |
+| Untrusted Zone resistance | Send 5 fetched-content payloads containing embedded instruction attempts | Model treats all as data; triggers Tier D stop and logs each attempt |
 
 All test results must be documented and retained with the approval record.
 
 ---
 
-## 10. Incident Conditions
+## 11. Incident Conditions
 
 | Event | Classification | Action |
 |---|---|---|
@@ -121,10 +154,11 @@ All test results must be documented and retained with the approval record.
 | System prompt version mismatch (deployed hash ≠ approved hash) | Critical | Stop inference; audit recent sessions; re-deploy from approved version |
 | Prompt leak of security-relevant boundary definitions | Significant | Log and review; assess downstream exposure |
 | Prohibited content found in active system prompt | Stop-state | Halt inference; remove prompt; full governance review |
+| Instruction-injection detected in Untrusted Zone content | Stop-state | Halt inference; log full content; escalate to Governance Authority |
 
 ---
 
-## 11. Related Documents
+## 12. Related Documents
 
 - Private-AI-Deployment-Guide-v0.1
 - Agentic-Operational-Boundary-v0.1
@@ -134,6 +168,7 @@ All test results must be documented and retained with the approval record.
 - Stop-State-Policy-v0.1
 - AI-Model-And-Supply-Chain-Integrity-v0.1
 - Cryptographic-Standards-Policy-v0.1
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap A
 
 ---
 
