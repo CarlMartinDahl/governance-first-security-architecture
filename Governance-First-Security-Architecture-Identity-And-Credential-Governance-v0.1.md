@@ -78,6 +78,23 @@ All credentials must follow these principles:
 - **Revocability**: every credential must have a defined revocation path that can be executed immediately
 - **Auditability**: all credential issuance, use, rotation, and revocation is logged
 
+## Agentic Token Lifetime Limits
+
+Tokens used for inter-agent communication and agentic pipeline authentication have a fundamentally different risk profile from human session credentials. A stolen inter-agent token cannot be detected through behavioural anomaly alone — the agent receiving the token has no way to distinguish a legitimate call from a replay attack using a stolen token. For this reason, short mandatory expiry is the primary structural control.
+
+The following hard limits apply to all agentic tokens. These limits may not be extended without documented approval from the Governance Authority and a corresponding risk acceptance record:
+
+| Token Type | Maximum Lifetime | Additional Constraint |
+|---|---|---|
+| Inter-agent pipeline token | 15 minutes | Must be single-use or session-bound; a token that has been used once must not be accepted a second time |
+| Human-to-agent session token | 60 minutes | Must require re-authentication after expiry; no silent renewal |
+| Tool authorisation token | Duration of single tool call | Expires immediately on tool call completion or timeout |
+| Agentic API key (long-lived) | 30 days maximum | Requires Governance Authority approval; must be scoped to minimum necessary permissions; rotation on any security event |
+
+Replay prevention is mandatory for inter-agent tokens. The receiving agent must maintain a short-term record of accepted token identifiers sufficient to reject any token presented more than once within its validity window.
+
+This section remediates Gap D identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
 ## Credential Lifecycle
 
 ### Issuance
@@ -194,6 +211,7 @@ The credential register does not store credential values. It records governance 
 - Audit And Accountability: all credential lifecycle events are subject to audit requirements
 - Recovery Rollback Incidents: credential compromise follows the incident recovery path
 - Ingress Egress Policy: revoked credentials must be fail-closed at all ingress points
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap D
 
 ## Open Questions
 
