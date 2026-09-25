@@ -124,7 +124,40 @@ This section remediates Gap B identified in GFSA-RED-TEAM-FINDINGS-v0.1.
 
 ---
 
-## 6. Baseline Maintenance
+## 6. Longitudinal Baseline Trend Analysis
+
+Point-in-time anomaly detection catches discrete boundary violations. It does not catch systematic behavioural drift — a gradual, progressive shift in agent behaviour that stays below alert thresholds at each individual measurement but constitutes a material change in the agent's operating pattern over time. Memory poisoning attacks, subtle model degradation, and incremental scope creep all exploit this gap.
+
+Longitudinal baseline trend analysis is a mandatory governance control for all agents with persistent memory or long deployment lifetimes:
+
+**Rolling 30-day behavioural window:** The detection engine maintains a rolling 30-day aggregation of each agent's behaviour across all five baseline dimensions. The rolling window is updated continuously as new session data is ingested. This rolling baseline supplements the static approved baseline — it does not replace it.
+
+**Weekly trend comparison:** Each week, the detection engine compares the current rolling 30-day window against the approved static baseline for each dimension. The comparison produces a drift score per dimension. Drift scores are logged and visible on the Monitoring Dashboard.
+
+**Drift alert thresholds:**
+
+| Drift Score | Interpretation | Action |
+|---|---|---|
+| < 10% deviation from static baseline | Normal variation | Log only |
+| 10–25% deviation | Emerging drift | AI Operator notified; logged for pattern review |
+| 25–50% deviation | Significant drift | Security Reviewer reviews; Governance Authority notified; no capability extensions permitted |
+| > 50% deviation | Material drift | Treat as anomaly equivalent to a High alert; full baseline review required; agent suspended pending review |
+
+Deviation is measured as the percentage change in the rolling 30-day mean for the relevant dimension metric relative to the approved static baseline value.
+
+**Directional drift monitoring:** The trend analysis must track the *direction* of drift, not only its magnitude. Monotonic drift — a metric that moves consistently in one direction across multiple weekly comparisons without reverting — is treated as a stronger signal than equivalent-magnitude oscillating drift. Three consecutive weeks of drift in the same direction in any dimension, regardless of percentage threshold, generates an AI Operator notification.
+
+**Cross-dimension correlation:** If two or more dimensions show simultaneous drift in the same weekly comparison period, the combined signal is escalated one severity level above what either dimension would generate individually. Correlated drift across multiple dimensions is a stronger indicator of systematic change than isolated single-dimension drift.
+
+**Baseline recalibration:** If drift is investigated and found to reflect legitimate operational change — a new use case, an expanded task scope authorised by the Governance Authority — the static baseline is updated through the standard Baseline Maintenance procedure. Drift that reflects unauthorised operational change is an incident.
+
+**Integration with model update observation:** During a model update observation period, the longitudinal trend analysis is paused for that agent. The post-observation signed-off baseline becomes the new static baseline from which subsequent drift analysis is measured. This prevents the model update itself from artificially inflating the drift score.
+
+This section remediates Gap I identified in GFSA-RED-TEAM-FINDINGS-v0.1.
+
+---
+
+## 7. Baseline Maintenance
 
 A baseline profile must be updated whenever:
 
@@ -137,6 +170,7 @@ A baseline profile must be updated whenever:
 | Scheduled review date reached | Full five-dimension review; re-approval or confirmation of no change |
 | Incident involving this agent | Full profile review as part of post-incident root cause analysis |
 | Model update completed and observation period signed off | Identity dimension updated with new model version reference; baseline recalibrated against observation period data |
+| Longitudinal drift investigated and confirmed as legitimate operational change | Static baseline updated to reflect new operating pattern; prior version retained in version history |
 
 Scheduled review frequency: **quarterly** for high-capability agents; **semi-annually** for low-capability or restricted agents.
 
@@ -144,7 +178,7 @@ A profile that has not been reviewed within its scheduled period is automaticall
 
 ---
 
-## 7. Anomaly Detection Integration
+## 8. Anomaly Detection Integration
 
 The monitoring layer uses the baseline profile as its primary reference. An anomaly is any observed agent behaviour that deviates from the baseline in one or more dimensions:
 
@@ -157,12 +191,13 @@ The monitoring layer uses the baseline profile as its primary reference. An anom
 | Resource usage exceeds alert threshold | Resource | Medium |
 | Unusual sequence of permitted calls (pattern anomaly) | Capability | Medium |
 | Session significantly longer than expected | Temporal | Low |
+| Longitudinal drift score ≥ 25% in any dimension | Multi-dimension | High (see Section 6) |
 
 Critical and High anomalies must be escalated to the Attribution Playbook workflow immediately. Medium anomalies are logged and reviewed at the next scheduled monitoring review. Low anomalies are logged.
 
 ---
 
-## 8. Baseline Profile Registry
+## 9. Baseline Profile Registry
 
 All approved baseline profiles are stored in the agent baseline registry:
 - One entry per deployed agent instance
@@ -172,7 +207,7 @@ All approved baseline profiles are stored in the agent baseline registry:
 
 ---
 
-## 9. Related Documents
+## 10. Related Documents
 
 - Agent-Attribution-Playbook-v0.1
 - Agentic-Identity-Security-Conceptual-Foundation-v0.1
@@ -182,7 +217,8 @@ All approved baseline profiles are stored in the agent baseline registry:
 - Log-Integrity-And-Tamper-Evidence-v0.1
 - Stop-State-Policy-v0.1
 - Identity-And-Credential-Governance-v0.1
-- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap B
+- Monitoring-And-Detection-Operations-v0.1
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap B, Gap I
 
 ---
 

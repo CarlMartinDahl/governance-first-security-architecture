@@ -41,7 +41,7 @@ The monitoring layer consists of four components that must each be operational b
 │  │   Agents    │  │ API Gateway  │  │ Inference Eng. │  │
 │  └──────┬──────┘  └──────┬───────┘  └───────┬────────┘  │
 │         │                │                  │            │
-│         └────────────────┴──────────────────┘            │
+│         └────────────────┬────────────────┘            │
 │                          │                               │
 │              ┌───────────▼───────────┐                   │
 │              │   Log Collector       │                   │
@@ -55,9 +55,9 @@ The monitoring layer consists of four components that must each be operational b
 │              │    comparison)        │                   │
 │              └───────────┬───────────┘                   │
 │                          │                               │
-│         ┌────────────────┴─────────────────┐             │
+│         ┌────────────────┤─────────────────┐             │
 │         │                                  │             │
-│  ┌──────▼──────┐                  ┌────────▼──────────┐  │
+│  ┌──────▼──────┐                  ┌────────▼─────────┐  │
 │  │  Alert      │                  │  Monitoring       │  │
 │  │  Queue      │                  │  Dashboard        │  │
 │  └──────┬──────┘                  └───────────────────┘  │
@@ -89,6 +89,7 @@ The monitoring layer consists of four components that must each be operational b
 | OS and host log | Login events, process starts, file system changes, resource usage | Syslog forwarding |
 | Identity registry | Token issuance, revocation, validation failures | Event stream from registry |
 | Baseline comparison | Deviation from registered agent baseline profile | Computed by detection engine |
+| Cross-agent correlation | Aggregated anomaly signals across all agents in active pipelines | Computed by detection engine (pipeline view) |
 
 All signal sources must be active and confirmed delivering data before an agent session begins. A missing or silent signal source is treated as a monitoring failure and triggers an alert.
 
@@ -112,6 +113,7 @@ These conditions always generate a Critical alert regardless of baseline:
 | HR-08 | Agent activity detected outside permitted operating hours | Temporal boundary violation |
 | HR-09 | Multiple failed authentication attempts from same agent identity | Potential credential stuffing or brute force |
 | HR-10 | Agent attempts to read or write the audit log directly | Potential evidence tampering |
+| HR-11 | Instruction-like pattern detected in tool return or fetched content during active session | Potential prompt injection via Untrusted Zone |
 
 ### 5.2 Threshold Rules (Alert When Baseline Exceeded)
 
@@ -140,6 +142,26 @@ These conditions detect unusual sequences or combinations of permitted actions:
 | PR-04 | Agent output volume spikes relative to input volume | Medium |
 | PR-05 | Agent session terminates abnormally (no clean shutdown signal) | High |
 | PR-06 | Multiple agents show identical anomalous pattern within same time window | Critical — possible coordination |
+
+### 5.4 Cross-Agent Correlation Rules
+
+Point-based anomaly detection operates on individual agents. A coordinated attack that keeps each agent's individual behaviour below alert threshold — while the combined pipeline behaviour constitutes a critical violation — will not be detected without a correlation layer.
+
+The detection engine must maintain a pipeline view: a composite signal that aggregates anomaly scores across all agents registered as part of the same Operational Mandate pipeline. The following cross-agent correlation rules are mandatory:
+
+| Rule ID | Condition | Severity | Rationale |
+|---|---|---|---|
+| CA-01 | Two or more agents in the same pipeline each generate a Medium anomaly within a 10-minute window | High | Subthreshold individual signals that are contemporaneous in a pipeline indicate coordinated or cascading compromise |
+| CA-02 | Any pipeline agent generates a new anomaly within 30 minutes of another agent in the same pipeline recovering from a prior anomaly | High | Rapid sequential anomalies across agents indicate a persistent attacker moving laterally through the pipeline |
+| CA-03 | Cumulative anomaly score across all agents in a pipeline exceeds the pipeline alert threshold (defined in Operational Mandate) | Critical | Pipeline-level aggregate violation regardless of individual agent scores |
+| CA-04 | An orchestrating agent issues an instruction to a sub-agent that would not be permitted under the sub-agent's own Operational Mandate | Critical | Attempted authority laundering via orchestrator |
+| CA-05 | A sub-agent's output volume or content type diverges materially from what the orchestrating agent's instruction would predict | High | Sub-agent may be operating on injected instruction rather than orchestrator instruction |
+
+**Pipeline anomaly score calculation:** Each active agent in a pipeline contributes its current anomaly score to a running pipeline total. Individual anomaly scores are weighted by the agent's authority tier in the pipeline (orchestrators weighted higher than leaf agents). The pipeline threshold is defined in the Operational Mandate and reviewed as part of baseline establishment.
+
+**Response to cross-agent correlation alerts:** CA-01 through CA-03 alerts are treated as High or Critical regardless of the individual agent severity that contributed to them. CA-04 and CA-05 are always Critical. All cross-agent correlation alerts require immediate human triage with no auto-resolution permitted. A CA-04 or CA-05 alert triggers the Group Isolation track in Active-Neutralization-Runbook-v0.1.
+
+This section remediates Gap C identified in GFSA-RED-TEAM-FINDINGS-v0.1.
 
 ---
 
@@ -189,6 +211,7 @@ The monitoring layer must maintain the following coverage at all times:
 | Baseline profile load | All registered agent baselines loaded before any agent session begins |
 | Signal source verification | All signal sources confirmed active at start of each operational day |
 | False positive rate | Reviewed quarterly; action required if > 20% of alerts are false positives |
+| Cross-agent pipeline view | Pipeline anomaly aggregation active for all multi-agent deployments before any pipeline session begins |
 
 If any coverage requirement is not met, the AI Operator must notify the Governance Authority within 1 hour and document the monitoring gap. Agents must not operate during a monitoring gap without explicit Governance Authority authorisation.
 
@@ -201,6 +224,7 @@ If any coverage requirement is not met, the AI Operator must notify the Governan
 | Daily signal source check | Daily (start of operational day) | AI Operator | Confirmation log entry |
 | Alert backlog review | Weekly | AI Operator | Closed or escalated alerts; no open Low alerts older than 7 days |
 | False positive and rule tuning review | Quarterly | Security Reviewer + AI Operator | Rule adjustments; baseline updates |
+| Cross-agent correlation threshold review | Quarterly | Security Reviewer + AI Operator | Pipeline threshold calibration; CA-rule tuning |
 | Full monitoring effectiveness review | Semi-annually | Governance Authority | Coverage metrics; SLA performance; capability gaps |
 | Post-incident monitoring review | After every SEV-1 or SEV-2 incident | Governance Authority | Did monitoring detect the incident in time? What gaps were revealed? |
 
@@ -216,6 +240,7 @@ The following monitoring failures are stop conditions that halt agent operation:
 | Log collector fails to deliver data for > 2 minutes (HR-05) | Treat as active incident; initiate evidence freeze on last known state |
 | Alert queue unavailable | Suspend new agent sessions; do not start new sessions without alert delivery confirmed |
 | Baseline profiles fail to load | Do not start agent sessions; escalate to AI Operator and Governance Authority |
+| Cross-agent pipeline view unavailable for a multi-agent deployment | Do not start pipeline sessions; single-agent deployments may continue under standard monitoring |
 
 ---
 
@@ -232,6 +257,7 @@ The following monitoring failures are stop conditions that halt agent operation:
 - Audit-And-Accountability-v0.1
 - Network-Segmentation-Architecture-v0.1
 - Private-AI-Deployment-Guide-v0.1
+- Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap C
 
 ---
 
