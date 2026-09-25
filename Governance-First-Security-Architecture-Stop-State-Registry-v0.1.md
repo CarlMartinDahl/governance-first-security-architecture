@@ -47,6 +47,7 @@ Canonical stop states are grouped into these categories:
 - Egress stops.
 - Capability stops.
 - AI-human governance stops.
+- Agentic stops.
 - Audit and accountability stops.
 - Conflict and ambiguity stops.
 - Lockdown states.
@@ -714,6 +715,169 @@ Related controls:
 - Evidence and source policy.
 - AI-human governance.
 
+## Agentic Stops
+
+### STOP_AGENT_AUTHORITY_CHAIN_BROKEN
+
+Category: Agentic stop.
+
+Trigger:
+
+An agent cannot verify or reconstruct an unbroken chain of human-originated authority for the action it is about to perform. This includes missing delegation records, absent parent-agent approval, or inability to trace authority to a named human principal.
+
+Required action:
+
+Halt agent execution and escalate to the closest identifiable human principal.
+
+Allowed continuation:
+
+Read-only status reporting to the orchestrating layer only.
+
+Required reviewer:
+
+AI governance reviewer and system owner.
+
+Audit requirement:
+
+Record agent identifier, requested action, last known authority link, and point of chain failure.
+
+Recovery requirement:
+
+Authority chain must be reconstructed and verified before resumption. If reconstruction is not possible, action must be abandoned.
+
+Related controls:
+
+- Agentic identity security.
+- AI-human governance.
+- Approval record.
+
+Related abuse cases:
+
+- Agent authority laundering.
+- Orchestrator impersonation.
+- Delegated trust escalation.
+
+### STOP_AGENT_IDENTITY_MISMATCH
+
+Category: Agentic stop.
+
+Trigger:
+
+An agent's claimed identity cannot be verified against its registered identity profile, or its observed behavioural signature diverges materially from its registered baseline. This includes model substitution, prompt-injected impersonation, and runtime compromise.
+
+Required action:
+
+Isolate the agent immediately. Do not allow further action until identity is verified.
+
+Allowed continuation:
+
+Forensic review only. No task continuation.
+
+Required reviewer:
+
+Security reviewer and AI governance reviewer.
+
+Audit requirement:
+
+Record claimed identity, registered identity, observed divergence indicators, and isolation timestamp.
+
+Recovery requirement:
+
+Re-registration and full behavioural baseline re-establishment required before reintegration. Treat as potential incident.
+
+Related controls:
+
+- Agentic identity security.
+- Asset register.
+- Recovery and incident policy.
+
+Related abuse cases:
+
+- Model substitution attack.
+- Prompt injection impersonation.
+- Supply chain compromise.
+
+### STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION
+
+Category: Agentic stop.
+
+Trigger:
+
+Communication is detected between two agents that does not appear in the sanctioned communication topology, or a communication channel is established outside the authorized orchestration layer. Includes direct agent-to-agent calls that bypass the governance broker.
+
+Required action:
+
+Block the communication channel and isolate both agents pending review.
+
+Allowed continuation:
+
+Review of communication content and origin. No task continuation.
+
+Required reviewer:
+
+Security reviewer, technical reviewer, and AI governance reviewer.
+
+Audit requirement:
+
+Record both agent identifiers, communication content or hash, channel type, and whether the channel was in the sanctioned topology.
+
+Recovery requirement:
+
+Verify no unauthorized data transfer occurred. Review whether the communication represents a capability extension attempt.
+
+Related controls:
+
+- Agentic operational boundary.
+- Ingress and egress policy.
+- Capability change gate.
+
+Related abuse cases:
+
+- Covert agent coordination.
+- Side-channel data exfiltration.
+- Swarm formation without authorization.
+
+### STOP_EMERGENT_SWARM_BEHAVIOUR
+
+Category: Agentic stop.
+
+Trigger:
+
+Two or more agents exhibit coordinated behaviour patterns that were not explicitly authorized as a collective workflow. This includes synchronized actions toward a shared undeclared objective, distributed task decomposition without a registered orchestrator, or any emergent coordination that extends beyond individually authorized agent boundaries.
+
+Required action:
+
+Halt all involved agents simultaneously. Preserve all inter-agent communication records before any agent state is modified.
+
+Allowed continuation:
+
+Forensic review only. No individual agent may resume until the swarm pattern has been fully characterized.
+
+Required reviewer:
+
+Security reviewer, AI governance reviewer, and system owner.
+
+Audit requirement:
+
+Record all involved agent identifiers, observed coordination pattern, timeline, shared objectives if determinable, and trigger point.
+
+Recovery requirement:
+
+Each agent must be reviewed and re-authorized independently. Collective workflow must be explicitly registered before any coordinated operation is permitted.
+
+Related controls:
+
+- Agentic operational boundary.
+- Agentic identity security.
+- Deceptive containment environment.
+- AI-human governance.
+
+Related abuse cases:
+
+- Emergent multi-agent collusion.
+- Distributed authority accumulation.
+- Collective prompt injection.
+
 ## Audit And Accountability Stops
 
 ### STOP_AUDIT_RECORD_MISSING
@@ -1097,6 +1261,10 @@ Earlier documents used `BLOCKED_*` labels and several local review labels before
 | STOP_AI_AUTHORITY_EXCEEDED | BLOCK |
 | STOP_HUMAN_REVIEW_REQUIRED | REVIEW_REQUIRED |
 | STOP_UNSUPPORTED_CONFIDENCE | NEEDS_MORE_EVIDENCE |
+| STOP_AGENT_AUTHORITY_CHAIN_BROKEN | BLOCK |
+| STOP_AGENT_IDENTITY_MISMATCH | INCIDENT_RESPONSE |
+| STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION | BLOCK |
+| STOP_EMERGENT_SWARM_BEHAVIOUR | INCIDENT_RESPONSE |
 | STOP_AUDIT_RECORD_MISSING | BLOCK |
 | STOP_ACCOUNTABILITY_MISSING | BLOCK |
 | STOP_CONFLICT | REVIEW_REQUIRED |
