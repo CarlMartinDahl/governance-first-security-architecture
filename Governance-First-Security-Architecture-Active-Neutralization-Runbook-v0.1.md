@@ -237,6 +237,9 @@ This option requires explicit Governance Authority authorization and is only app
 ## 11. Related Documents
 
 - Agent-Attribution-Playbook-v0.1
+- Attribution-SLA-Policy-v0.1
+- Monitoring-And-Detection-Operations-v0.1
+- Agent-Baseline-Profile-v0.1
 - Stop-State-Policy-v0.1
 - Stop-State-Registry-v0.1
 - Deceptive-Containment-Environment-Conceptual-Foundation-v0.1
