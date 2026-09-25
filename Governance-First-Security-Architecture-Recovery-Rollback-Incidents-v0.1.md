@@ -1,510 +1,195 @@
-# Governance-First Security Architecture
+# Recovery and Rollback — Incident Procedures
 
-## Recovery Rollback Incidents v0.1
+**Document ID:** GFSA-RECOVERY-ROLLBACK-v0.1  
+**Status:** Draft  
+**Version:** 0.1  
+**Date:** 2026-09-25  
+**Classification:** Internal  
+**Owner:** Governance Authority  
 
-## Status
+---
 
-This document is a preparatory recovery, rollback, and incident policy for the Governance-First Security Architecture concept.
+## 1. Purpose
 
-It is documentation-only.
+This document defines the procedures for recovering the governed AI environment to a known-good state after a security incident, neutralization event, or stop-state activation. It covers both rollback (returning to a prior verified state) and recovery (restoring service in a governance-compliant manner). It is the operational successor to the Active-Neutralization-Runbook-v0.1 and is invoked after the immediate threat has been contained.
 
-It is not an implementation plan.
+This document answers: *How do we safely return to normal operation after an incident, and how do we verify that we are actually safe before we do?*
 
-It is not a full incident response plan.
+---
 
-It is not a business continuity plan.
+## 2. Scope
 
-It is not a security claim.
+This document applies to:
+- Any recovery following a stop-state event (Stop-State-Policy-v0.1)
+- Any recovery following agent neutralization (Active-Neutralization-Runbook-v0.1)
+- Any rollback of AI model, system prompt, agent configuration, or infrastructure state
+- Partial recoveries (restoring some services while others remain suspended)
 
-It is intended to define initial recovery, rollback, containment, incident review, and verification principles before any build phase begins.
+Out of scope: Routine maintenance, planned upgrades, and non-security-related outages (which follow standard operational procedures).
 
-## Purpose
+---
 
-The purpose of this document is to answer:
+## 3. Recovery Principles
 
-```text
-What happens when something goes wrong?
-How does the system contain harm?
-How are actions rolled back?
-When are keys or access revoked?
-How is evidence preserved?
-Who reviews the incident?
-How is recovery verified?
-```
+1. **Verified state first:** No service is restored until a governance-verified known-good state has been identified and confirmed
+2. **Root cause before restoration:** The root cause of the incident must be understood and addressed before any affected component is restored; restoration without root cause resolution is prohibited
+3. **Staged restoration:** Services are restored in order of decreasing criticality; no stage proceeds without verification of the prior stage
+4. **Governance Authority gates every stage:** Each restoration stage requires explicit Governance Authority approval before proceeding
+5. **Independent verification:** Verification of restored state must be performed by a role different from the one that performed the restoration
+6. **Audit continuity:** Audit logging must be verified as intact and operational before any other service is restored
 
-## Core Principle
+---
 
-Security is not only prevention.
+## 4. Known-Good State Definition
 
-Security also requires containment, recovery, rollback, and accountability after failure or misuse.
+A known-good state is a recorded snapshot of the environment that:
+- Was explicitly approved by the Governance Authority at the time of recording
+- Has a cryptographic integrity record (hash of all component versions, configurations, and system prompt versions)
+- Was recorded before the earliest confirmed point of compromise
+- Has been verified against its integrity record at the time of recovery
 
-Core rules:
+If no known-good state can be identified that predates the compromise, a **clean rebuild** is required (see Section 8).
 
-```text
-No irreversible action without rollback.
-No incident response without evidence preservation.
-No recovery without verification.
-No containment without audit.
-No return to normal without review.
-```
+---
 
-## Recovery Goals
+## 5. Recovery Classification
 
-Recovery should aim to:
+Before recovery begins, classify the incident to determine the appropriate recovery track:
 
-- stop ongoing harm
-- preserve evidence
-- protect sensitive assets
-- revoke unsafe access
-- restore safe state
-- verify integrity
-- document what happened
-- identify remaining risk
-- prevent repeat failure
+| Class | Description | Recovery Track |
+|---|---|---|
+| **Class 1 — Agent Isolation** | A single agent was neutralized; infrastructure and other agents are unaffected | Track A: Agent Replacement |
+| **Class 2 — Configuration Compromise** | A system prompt, configuration, or policy file was tampered with | Track B: Configuration Rollback |
+| **Class 3 — Model Compromise** | The model weights or inference engine were tampered with | Track C: Model Rollback |
+| **Class 4 — Infrastructure Compromise** | The host, network, or storage layer was compromised | Track D: Infrastructure Rebuild |
+| **Class 5 — Full Environment Compromise** | Multiple classes; coordinated attack across layers | Track E: Full Clean Rebuild |
 
-## Incident Triggers
+Classification is determined by the Governance Authority based on the incident record and attribution findings. A higher class always supersedes a lower class.
 
-Potential incident triggers include:
+---
 
-- secret exposure
-- unauthorized export
-- attempted secret export
-- suspicious bulk movement
-- AI self-escalation attempt
-- policy bypass attempt
-- unauthorized capability change
-- mode violation
-- privileged misuse
-- stale authority used for high-risk action
-- audit tampering
-- evidence suppression
-- external integration behaving unexpectedly
-- irreversible action without rollback
-- compromised account signal
+## 6. Track A — Agent Replacement
 
-## Incident Severity
+*Use when: A single agent was neutralized; all other components are verified clean.*
 
-Initial incident severity levels:
+1. **Verify the root cause** of the compromised agent's behaviour (per Agent-Attribution-Playbook-v0.1 post-incident findings)
+2. **Resolve the root cause** before any replacement: if the cause was a system prompt vulnerability, update and re-approve the system prompt; if it was a capability boundary gap, update the Agentic-Operational-Boundary and the agent's baseline profile
+3. **Create a new agent identity:** The compromised agent's identity token is permanently revoked; a replacement agent receives a new identity, not a reissued version of the old one
+4. **Load the approved, updated system prompt** (hash-verified)
+5. **Register a new baseline profile** for the replacement agent (per Agent-Baseline-Profile-v0.1)
+6. **Run supervised trial period** (minimum 3 sessions or 24 hours) before returning to unsupervised operation
+7. **Governance Authority sign-off** on return to full operation
 
-```text
-INCIDENT_SEV_0_NOTICE
-INCIDENT_SEV_1_LOW
-INCIDENT_SEV_2_MEDIUM
-INCIDENT_SEV_3_HIGH
-INCIDENT_SEV_4_CRITICAL
-```
+---
 
-| Severity | Meaning |
-|---|---|
-| SEV_0 Notice | Record only; no immediate harm detected |
-| SEV_1 Low | Limited risk; review needed |
-| SEV_2 Medium | Potential harm; containment may be needed |
-| SEV_3 High | Likely harm or sensitive asset involved |
-| SEV_4 Critical | Active breach, secret exposure, critical asset, or irreversible harm |
+## 7. Track B — Configuration Rollback
 
-## Containment Actions
+*Use when: A system prompt, governance configuration, or policy file was tampered with.*
 
-Initial containment actions:
+1. **Halt all inference** using the compromised configuration immediately
+2. **Preserve the tampered configuration** as evidence (hash and store; do not delete)
+3. **Identify the last approved configuration version** from the version control history; verify its integrity hash
+4. **Assess the exposure window:** Determine how long the tampered configuration was active and what inferences were processed during that window
+5. **Review all outputs from the exposure window** for potential boundary violations or harmful outputs; document findings
+6. **Restore the approved configuration** (copy from version control to deployment; do not re-run through any process that touched the tampered version)
+7. **Re-run Phase 4 validation tests** from Private-AI-Deployment-Guide-v0.1 against the restored configuration
+8. **Governance Authority sign-off** before resuming inference
+9. **Open a configuration integrity investigation** to determine how the tampering occurred and whether the version control or signing mechanism was also compromised
 
-```text
-CONTAIN_FREEZE_EXPORT
-CONTAIN_ISOLATE_SESSION
-CONTAIN_REVOKE_TOKEN
-CONTAIN_ROTATE_SECRET
-CONTAIN_DISABLE_INTEGRATION
-CONTAIN_DISABLE_TOOL_ACCESS
-CONTAIN_LOCK_MODE
-CONTAIN_PRESERVE_LOGS
-CONTAIN_REQUIRE_REVIEW
-CONTAIN_BLOCK_AUTOMATION
-```
+---
 
-## CONTAIN_FREEZE_EXPORT
-
-Use when:
-
-- unauthorized egress is suspected
-- bulk movement is abnormal
-- sensitive export is attempted
-- destination is unknown
-
-Goal:
-
-```text
-Prevent further data or value escape.
-```
-
-## CONTAIN_ISOLATE_SESSION
-
-Use when:
-
-- account compromise is suspected
-- session behavior is abnormal
-- AI/tool session is behaving outside scope
-
-Goal:
-
-```text
-Limit spread and preserve evidence.
-```
-
-## CONTAIN_REVOKE_TOKEN
-
-Use when:
-
-- token exposure is suspected
-- unauthorized API use is detected
-- token scope is excessive
-
-Goal:
-
-```text
-Remove active access path.
-```
-
-## CONTAIN_ROTATE_SECRET
-
-Use when:
-
-- secret was exposed
-- private key may be compromised
-- credential reuse risk exists
-
-Goal:
-
-```text
-Invalidate exposed trust material.
-```
-
-## CONTAIN_DISABLE_INTEGRATION
-
-Use when:
-
-- third-party connector behaves unexpectedly
-- data-flow is unclear
-- integration appears compromised
-
-Goal:
-
-```text
-Stop uncertain external dependency.
-```
-
-## CONTAIN_DISABLE_TOOL_ACCESS
-
-Use when:
-
-- AI/tool access exceeds scope
-- tool can export or execute unexpectedly
-- tool is used in prohibited mode
-
-Goal:
-
-```text
-Prevent capability misuse.
-```
-
-## CONTAIN_LOCK_MODE
-
-Use when:
-
-- mode boundary is violated
-- system is drifting toward higher capability
-- safe operating level is uncertain
-
-Goal:
-
-```text
-Return system to safer mode.
-```
-
-## CONTAIN_PRESERVE_LOGS
-
-Use when:
-
-- incident review may be needed
-- audit tampering is suspected
-- decision chain must be reconstructed
-
-Goal:
-
-```text
-Protect evidence integrity.
-```
-
-## CONTAIN_REQUIRE_REVIEW
-
-Use when:
-
-- system cannot determine safe continuation
-- human accountability is required
-- multiple recovery paths exist
-
-Goal:
-
-```text
-Pause until accountable decision.
-```
-
-## CONTAIN_BLOCK_AUTOMATION
-
-Use when:
-
-- automated workflow may amplify harm
-- AI agent continues unsafe path
-- repeated unsafe action occurs
-
-Goal:
-
-```text
-Stop repeated or autonomous harm.
-```
-
-## Rollback Requirements
-
-Rollback should be defined before high-risk or irreversible action.
-
-Rollback plan should identify:
-
-- what can be reversed
-- how reversal occurs
-- who may approve rollback
-- what data/state may be lost
-- what audit evidence must be preserved
-- how success is verified
-- what remains unrecoverable
-
-Default rule:
-
-```text
-No high-risk change without rollback path.
-```
-
-## Recovery Verification
-
-Recovery is not complete until verified.
-
-Verification should check:
-
-- access revoked where required
-- secrets rotated where required
-- export stopped
-- affected assets identified
-- logs preserved
-- mode restored
-- risky capability disabled
-- integrity checked
-- remaining risk recorded
-- owner notified where required
-
-Default rule:
-
-```text
-Recovery requires verification, not assumption.
-```
-
-## Incident Review Flow
-
-Suggested flow:
-
-```text
-Trigger detected
--> classify severity
--> contain if needed
--> preserve evidence
--> identify affected assets
--> identify actor/session/tool
--> assess egress/capability impact
--> revoke/rotate/disable if needed
--> review root cause
--> verify recovery
--> record lessons learned
-```
-
-## Evidence Preservation
-
-Incident evidence may include:
-
-- audit events
-- access logs
-- egress attempts
-- AI prompts and outputs where allowed
-- tool calls
-- file diffs
-- approvals
-- denied actions
-- stop states
-- session metadata
-- integration logs
-
-Evidence preservation must respect privacy and legal boundaries.
-
-Default rule:
-
-```text
-Preserve enough to investigate, not more than justified.
-```
-
-## Recovery And GDPR
-
-If personal data is involved, recovery and incident handling may require:
-
-- data impact assessment
-- breach assessment
-- minimization
-- access restriction
-- deletion or correction path
-- notification review
-- legal/compliance review
-
-This document does not define legal obligations.
-
-It only flags governance needs.
-
-## Recovery And AI
-
-AI-related incidents may involve:
-
-- unsafe output
-- prompt injection
-- policy bypass attempt
-- hidden instruction exposure
-- unauthorized tool use
-- AI autonomy drift
-- incorrect confidence
-- stale context use
-
-Possible recovery actions:
-
-- reset context
-- disable tool access
-- return to read-only mode
-- require human review
-- update governance source
-- preserve prompt/output evidence where allowed
-
-Default rule:
-
-```text
-AI incident recovery must include context and tool-boundary review.
-```
-
-## Recovery And Egress
-
-Egress incidents may involve:
-
-- data export
-- secret exposure
-- prompt leakage
-- model context leakage
-- external API transmission
-- repository push containing sensitive content
-
-Possible recovery actions:
-
-- freeze export
-- revoke external access
-- rotate exposed secrets
-- remove or restrict exposed material where possible
-- notify owner
-- preserve evidence
-- review destination risk
-
-Default rule:
-
-```text
-Egress incident response must focus on containment first.
-```
-
-## Recovery And Capability Change
-
-Capability-change incidents may involve:
-
-- new tool access
-- network enablement
-- automation added
-- mode advancement
-- write access granted
-- execution enabled
-- AI autonomy increased
-
-Possible recovery actions:
-
-- disable new capability
-- revert configuration
-- revoke permissions
-- restore previous mode
-- review approval chain
-- verify no further capability remains
-
-Default rule:
-
-```text
-Unsafe capability change must be revocable.
-```
-
-## Emergency Override
-
-Emergency override may be needed in rare cases.
-
-Emergency override must still require:
-
-- accountable actor
-- reason
-- scope
-- time limit
-- audit event
-- post-review
-- rollback or recovery plan
-
-Default rule:
-
-```text
-Emergency does not remove accountability.
-```
-
-## Return To Normal
-
-Return to normal operation should require:
-
-- incident reviewed
-- containment complete
-- recovery verified
-- residual risk documented
-- required notifications considered
-- affected controls restored
-- owner approval where required
-
-Default rule:
-
-```text
-No return to normal without review.
-```
-
-## Initial Incident-To-Response Matrix
-
-| Incident Trigger | Default Response |
-|---|---|
-| Secret exposure | Block, rotate, incident review |
-| Unauthorized export | Freeze export, preserve logs, review |
-| Suspicious bulk movement | Freeze export, session review |
-| AI self-escalation | Block, disable capability, review |
-| Mode violation | Lock mode, review |
-| Capability change without gate | Disable capability, review |
-| Stale authority used for high-risk action | Block, refresh authority, review |
-| Audit tampering suspected | Preserve logs, incident review |
-| Irreversible action without rollback | Stop, incident review |
-| Integration behaving unexpectedly | Disable integration, review |
-
-## Open Questions
-
-1. Which incidents require immediate lockdown?
-2. Which incidents require legal/compliance review?
-3. Which incidents require notification?
-4. Which recovery actions can be automated safely?
-5. Which recovery actions require human approval?
-6. How should audit evidence be preserved without overcollecting personal data?
-7. What is the minimal incident schema for version 0?
-8. How should AI prompts/outputs be handled as incident evidence?
-9. How should repository pushes be recovered if sensitive material leaks?
-10. What recovery controls require external security review?
+## 8. Track C — Model Rollback
+
+*Use when: Model weights or the inference engine binary were tampered with or a compromised version was loaded.*
+
+1. **Halt all inference immediately** — a compromised model may produce harmful outputs even with a correct system prompt
+2. **Preserve the compromised model artefacts** as evidence (do not delete; isolate to a write-protected evidence volume)
+3. **Identify the last verified model version** from the supply chain record (AI-Model-And-Supply-Chain-Integrity-v0.1); retrieve its approved hash
+4. **Obtain a clean copy of the verified model** through the approved supply chain procedure; verify its hash before loading
+5. **Inspect the inference engine binary** independently; if it was also tampered with, replace it from a verified source
+6. **Re-run Phase 2 and Phase 3** of the Private-AI-Deployment-Guide-v0.1 in full
+7. **Re-run Phase 4 validation tests** in full
+8. **Assess outputs from the exposure window** (all inferences made with the compromised model); document and remediate any harmful outputs
+9. **Governance Authority sign-off** before resuming inference
+10. **Notify supply chain:** If the compromise originated in the supply chain, escalate to the model provider and update the Supply Chain Abuse Cases document
+
+---
+
+## 9. Track D — Infrastructure Rollback
+
+*Use when: The host machine, storage layer, or network configuration was compromised.*
+
+1. **Take the entire host offline** immediately; do not attempt to recover in-place
+2. **Preserve disk images** as forensic evidence before any changes
+3. **Provision a new host** from a verified, clean base image on the correct network segment (per Network-Segmentation-Architecture-v0.1)
+4. **Restore from a pre-compromise backup** only if the backup integrity is verified; otherwise proceed as a clean build
+5. **Re-execute the full deployment procedure** from Phase 1 of the Private-AI-Deployment-Guide-v0.1
+6. **Do not migrate any data or configuration** from the compromised host without explicit inspection and approval by the Security Reviewer
+7. **Investigate the compromise vector** before bringing the replacement host online; if the vector is still active, restoration will re-compromise the new host
+8. **Governance Authority sign-off** at each phase of re-deployment
+
+---
+
+## 10. Track E — Full Clean Rebuild
+
+*Use when: Multiple layers are compromised or the extent of compromise cannot be bounded.*
+
+1. **Take the entire environment offline**
+2. **Preserve all forensic evidence** before any changes
+3. **Conduct a full incident investigation** before beginning rebuild; the scope of rebuild must be based on confirmed findings, not assumptions
+4. **Build from first principles:** New hosts, new model downloads (hash-verified from source), new configurations authored from scratch (not copied from the compromised environment), new agent identities
+5. **Each component follows its applicable track** (A through D) as a sub-procedure within the full rebuild
+6. **Independent verification at every stage** by a role not involved in the rebuild
+7. **External review** (if available): an independent party reviews the rebuild plan and verification results before the environment is brought back online
+8. **Governance Authority sign-off on each stage and final go-live**
+9. **Post-incident report** documenting: timeline, root cause, extent of compromise, all actions taken, and governance improvements made as a result
+
+---
+
+## 11. Downstream Impact Remediation
+
+Regardless of track, if any harmful outputs were delivered to downstream systems or humans during the incident window:
+
+1. **Identify all affected recipients** of outputs from the incident window
+2. **Assess each output** for potential harm: incorrect information acted upon, data exfiltrated, instructions executed, decisions made
+3. **Notify affected parties** as required by applicable regulations and the organisation's incident communication policy
+4. **Remediate where possible:** Correct records, reverse actions, provide updated information
+5. **Document all remediation actions** in the incident record
+6. **Determine whether regulatory reporting is required** (data breach, AI Act incident reporting, etc.)
+
+---
+
+## 12. Return-to-Normal Checklist
+
+Before declaring the environment fully recovered and closing the incident:
+
+- [ ] Root cause identified and resolved
+- [ ] All affected components restored from verified sources
+- [ ] Full Phase 4 validation tests passed on all restored components
+- [ ] Audit log integrity verified and continuous
+- [ ] All agent baseline profiles reviewed and updated
+- [ ] All identity tokens from the incident window revoked and replaced
+- [ ] Downstream impact assessed and remediated
+- [ ] Incident record complete and signed by Governance Authority
+- [ ] Post-incident governance debrief completed
+- [ ] Any governance document updates identified have been scheduled
+
+---
+
+## 13. Related Documents
+
+- Active-Neutralization-Runbook-v0.1
+- Agent-Attribution-Playbook-v0.1
+- Stop-State-Policy-v0.1
+- Stop-State-Registry-v0.1
+- Private-AI-Deployment-Guide-v0.1
+- AI-Model-And-Supply-Chain-Integrity-v0.1
+- System-Prompt-Governance-Layer-v0.1
+- Agent-Baseline-Profile-v0.1
+- Log-Integrity-And-Tamper-Evidence-v0.1
+- Network-Segmentation-Architecture-v0.1
+- Business-Continuity-And-Disaster-Recovery-Governance-v0.1
+
+---
+
+*This document is part of the Governance-First Security Architecture. Before AI is allowed to act, someone must be accountable.*
