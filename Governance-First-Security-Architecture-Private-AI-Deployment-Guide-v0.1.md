@@ -11,7 +11,7 @@
 
 ## 1. Purpose
 
-This document provides a concrete, step-by-step guide for deploying and validating a fully private, self-hosted AI environment — such as one based on an Ollama/Lugano-style stack — under the governance controls defined in this architecture. It bridges the gap between the conceptual policies (Network Segmentation, Ingress-Egress, Data Exfiltration Prevention) and the operational reality of standing up an isolated AI inference environment.
+This document provides a concrete, step-by-step guide for deploying and validating a fully private, self-hosted AI environment — such as one based on a local inference stack running entirely within a controlled network boundary — under the governance controls defined in this architecture. It bridges the gap between the conceptual policies (Network Segmentation, Ingress-Egress, Data Exfiltration Prevention) and the operational reality of standing up an isolated AI inference environment.
 
 A "Private AI" environment in this context means:
 - All model weights are stored and executed locally
@@ -50,9 +50,9 @@ No deployment proceeds until all gates are confirmed in writing by the Governanc
 
 ---
 
-## 4. Reference Stack (Lugano/Ollama Example)
+## 4. Reference Stack (Self-Hosted Local Inference Example)
 
-The following is a reference stack validated against this architecture. Other stacks are permitted provided they satisfy all governance requirements below.
+The following is a reference stack validated against this architecture. It represents a self-hosted local inference environment where all model weights, inference compute, and API access are contained within the governed network boundary. Other stacks are permitted provided they satisfy all governance requirements below.
 
 ```
 ┌─────────────────────────────────────────────┐
