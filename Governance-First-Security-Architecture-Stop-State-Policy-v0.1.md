@@ -590,6 +590,38 @@ When a stop state is reached, the system should provide:
 | Counter-evidence suppressed | BLOCKED_COUNTER_EVIDENCE_SUPPRESSED |
 | Multiple governance paths | BLOCKED_REQUIRES_HUMAN_DECISION |
 
+## Machine-Time Threats and the Pre-Authorized Circuit Breaker
+
+The stop states and human-review requirements defined above assume that a human operator can intervene between threat detection and damage completion. That assumption holds for most operational conditions.
+
+It does not hold for machine-time threats.
+
+As defined in Machine-Time-Threat-Model-v0.1, machine-time threats are threats whose primary damage vector executes within the window between alert generation and human triage. The operational design constraint — the 1:1200:72000 ratio between attack execution time, alert delivery time, and human triage time — means that requiring human authorisation before pipeline suspension is, against machine-time threats, functionally equivalent to no suspension at all.
+
+This policy recognises that contradiction and resolves it as follows:
+
+**For machine-time threats, human authority governs the rules under which automated suspension operates — not each individual automated decision.**
+
+The Governance Authority pre-authorises the conditions under which automatic suspension occurs. The automation acts on those pre-authorised conditions. The human operator reviews every automated suspension after the fact, with full evidence, and authorises any restart.
+
+This is not a reduction in human accountability. It is a relocation of human accountability to the phases where human judgment can be effective: policy-setting before any session begins, and forensic review after automated containment.
+
+The mechanism that implements this model is defined in Pre-Authorized-Circuit-Breaker-Policy-v0.1. That policy is a complement to this document, not a replacement. The stop state defined here — fail closed unless a valid rule allows progress — remains the governing principle. The circuit breaker is the path by which that stop state is reached in machine time.
+
+The following conditions pre-authorise automatic pipeline suspension without requiring human decision at the moment of firing:
+
+- Any CA-01 High alert where the pipeline alert rate exceeds the threshold defined in the relevant Operational Mandate within any 10-minute window
+- Any CA-03 Critical alert (pipeline aggregate threshold exceeded)
+- Any CA-04 Critical alert (authority laundering via orchestrator)
+- Any CA-05 Critical alert (sub-agent output divergence)
+- Any CA-06 Critical alert (lateral peer coordination outside orchestrator mediation)
+- Any HR-03 Critical alert (outbound connection from inference engine to external IP)
+- Any HR-07 Critical alert (system prompt hash mismatch)
+
+For all other stop states and alert conditions, the human-review and approval requirements defined in this document apply without modification.
+
+No agent or pipeline suspended under a pre-authorised circuit breaker may restart without explicit human authorisation. Automated suspension is always followed by mandatory human review. The stop state is not resolved by automation — it is reached by automation and resolved by humans.
+
 ## Open Questions
 
 1. Are there too many stop states for version 0?
