@@ -159,12 +159,13 @@ A CA-06 Critical alert triggers the Group Isolation track in Active-Neutralizati
 | Document | Relationship |
 |---|---|
 | Monitoring-And-Detection-Operations-v0.1 Section 5.4 | Parent rule set; CA-06 extends the CA series defined there |
-| Machine-Time-Threat-Model-v0.1 | Identifies MT-04 as the gap this rule closes |
-| Pre-Authorized-Circuit-Breaker-Policy-v0.1 | Governs the automated containment response when CA-06 fires |
+| [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md) | Parent policy governing all lateral movement containment, including network-layer east-west controls. CA-06 is the agentic-specific detection rule that extends this policy into the multi-agent pipeline domain. |
+| Machine-Time-Threat-Model-v0.1 | Identifies MT-04 as the gap this rule closes. **Note: this document is not yet present in the repository; reference is forward-looking.** |
+| Pre-Authorized-Circuit-Breaker-Policy-v0.1 | Governs the automated containment response when CA-06 fires. **Note: this document is not yet present in the repository; reference is forward-looking.** |
 | Active-Neutralization-Runbook-v0.1 | Group Isolation track is the required response |
 | Agent-Baseline-Profile-v0.1 | Peer interaction registrations are part of the baseline profile |
 | Agentic-Operational-Boundary-v0.1 | Defines the orchestrator-mediated communication model that CA-06 enforces |
-| Red-Team-Findings-v0.2 | Simulation results that demonstrated the MT-04 gap in practice |
+| Red-Team-Findings-v0.2 | Simulation results that demonstrated the MT-04 gap in practice. **Note: this document is not yet present in the repository; reference is forward-looking.** |
 
 ---
 
