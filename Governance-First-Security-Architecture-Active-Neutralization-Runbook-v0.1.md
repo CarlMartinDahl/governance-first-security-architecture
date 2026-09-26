@@ -209,6 +209,13 @@ Regardless of track, the following steps apply after every neutralization:
 
 ## 9. Deceptive Containment Option
 
+> **Implementation status:** This mechanism is conceptual and untested.
+> The assumption that a hostile agent can be silently redirected to a
+> simulated environment without detection has not been validated through
+> prototype, red-team exercise, or provider-confirmed capability.
+> Do not treat this option as operationally available until independent
+> technical validation has been completed and recorded.
+
 In some cases, it may be tactically preferable to not neutralize immediately but to redirect the agent into the Deceptive Containment Environment (see Deceptive-Containment-Environment-Conceptual-Foundation-v0.1). This allows:
 - Collection of additional evidence about the attack method
 - Attribution of the instruction source (not just the agent)
