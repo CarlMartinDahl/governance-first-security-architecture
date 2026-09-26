@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-009
+
+```text
+feedback_id: GFSA-REV-009
+reviewer_id: EXT-TECH-002
+reviewer_type: External technical reviewer
+date_received: 2026-09-26
+source_document: Written review response after GitHub repository review
+feedback_summary: Reviewer acknowledges that the project raises important and legitimate questions: who may instruct an AI agent, what authority it holds, when it must be stopped, and how decisions can be audited. The reviewer's central objection is to the framing: the work is a documented proposal, not a tested security solution. Specifically, there is no evidence that the method can protect an organisation against an attack involving multiple coordinated AI agents. The reviewer finds the honeypot idea — silently moving a hostile agent to a simulated environment — interesting but unproven at the level of implementability described. Recommendation: present the work as a review framework, not a proven solution. Proposed next step: test one bounded control against realistic attacks and report both successes and failures.
+source_reference: EXT-REVIEW-EVIDENCE-009
+affected_document: README.md; Governance-First-Security-Architecture-Prototype-Review-Request-v0.1.md; Governance-First-Security-Architecture-Red-Team-Findings-v0.1.md; Active-Neutralization-Runbook-v0.1; Monitoring-And-Detection-Operations-v0.1
+affected_section: Project framing; multi-agent threat coverage claim; honeypot/deception implementability; next recommended step
+feedback_category: OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE
+severity: MEDIUM
+action_type: WEAKEN_CLAIM; NARROW_SCOPE; ADD_TEST_CASE; REQUIRE_ADDITIONAL_REVIEW
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER
+status: TRIAGED
+resolution_summary:
+linked_change:
+do_not_claim_impact: Do not claim that the architecture has been demonstrated to protect against coordinated multi-agent attacks. Do not claim that the honeypot/deception mechanism is implementable as described without independent technical validation. Do not claim the project is a proven security solution.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Reviewer's framing distinction — review framework versus proven solution — is consistent with the existing documentation posture and the documentation-only freeze. The multi-agent coordination coverage concern is partially addressed by CA-01 through CA-05 in Monitoring-And-Detection-Operations-v0.1 and by GFSA-RED-TEAM-FINDINGS-v0.1 Gap C, but those documents do not claim empirical validation. The honeypot/deception mechanism in Active-Neutralization-Runbook-v0.1 should carry an explicit unproven-implementability caveat. The recommendation to test one bounded control is the most actionable next step and aligns with the existing test-plan structure. No prototype is authorized; documentation clarification is the correct resolution path.
+```
+
 ### Feedback Item GFSA-REV-008
 
 ```text
@@ -544,6 +570,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-009 | OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE | MEDIUM | README; Prototype Review Request; Red Team Findings; Active-Neutralization-Runbook; Monitoring-And-Detection-Operations | ACCEPT | TRIAGED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-008 | SCOPE; PRIVACY_RISK; ROLE_AUTHORITY; DOCUMENTATION_CLARITY | LOW | Public release decision; GitHub visibility, surface, topics, and reporting route | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-007 | DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY | MEDIUM | Practical use; contact route; repository access; public release sequence | ACCEPT_WITH_MODIFICATION | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-006 | SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY | MEDIUM | Private GitHub launch; render checks; platform-gate sequencing | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -595,7 +622,7 @@ Public GitHub repository: ACTIVE_AND_VERIFIED
 Public release blockers open: NO
 Public GitHub release authorized: YES; documentation-only public review
 Private vulnerability reporting: ENABLED_AND_PUBLIC_PATH_VERIFIED
-Public review outreach: NOT_STARTED
+Public review outreach: ACTIVE — first external technical review received (GFSA-REV-009)
 ```
 
 ## Current Decision
