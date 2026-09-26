@@ -276,12 +276,12 @@ action_type: WEAKEN_CLAIM; NARROW_SCOPE; ADD_TEST_CASE; REQUIRE_ADDITIONAL_REVIE
 decision: ACCEPT
 assigned_owner: Project owner
 required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER
-status: TRIAGED
-resolution_summary:
-linked_change:
-do_not_claim_impact: Do not claim that the architecture has been demonstrated to protect against coordinated multi-agent attacks. Do not claim that the honeypot/deception mechanism is implementable as described without independent technical validation. Do not claim the project is a proven security solution.
+status: IN_REVISION
+resolution_summary: Three of four action items completed as of 2026-09-26. (1) Project framing confirmed correct — README already presents the work as a documented proposal, not a proven solution; no change required. (2) Honeypot implementability caveat added to Active-Neutralization-Runbook-v0.1 Section 9: the mechanism is conceptual and untested and must not be treated as operationally available until independent technical validation is completed. (3) Multi-agent coordination gap registered: Red-Team-Findings-v0.2 Gap O records that CA-06 establishes the control rule but empirical validation has not been performed; CA-06-Lateral-Peer-Coordination-Rule-v0.1 created as the governing rule document. (4) Bounded control test produced: CA-06-Control-Test-v0.1 is a paper-based analytical assessment of CA-06 across four scenarios — two where the control fires correctly, two where it does not. The test explicitly documents detection boundaries and confirms that Gap O remains open until a live or prototype test against a real detection engine is conducted. Status is IN_REVISION, not RESOLVED, because empirical validation of the multi-agent coordination control has not been performed.
+linked_change: Active-Neutralization-Runbook-v0.1 (Section 9 caveat); Red-Team-Findings-v0.2 (Gap O registered); CA-06-Lateral-Peer-Coordination-Rule-v0.1 (new document); CA-06-Control-Test-v0.1 (new document)
+do_not_claim_impact: Do not claim that the architecture has been demonstrated to protect against coordinated multi-agent attacks. Do not claim that the honeypot/deception mechanism is implementable as described without independent technical validation. Do not claim the project is a proven security solution. Do not claim that CA-06 has been empirically validated.
 prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
-notes: Reviewer's framing distinction — review framework versus proven solution — is consistent with the existing documentation posture and the documentation-only freeze. The multi-agent coordination coverage concern is partially addressed by CA-01 through CA-05 in Monitoring-And-Detection-Operations-v0.1 and by GFSA-RED-TEAM-FINDINGS-v0.1 Gap C, but those documents do not claim empirical validation. The honeypot/deception mechanism in Active-Neutralization-Runbook-v0.1 should carry an explicit unproven-implementability caveat. The recommendation to test one bounded control is the most actionable next step and aligns with the existing test-plan structure. No prototype is authorized; documentation clarification is the correct resolution path.
+notes: Reviewer's framing distinction — review framework versus proven solution — is consistent with the existing documentation posture and the documentation-only freeze. The multi-agent coordination coverage concern is partially addressed by CA-01 through CA-05 in Monitoring-And-Detection-Operations-v0.1 and by GFSA-RED-TEAM-FINDINGS-v0.1 Gap C, but those documents do not claim empirical validation. The honeypot/deception mechanism in Active-Neutralization-Runbook-v0.1 now carries an explicit unproven-implementability caveat. The bounded control test (CA-06-Control-Test-v0.1) addresses Sami's recommendation analytically. Gap O remains open and is explicitly documented as such.
 ```
 
 ### Feedback Item GFSA-REV-008
@@ -333,7 +333,7 @@ resolution_summary: Added a compact practical-use boundary to README; verified a
 linked_change: README.md; GITHUB-RELEASE-CHECKLIST.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; GitHub repository access settings
 do_not_claim_impact: These launch and usability clarifications do not validate the model, establish security or compliance, demonstrate product-market fit, authorize implementation, or make the repository a software product.
 prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
-notes: The repository remains private. No reviewer name, private message, personal address, or private source document is included. Public visibility still requires explicit project-owner approval at the visibility-change step.
+notes: The repository remains private. Public visibility requires a verified private conduct-reporting route and explicit project-owner approval at the visibility-change step; private vulnerability reporting must then be enabled immediately before public review outreach.
 ```
 
 ### Feedback Item GFSA-REV-006
@@ -570,7 +570,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
-| GFSA-REV-009 | OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE | MEDIUM | README; Prototype Review Request; Red Team Findings; Active-Neutralization-Runbook; Monitoring-And-Detection-Operations | ACCEPT | TRIAGED | PROTOTYPE_DOC_UPDATE_ONLY |
+| GFSA-REV-009 | OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE | MEDIUM | README; Prototype Review Request; Red Team Findings; Active-Neutralization-Runbook; Monitoring-And-Detection-Operations | ACCEPT | IN_REVISION | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-008 | SCOPE; PRIVACY_RISK; ROLE_AUTHORITY; DOCUMENTATION_CLARITY | LOW | Public release decision; GitHub visibility, surface, topics, and reporting route | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-007 | DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY | MEDIUM | Practical use; contact route; repository access; public release sequence | ACCEPT_WITH_MODIFICATION | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-006 | SCOPE; PRIVACY_RISK; DOCUMENTATION_CLARITY | MEDIUM | Private GitHub launch; render checks; platform-gate sequencing | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -622,7 +622,7 @@ Public GitHub repository: ACTIVE_AND_VERIFIED
 Public release blockers open: NO
 Public GitHub release authorized: YES; documentation-only public review
 Private vulnerability reporting: ENABLED_AND_PUBLIC_PATH_VERIFIED
-Public review outreach: ACTIVE — first external technical review received (GFSA-REV-009)
+Public review outreach: ACTIVE — first external technical review received (GFSA-REV-009); partial documentation response completed; Gap O open
 ```
 
 ## Current Decision
