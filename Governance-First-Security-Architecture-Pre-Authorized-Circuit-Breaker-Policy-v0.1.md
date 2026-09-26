@@ -1,191 +1,170 @@
-# Pre-Authorized Circuit Breaker Policy
-
-**Document ID:** GFSA-PRE-AUTHORIZED-CIRCUIT-BREAKER-v0.1  
-**Status:** Draft  
-**Version:** 0.1  
-**Date:** 2026-09-26  
-**Classification:** Internal — Restricted  
-**Owner:** Governance Authority  
+# Governance-First Security Architecture
+## Pre-Authorized Circuit Breaker Policy
+**Document ID:** GFSA-PRE-AUTHORIZED-CIRCUIT-BREAKER-v0.1
+**Version:** 0.1 — Initial Release
+**Status:** Draft
+**Date:** 2026-09-26
+**Classification:** Internal — Restricted
+**Owner:** Governance Authority
 
 ---
 
 ## 1. Purpose
 
-This document defines the Pre-Authorized Circuit Breaker: an automated pipeline suspension mechanism that operates without requiring human decision-making at the moment of firing.
+This policy governs the class of automated containment actions that may be executed without real-time human authorization, within a pre-defined boundary established and approved in advance by the Governance Authority.
 
-The circuit breaker is a **complement to Stop-State-Policy-v0.1**, not a replacement. Stop-State-Policy governs the defined stop state and the conditions under which the governed system must reach it. This policy governs the mechanism by which that stop state can be reached automatically — in machine time — when the 1:1200:72000 time asymmetry established in Machine-Time-Threat-Model-v0.1 makes human pre-firing authorisation structurally infeasible.
+The rationale is machine-time speed: the threat patterns identified in Machine-Time-Threat-Model-v0.1 (MT-01 through MT-04) can complete a harmful action within seconds — well within the 15-minute human triage window for a Critical alert. A governance architecture that requires human authorization for every containment action cannot protect against machine-time threats. Pre-authorized circuit breakers close this gap by granting narrow, specific, reversible containment authority to the detection engine — authority that was approved by a human in advance, not at the moment of execution.
 
-The human remains accountable. This policy relocates that accountability from the response instant to the policy-setting and post-hoc review phases.
+This policy does not authorize autonomous AI decision-making. It authorizes a detection system to execute specific, pre-defined, reversible containment actions when specific, pre-defined trigger conditions are met — identical in principle to a firewall rule or an automatic circuit breaker in electrical infrastructure.
 
 ---
 
-## 2. The Problem This Policy Solves
+## 2. Scope
 
-### 2.1 The Contradiction in Stop-State-Policy
+This policy applies to:
+- All automated containment actions executed by the detection engine without real-time human authorization
+- All trigger conditions that may invoke a pre-authorized circuit breaker
+- All roles with authority to define, approve, review, or disable circuit breaker configurations
 
-Stop-State-Policy-v0.1 defines conditions under which agent sessions must be suspended. The response protocol in that document requires AI Operator triage before suspension. That requirement is appropriate for threats that operate at human time.
+Actions not covered by a current approved circuit breaker configuration require real-time human authorization before execution.
 
-For machine-time threats (as defined in Machine-Time-Threat-Model-v0.1 Section 3), the window between alert generation and damage completion may be measured in milliseconds to seconds. The minimum human triage time, under realistic conditions, is measured in minutes to hours.
+---
 
-The gap means that requiring human authorisation before suspension is, in practice, equivalent to no suspension at all against machine-time attacks. This is not a criticism of the operators — it is a structural property of the time scales involved.
+## 3. Core Governance Principle
 
-### 2.2 What Pre-Authorisation Solves
+> **Pre-authorized circuit breakers execute only the minimum reversible containment action required to stop immediate harm within a machine-time window. They do not investigate, attribute, or permanently terminate. All actions taken by a circuit breaker are immediately visible to a human operator and subject to reversal.**
 
-Pre-authorisation resolves the contradiction by separating two governance decisions that the current policy conflates:
+Circuit breakers are not autonomous. They are automated execution of a human decision made in advance.
 
-| Decision | When It Is Made | Who Makes It |
+---
+
+## 4. Authorization Structure
+
+### 4.1 Who May Authorize Circuit Breakers
+
+Circuit breaker configurations — the list of trigger conditions and their associated permitted actions — must be approved by:
+- **Governance Authority:** Required for all circuit breaker configurations
+- **Security Reviewer:** Required co-approval for any circuit breaker that affects network connectivity or agent identity tokens
+
+No circuit breaker may be activated in production without this dual approval.
+
+### 4.2 Authorization Record Requirements
+
+Each approved circuit breaker configuration must have a written authorization record containing:
+- The specific trigger condition (rule ID and threshold)
+- The specific permitted action(s) — defined with no ambiguity
+- The reversibility procedure and who may authorize reversal
+- The review date (circuit breakers expire and must be reauthorized at least annually)
+- The names of the approving Governance Authority and Security Reviewer
+- The date of approval
+
+### 4.3 Unauthorized Automated Actions Are Prohibited
+
+Any automated action taken by the detection engine that is not covered by a current approved circuit breaker authorization record is a governance violation. This includes:
+- Automated alert auto-resolution
+- Automated agent restart after termination
+- Automated rule suppression or tuning without human approval
+
+---
+
+## 5. Permitted Circuit Breaker Actions
+
+The following action classes are permitted within an approved circuit breaker configuration. No action outside this list may be taken automatically.
+
+| Action Class | Description | Reversibility |
 |---|---|---|
-| *Under what conditions should a pipeline be automatically suspended?* | Before any session begins | Governance Authority |
-| *Should this specific alert trigger suspension right now?* | At the moment the alert fires | Automation, acting under pre-authorised rules |
-| *Was the automated suspension correct? What happens next?* | After suspension | AI Operator + Governance Authority |
+| **Session suspension** | Suspend the agent's active session; halt all outputs and tool calls | Reversible by AI Operator with documented justification |
+| **Network isolation** | Block all inbound and outbound network connectivity for the agent's process or container, except the audit logger connection | Reversible by AI Operator with Governance Authority notification |
+| **Token suspension** | Temporarily suspend (not revoke) the agent's API tokens; tokens remain in registry but generate 401 responses | Reversible by AI Operator; permanent revocation requires Governance Authority |
+| **Output quarantine** | Allow the agent to continue generating outputs but block delivery to all downstream consumers; outputs are logged but not acted on | Reversible by AI Operator |
+| **Peer communication block** | Block all direct communication between two specific agent processes; does not affect their communication with the orchestrator | Reversible by AI Operator with Governance Authority notification |
 
-The Governance Authority approves the threshold and the rule. The automation executes against that rule. The human reviews the execution. No decision is made without human involvement — the timing of the human involvement is what changes.
-
----
-
-## 3. Scope
-
-This policy applies to all AI agent pipelines operating within the governed boundary. It covers:
-
-- Single-agent sessions monitored under Stop-State-Policy-v0.1
-- Multi-agent pipeline sessions monitored under Monitoring-And-Detection-Operations-v0.1 CA rules
-- Any pipeline session where a pre-authorised circuit breaker threshold has been registered
-
-This policy does **not** apply to:
-- Human operators (circuit breakers do not suspend human activity)
-- Read-only monitoring agents with no write or action capabilities
-- Agents operating in a designated test or simulation environment with no production access
+**Actions permanently excluded from circuit breaker authorization:**
+- Process termination (kill) — requires Track 2 or Track 4 human authorization per Active-Neutralization-Runbook-v0.1
+- Token revocation (permanent) — requires Governance Authority authorization
+- Baseline modification — requires Security Reviewer and Governance Authority approval
+- Rule disabling — requires Governance Authority approval
 
 ---
 
-## 4. Circuit Breaker Tiers
+## 6. Trigger Conditions and Default Circuit Breaker Map
 
-The circuit breaker operates at two tiers, each with different scope and authorisation requirements.
+The following table defines the default circuit breaker assignments for detection rules defined in Monitoring-And-Detection-Operations-v0.1. All assignments require Governance Authority and Security Reviewer approval before activation.
 
-### Tier 1 — Session Suspension (Single Agent)
+| Trigger Rule | Severity | Default Circuit Breaker Action | Rationale |
+|---|---|---|---|
+| HR-03 (outbound connection to external IP) | Critical | Network isolation of agent | Immediate exfiltration risk; containment before triage |
+| HR-05 (log stream silent > 2 min) | Critical | Session suspension of agent | Potential log suppression; freeze agent state |
+| HR-07 (system prompt hash mismatch) | Critical | Session suspension of agent | Configuration tamper; halt before further action |
+| HR-11 (prompt injection detected) | Critical | Output quarantine of agent | Contain potential injected instruction execution |
+| CA-04 (authority laundering instruction) | Critical | Session suspension of orchestrator and sub-agent | Halt the laundering chain before sub-agent executes |
+| CA-06 (lateral peer coordination) | Critical | Peer communication block + session suspension of both agents | Halt the coordination; preserve state for forensics |
+| CA-03 (pipeline anomaly score critical) | Critical | Output quarantine of all pipeline agents | Contain potential aggregate exfiltration |
 
-| Parameter | Value |
-|---|---|
-| Scope | Suspends one agent's session |
-| Trigger | Any Critical alert (HR or CA series) attributed to that agent |
-| Pre-authorisation | Granted automatically for all registered agents by this policy; no per-agent approval required |
-| Human notification | AI Operator notified within 2 minutes of suspension |
-| Restart authorisation | AI Operator (for non-CA-04, non-CA-05, non-CA-06 incidents) |
-
-Tier 1 is the default. Every registered agent operates under Tier 1 circuit breaker rules from the moment it is registered.
-
-### Tier 2 — Pipeline Suspension (All Agents in Pipeline)
-
-| Parameter | Value |
-|---|---|
-| Scope | Suspends all agents in the affected pipeline simultaneously |
-| Trigger | CA-03 (pipeline aggregate Critical), CA-04, CA-05, CA-06, or Tier 1 trigger for the orchestrating agent |
-| Pre-authorisation | Granted per pipeline by Governance Authority at pipeline registration |
-| Human notification | AI Operator and Governance Authority notified within 2 minutes of suspension |
-| Restart authorisation | Governance Authority only |
-
-Tier 2 requires explicit per-pipeline pre-authorisation. A pipeline may not operate under Tier 2 circuit breaker rules without a signed authorisation record from the Governance Authority.
+**Default ≠ Activated.** These are the recommended assignments. Each must receive a written authorization record (Section 4.2) before it is active in production.
 
 ---
 
-## 5. Pre-Authorisation Record Requirements
+## 7. Execution Requirements
 
-For a pipeline to operate under Tier 2 circuit breaker rules, the following must be on record before the first session begins:
+### 7.1 Human Notification Is Mandatory and Immediate
 
-1. **Pipeline identity**: unique pipeline ID and list of participating agents
-2. **Authorising role**: name and role of the Governance Authority representative who approved this pipeline's circuit breaker parameters
-3. **Threshold confirmation**: confirmation that the pipeline-level anomaly threshold (CA-03) has been reviewed and accepted
-4. **Restart protocol**: who is authorised to restart the pipeline after a Tier 2 suspension, and what forensic review is required before restart is permitted
-5. **Review schedule**: date by which the circuit breaker parameters will be reviewed (maximum 6 months from authorisation)
+Every circuit breaker execution must generate an immediate notification to the AI Operator. The notification must include:
+- The trigger rule ID that fired
+- The agent identity affected
+- The action taken
+- The timestamp
+- The authorization record reference
 
-Pre-authorisation records are stored in the governance log alongside the pipeline's Operational Mandate. They are subject to the same tamper-evidence requirements as audit logs (per Log-Integrity-And-Tamper-Evidence-v0.1).
+Notification must reach the AI Operator within 2 minutes of the circuit breaker action. If notification fails, the circuit breaker execution is logged as an unacknowledged action and escalated to the Governance Authority.
 
----
+### 7.2 All Actions Are Logged
 
-## 6. What Happens When the Circuit Breaker Fires
+Every circuit breaker execution is logged in the audit log with the same fields as a human-authorized action. Circuit breaker actions are not exempt from audit requirements.
 
-### 6.1 Automated Actions (Machine Time — No Human Required)
+### 7.3 Actions Are Reversible by Default
 
-When a pre-authorised trigger condition is met:
+No circuit breaker action may be designed to be irreversible. If a circuit breaker action cannot be reversed by the AI Operator within 15 minutes of execution, it is not a permitted circuit breaker action — it requires human authorization.
 
-1. Affected agent session(s) receive a suspend signal — no new inference calls are permitted
-2. Active network connections from the agent are terminated
-3. All in-flight data writes are halted
-4. An evidence snapshot is captured: last 500 log lines per agent, last known system prompt hash, last action taken
-5. A Circuit Breaker Event record is written to the audit log: timestamp, trigger rule, affected agent IDs, evidence snapshot reference
-6. Notification is dispatched to the AI Operator and, for Tier 2, the Governance Authority
+### 7.4 No Stacking Without Review
 
-All automated actions complete within the alert delivery window (target: under 30 seconds from trigger detection to suspension confirmation).
-
-### 6.2 Human Actions (Post-Firing Triage)
-
-| Action | Owner | Timing |
-|---|---|---|
-| Acknowledge Circuit Breaker Event | AI Operator | Within 15 minutes of notification |
-| Review evidence snapshot | AI Operator | Within 1 hour |
-| Classify: security incident or false positive | AI Operator | Within 1 hour |
-| For security incidents: initiate full attribution process | AI Operator per Agent-Attribution-Playbook-v0.1 | Immediately after classification |
-| For false positives: document root cause and threshold adjustment recommendation | AI Operator | Within 4 hours |
-| Restart authorisation decision | AI Operator (Tier 1) or Governance Authority (Tier 2) | After evidence review |
-| Post-incident threshold review | Governance Authority | Within 30 days |
-
-### 6.3 No Auto-Restart
-
-No agent or pipeline suspended by the circuit breaker may restart automatically. Restart requires explicit human authorisation, documented in the governance log. This constraint is not subject to override by any automated system.
+A circuit breaker may not trigger a second circuit breaker automatically. If a first circuit breaker fires and the underlying condition persists or escalates, the escalation requires human triage — not automated stacking of additional automated actions.
 
 ---
 
-## 7. False Positive Management
+## 8. Review and Expiry
 
-Pre-authorised automation will generate false positives. This is expected and acceptable. The circuit breaker is calibrated to minimise false negatives (missed real attacks) at the cost of occasional false positives (unnecessary suspensions).
-
-**Acceptable false positive rate:** Reviewed quarterly. Action required if Tier 1 false positives exceed 15% of all Tier 1 firings in a quarter, or Tier 2 false positives exceed 5% of all Tier 2 firings.
-
-**False positive response:**
-- False positives do not justify disabling the circuit breaker
-- False positives indicate a threshold calibration need, addressed through the quarterly review
-- Each false positive is documented with root cause; patterns of false positives from the same rule trigger a rule review, not a rule suspension
+- All circuit breaker configurations are reviewed quarterly by the Security Reviewer and AI Operator
+- Configurations expire after 12 months and must be reauthorized by the Governance Authority and Security Reviewer
+- A circuit breaker that fires more than 5 times in any 30-day period triggers a mandatory configuration review — either the trigger condition is too sensitive or the underlying governance gap it addresses has not been resolved
+- Any circuit breaker that is found to have taken an action that was later assessed as unjustified must be suspended pending a root-cause review
 
 ---
 
-## 8. Relationship to Stop-State-Policy-v0.1
+## 9. Relationship to Human Authorization
 
-Stop-State-Policy-v0.1 defines the target state. This policy defines one mechanism for reaching it. They are complementary instruments:
+Circuit breakers do not replace human authorization. They occupy the machine-time window between detection and human triage. The sequence is:
 
-| Instrument | Governs | Human Moment |
-|---|---|---|
-| Stop-State-Policy-v0.1 | What the stop state is and when it is required | Triage and restart authorisation |
-| Pre-Authorized-Circuit-Breaker-Policy-v0.1 | How the stop state is reached automatically in machine time | Pre-authorisation of thresholds; post-firing review |
+1. Detection engine fires a rule
+2. Circuit breaker executes the pre-authorized containment action (milliseconds to seconds)
+3. AI Operator receives notification and begins triage (within 2 minutes)
+4. AI Operator assesses the situation; may reverse the circuit breaker action or escalate to a human-authorized track in Active-Neutralization-Runbook-v0.1
+5. Governance Authority is notified for all Critical circuit breaker activations within 15 minutes
 
-In any incident where the circuit breaker fires, the stop state defined in Stop-State-Policy-v0.1 is the target outcome. The circuit breaker is the path to that outcome when human pre-firing intervention is not feasible.
-
-**Stop-State-Policy-v0.1 is not superseded by this policy.** Where Stop-State-Policy requires human authorisation for suspension and the threat is not machine-time, that human authorisation requirement stands.
-
----
-
-## 9. Governance of This Policy
-
-This policy may not be modified without Governance Authority approval. Proposed changes must be reviewed by the Security Reviewer before Governance Authority decision.
-
-The circuit breaker mechanism itself must be audited semi-annually to confirm:
-- Automated suspension actions complete within the target window
-- Evidence snapshot capture is reliable and tamper-evident
-- Notification delivery is functioning
-- Pre-authorisation records are current and have not lapsed
+The circuit breaker is a speed layer. Human governance is the authority layer.
 
 ---
 
 ## 10. Related Documents
 
-- Stop-State-Policy-v0.1
-- Machine-Time-Threat-Model-v0.1
-- Monitoring-And-Detection-Operations-v0.1
-- CA-06-Lateral-Peer-Coordination-Rule-v0.1
-- Active-Neutralization-Runbook-v0.1
-- Agent-Attribution-Playbook-v0.1
-- Log-Integrity-And-Tamper-Evidence-v0.1
-- Agent-Baseline-Profile-v0.1
+- Machine-Time-Threat-Model-v0.1 — Rationale for pre-authorized containment
+- Monitoring-And-Detection-Operations-v0.1 — Detection rules that trigger circuit breakers
+- Active-Neutralization-Runbook-v0.1 — Human-authorized tracks invoked after circuit breaker containment
+- CA-06-Lateral-Peer-Coordination-Rule-v0.1 — Primary rule that references this policy for machine-time response
 - Agentic-Operational-Boundary-v0.1
+- Audit-And-Accountability-v0.1
+- Stop-State-Policy-v0.1
+- Governance authority sign-off is required before any circuit breaker is activated in production
 
 ---
 

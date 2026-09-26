@@ -1,137 +1,156 @@
-# Machine-Time Threat Model
-
-**Document ID:** GFSA-MACHINE-TIME-THREAT-MODEL-v0.1  
-**Status:** Draft  
-**Version:** 0.1  
-**Date:** 2026-09-26  
-**Classification:** Internal — Restricted  
-**Owner:** Governance Authority  
+# Governance-First Security Architecture
+## Machine-Time Threat Model
+**Document ID:** GFSA-MACHINE-TIME-THREAT-MODEL-v0.1
+**Version:** 0.1 — Initial Release
+**Status:** Draft
+**Date:** 2026-09-26
+**Classification:** Internal — Restricted
+**Owner:** Governance Authority
 
 ---
 
 ## 1. Purpose
 
-This document formalises *machine time* as a distinct threat category in the Governance-First Security Architecture. Existing security models — including the detection and response framework defined in Monitoring-And-Detection-Operations-v0.1 — were designed for environments where human operators can intervene between attack initiation and impact. That assumption fails in AI agent pipelines.
+This document models the class of threats that emerge specifically from the speed differential between machine-time AI operations and human-time governance responses. Standard threat models assume a human attacker operating at human speed — an attacker who must type commands, wait for results, and make decisions over seconds or minutes. Agentic AI systems operating at inference speed invalidate many of these assumptions.
 
-This document establishes the design constraint that governs all time-sensitive detection and response decisions in this architecture.
+The machine-time threat model does not replace the general Threat-Model-v0.1. It extends it by isolating the subset of threats whose primary exploitable property is speed: the ability to initiate, execute, and complete a harmful action — or a coordinated sequence of harmful actions — before any human governance control can observe and respond.
 
----
-
-## 2. The Core Problem: Asymmetric Time
-
-The fundamental challenge of securing AI agent pipelines is not complexity — it is time asymmetry between attacker action, detection, and human response.
-
-### 2.1 The 1:1200:72000 Ratio
-
-The operational design constraint of this architecture is expressed as a ratio:
-
-```
-Attack execution time   :   Alert delivery time   :   Human triage time
-        1 ms            :       1 200 ms           :     72 000 000 ms
-```
-
-Expressed in plain terms:
-
-- An AI agent operating at inference speed can execute a multi-step action sequence in **under 1 millisecond per step**
-- The monitoring stack (log collection → detection engine → alert queue → delivery) introduces a minimum latency of **approximately 1.2 seconds** under ideal conditions (per Monitoring-And-Detection-Operations-v0.1 Section 8, log collection latency ≤ 60 seconds; alert delivery ≤ 2 minutes)
-- A human operator, once alerted, requires a minimum of **approximately 20 hours** (72 000 seconds) to triage, decide, and execute a response under realistic operational conditions — accounting for context-loading, decision-making, and coordination
-
-This ratio is not a criticism of the monitoring stack. It is a structural property of any system where AI agents operate at inference speed and humans provide governance oversight. The ratio will not improve materially through faster monitoring alone.
-
-### 2.2 What This Means for the Threat Model
-
-Any threat actor — whether an external attacker, a compromised agent, or a prompt-injected instruction — that can trigger agent behaviour operates at machine time. Any defensive response that depends on human decision-making before containment operates at human time.
-
-The gap between these time scales means that **the human operator cannot prevent damage from a machine-time attack — they can only contain, attribute, and recover from it**.
-
-This is not a failure of governance. It is the governing constraint that determines what governance instruments are appropriate at which point in the incident lifecycle.
+This document identifies four primary machine-time threat patterns (MT-01 through MT-04) and maps each to the detection and containment controls that address it.
 
 ---
 
-## 3. Machine-Time Threat Categories
+## 2. The Machine-Time Problem
 
-The following threat categories are defined as machine-time threats: threats whose primary damage vector executes within the detection-to-human-response window and therefore cannot be prevented by human intervention once initiated.
+Conventional security controls assume that detection and response can be interleaved with attacker activity. A human attacker who exploits a vulnerability must exfiltrate data over a network connection that takes seconds to minutes; a human operator can detect the anomalous traffic and terminate the connection before the exfiltration is complete.
 
-| Threat ID | Threat Name | Execution Window | Primary Damage Vector | Detection Feasibility |
+An agentic AI system operating at inference speed can:
+
+- Execute hundreds of tool calls per minute
+- Coordinate with peer agents via API in milliseconds
+- Aggregate, process, and stage data for exfiltration in a single session that completes before the first alert reaches a human operator
+- Generate and act on an entire attack plan within the latency window of the monitoring system's alert delivery pipeline
+
+The governance implication is that machine-time threats cannot be governed by human-response controls alone. They require **pre-authorised automated containment** that executes within the machine-time window, combined with human governance over the authorisation boundaries of that containment.
+
+This is the foundational rationale for the Pre-Authorized-Circuit-Breaker-Policy-v0.1.
+
+---
+
+## 3. Scope
+
+This model applies to:
+- All multi-agent pipelines operating within the governed boundary
+- Any agent capable of tool use, external API calls, or inter-agent communication
+- Any pipeline session where two or more agents operate concurrently
+
+Single-agent, no-tool-use deployments face a reduced machine-time threat surface but are not excluded from this model where they interact with external systems.
+
+---
+
+## 4. Machine-Time Threat Patterns
+
+### MT-01 — Subthreshold Aggregation Attack
+
+**Description:** A single agent, or a coordinated set of agents, performs a sequence of individually permitted actions — each below the alert threshold — that collectively constitute a critical governance violation. The sequence completes before the cumulative anomaly score crosses the detection threshold.
+
+**Exploited property:** Detection latency and per-action threshold design. Each action is individually permitted; only the aggregate is harmful.
+
+**Example:** An agent makes 47 external API calls over 30 minutes — each within its hourly rate limit — while each call retrieves a small data fragment. The fragments, assembled, constitute a full exfiltration of a restricted data set. No single call triggers TR-04.
+
+**Machine-time amplification:** At inference speed, 47 calls can complete in under two minutes. The detection window for cumulative threshold rules (TR-04) may not have elapsed before the exfiltration is complete.
+
+**Primary detection control:** CA-01 (contemporaneous medium anomalies across pipeline agents); CA-03 (cumulative pipeline anomaly score).
+
+**Residual gap:** If the sequence is distributed across agents rather than concentrated in one, CA-01 and CA-03 depend on the pipeline view being active and correctly configured.
+
+---
+
+### MT-02 — Sequential Pipeline Compromise
+
+**Description:** An attacker compromises agents sequentially across a pipeline — first compromising Agent A, then using Agent A's legitimate outputs to inject instructions into Agent B, then using Agent B's outputs to reach Agent C — in a lateral chain that moves faster than human triage can track.
+
+**Exploited property:** Response latency between agent compromise events. Each compromise event may generate an alert, but the next compromise occurs within the human triage window for the first alert.
+
+**Example:** Agent A is prompt-injected via a fetched document (HR-11 fires). While the AI Operator is triaging the HR-11 alert, Agent A has already issued a CA-04-violating instruction to Agent B, which has begun executing. By the time the AI Operator acts on the HR-11 alert, Agent B has completed the harmful action.
+
+**Machine-time amplification:** The inter-agent instruction round-trip (A instructs B, B executes) can complete in seconds. The human triage window for a Critical alert is 15 minutes. The entire sequential compromise can complete within a single triage window.
+
+**Primary detection control:** CA-02 (rapid sequential anomalies across pipeline agents); CA-04 (authority-laundering instruction from orchestrator to sub-agent).
+
+**Residual gap:** CA-02 requires a 30-minute look-back window. Sequential attacks that complete within 30 minutes but before triage can act on the first alert are the primary exposure.
+
+---
+
+### MT-03 — Orchestrator Authority Laundering
+
+**Description:** A compromised or malicious orchestrating agent issues instructions to sub-agents that exceed the sub-agents' own Operational Mandate boundaries, exploiting the fact that sub-agents are designed to follow orchestrator instructions without independent mandate verification.
+
+**Exploited property:** The trust asymmetry between orchestrators and sub-agents in a pipeline. Sub-agents are designed to be instruction-followers; they may not independently verify whether an instruction falls within their own Operational Mandate if it arrives from a trusted orchestrator identity.
+
+**Example:** The orchestrating agent is compromised via prompt injection. It instructs Research Agent to access the Identity segment — an action outside Research Agent's Operational Mandate but within the orchestrator's apparent authority. Research Agent complies because the instruction arrives from a trusted source.
+
+**Machine-time amplification:** The orchestrator-to-sub-agent instruction cycle is milliseconds. The CA-04 rule fires, but the sub-agent may have already executed one iteration of the instruction before the alert is delivered.
+
+**Primary detection control:** CA-04 (orchestrator instruction exceeds sub-agent Operational Mandate). HR-02 (agent interacts with unauthorised partner) if the sub-agent then communicates outside its baseline.
+
+**Residual gap:** The sub-agent may execute one instruction iteration before CA-04 fires and pre-authorised containment activates. The Pre-Authorized-Circuit-Breaker-Policy-v0.1 governs acceptable pre-authorised response actions for this window.
+
+---
+
+### MT-04 — Lateral Peer Coordination
+
+**Description:** Two or more agents at the same pipeline tier communicate or coordinate directly with each other — outside orchestrator mediation — to execute a collective action that neither agent could complete within its individual Operational Mandate. The coordination occurs in machine time, completing before monitoring detects it as an anomaly.
+
+**Exploited property:** The structural gap in CA-01 through CA-05: none of those rules detect direct peer-to-peer communication between agents at the same tier. Each agent's individual behaviour remains within its baseline; the coordination is invisible to point-based detection.
+
+**Example:** Research Agent and Summarisation Agent coordinate via a shared but unregistered message queue. Research Agent writes fragments of a restricted data set to the queue; Summarisation Agent reads and assembles them. Neither agent individually exceeds any threshold rule. The coordinated exfiltration completes in under one second.
+
+**Machine-time amplification:** Machine-time coordination between peer agents — via shared queue, direct API call, or side channel — can complete in milliseconds. The detection engine's alert delivery latency (target: ≤ 2 minutes for Critical) is orders of magnitude slower than the coordination window.
+
+**Primary detection control:** CA-06 (Lateral Peer Coordination Rule — see CA-06-Lateral-Peer-Coordination-Rule-v0.1). This is the control specifically created to close MT-04.
+
+**Residual gaps:** CA-06 cannot detect coordination that occurs before session registration (pre-session window) or via channels outside the detection engine's monitoring perimeter. Both are documented as explicit open boundaries in CA-06-Control-Test-v0.1.
+
+---
+
+## 5. Machine-Time Threat Surface Map
+
+| Threat | Speed of Exploit | Primary Detection | Pre-Auth Containment | Residual Gap |
 |---|---|---|---|---|
-| MT-01 | Simultaneous multi-agent compromise | < 100 ms | Coordinated data exfiltration before any single agent exceeds alert threshold | Log-based: possible; Real-time: required for containment |
-| MT-02 | Pipeline instruction injection cascade | < 500 ms | Injected instruction propagates from one agent to next faster than detection cycle | Detectable at orchestrator layer; CA-04/CA-05 rules apply |
-| MT-03 | Token replay and lateral escalation | < 200 ms | Revoked token used to authenticate across multiple agents before revocation propagates | HR-04 detects; propagation lag is the risk window |
-| MT-04 | Peer-to-peer lateral coordination | < 1 000 ms | Two or more agents coordinate outside orchestrator mediation; no single agent violates its own baseline | Not covered by CA-01 through CA-05; requires CA-06 |
-| MT-05 | Log suppression under active exfiltration | Concurrent | Agent suppresses its own log stream while executing malicious actions; HR-05 fires after silence window | 2-minute silence threshold creates a 2-minute unlogged window |
-| MT-06 | Sub-threshold volume accumulation | Continuous | Each agent individually stays below alert thresholds; pipeline aggregate exceeds safe total | CA-03 addresses pipeline aggregate; requires threshold calibration |
-
-**MT-04 is the critical gap.** It is the only machine-time threat category not addressed by any existing detection rule in the current architecture. CA-06 (defined in the companion document GFSA-CA-06-LATERAL-PEER-COORDINATION-RULE-v0.1) is required to close this gap.
+| MT-01 Subthreshold Aggregation | Minutes (distributed) | CA-01, CA-03 | Circuit breaker on CA-03 Critical | Aggregation distributed across time beyond CA-03 window |
+| MT-02 Sequential Pipeline Compromise | Seconds–minutes | CA-02, CA-04 | Circuit breaker on CA-04 Critical | One instruction cycle may execute before containment |
+| MT-03 Orchestrator Authority Laundering | Milliseconds–seconds | CA-04, HR-02 | Circuit breaker on CA-04 Critical | One sub-agent action may execute before containment |
+| MT-04 Lateral Peer Coordination | Milliseconds | CA-06 | Circuit breaker on CA-06 Critical | Pre-session and out-of-band channels outside detection scope |
 
 ---
 
-## 4. Implications for Governance Design
+## 6. Governance Implications
 
-### 4.1 Human Loop Placement
+### 6.1 Pre-Authorised Containment Is a Governance Requirement
 
-Given the 1:1200:72000 ratio, human oversight must be positioned where it is effective:
+MT-01 through MT-04 all share the same fundamental property: they can complete, or complete a harmful sub-sequence, within the human triage window. Human-only governance cannot close these gaps. Pre-authorised automated containment — governed by the Pre-Authorized-Circuit-Breaker-Policy-v0.1 — is a structural requirement, not an optimisation.
 
-| Phase | Human Role | Timing |
-|---|---|---|
-| Pre-incident authorisation | Approve operational mandates, thresholds, and circuit-breaker parameters | Before any agent session begins |
-| Automated containment | None — machine-time response is pre-authorised | Milliseconds to seconds |
-| Forensic triage | Review evidence, confirm attribution, assess damage | Minutes to hours after containment |
-| Recovery authorisation | Approve restart of suspended agents or pipelines | After forensic review |
-| Post-incident governance | Review thresholds; update detection rules; update threat model | Days after incident |
+### 6.2 Detection Infrastructure Is Not Optional
 
-Human authorisation that is placed inside the automated containment phase — that is, human approval required before a circuit-breaker fires — is structurally incompatible with machine-time threats. This is the design contradiction addressed by Pre-Authorized-Circuit-Breaker-Policy-v0.1.
+All four machine-time threat patterns depend on the detection engine having specific infrastructure capabilities (pipeline view, cross-agent correlation, network-layer and API-gateway visibility). If that infrastructure is not operational, the detection controls do not fire — and there is no machine-time containment. Monitoring-And-Detection-Operations-v0.1 Section 8 defines the minimum coverage requirements.
 
-### 4.2 What Pre-Authorisation Covers
+### 6.3 Residual Gaps Are Permanent Features of the Current Architecture
 
-Pre-authorisation does not mean unaccountable automation. It means that the governance decision is made prospectively rather than reactively. The human operator approves the *rule* and the *threshold* — not each individual firing. Every automated action taken under a pre-authorised rule is logged, attributed, and subject to mandatory post-hoc review.
-
-### 4.3 Detection vs. Prevention
-
-For machine-time threats, the architecture must accept the following design constraint:
-
-> **Prevention of damage from machine-time threats requires pre-authorised automated containment. Human oversight governs the rules under which automation operates, not the individual automated decisions.**
-
-This constraint does not reduce human accountability. It relocates accountability from the response instant to the policy-setting and review phases — where human judgment can operate effectively.
-
----
-
-## 5. Relationship to Existing Documents
-
-| Document | Relationship |
-|---|---|
-| Monitoring-And-Detection-Operations-v0.1 | Provides the detection rules; this document explains why those rules alone are insufficient for machine-time containment |
-| Stop-State-Policy-v0.1 | Defines the stop state; this document explains the time-scale constraint that requires the Pre-Authorized-Circuit-Breaker as a complement |
-| Pre-Authorized-Circuit-Breaker-Policy-v0.1 | The operational instrument that implements the pre-authorisation model defined in Section 4 of this document |
-| CA-06-Lateral-Peer-Coordination-Rule-v0.1 | Closes the MT-04 gap identified in Section 3 of this document |
-| Red-Team-Findings-v0.1 and v0.2 | The simulation results that empirically validated the 1:1200:72000 ratio and identified MT-04 as a blind spot |
-| Active-Neutralization-Runbook-v0.1 | The response playbook; this document defines the time constraints within which that playbook must operate |
-
----
-
-## 6. Threat Model Maintenance
-
-This threat model must be reviewed:
-
-- After every SEV-1 or SEV-2 incident
-- When a new agent type or pipeline architecture is added to the governed boundary
-- Annually, regardless of incident history
-- When the 1:1200:72000 ratio changes materially due to infrastructure changes
-
-The Governance Authority is responsible for ensuring this document is current. Outdated threat models are themselves a governance failure.
+The residual gaps identified for each threat pattern are not failures of the current rule set. They are structural limitations that cannot be closed without additional infrastructure capabilities not currently defined. They are documented here so that governance decisions about acceptable risk are made explicitly, not by omission.
 
 ---
 
 ## 7. Related Documents
 
-- Monitoring-And-Detection-Operations-v0.1
-- Stop-State-Policy-v0.1
-- Pre-Authorized-Circuit-Breaker-Policy-v0.1
-- CA-06-Lateral-Peer-Coordination-Rule-v0.1
-- Active-Neutralization-Runbook-v0.1
-- Red-Team-Findings-v0.1
-- Red-Team-Findings-v0.2
-- Agent-Baseline-Profile-v0.1
+- Threat-Model-v0.1 — General threat model; this document extends it for machine-time patterns
+- Monitoring-And-Detection-Operations-v0.1 — Detection rules CA-01 through CA-06 and coverage requirements
+- CA-06-Lateral-Peer-Coordination-Rule-v0.1 — Control that closes MT-04
+- CA-06-Control-Test-v0.1 — Analytical validation of MT-04 detection boundaries
+- Pre-Authorized-Circuit-Breaker-Policy-v0.1 — Governs automated containment responses within the machine-time window
+- Active-Neutralization-Runbook-v0.1 — Human-governed neutralization tracks invoked after pre-authorised containment
+- Red-Team-Findings-v0.2 — Gap O (MT-04 empirical validation status)
 - Agentic-Operational-Boundary-v0.1
+- Agent-Baseline-Profile-v0.1
 
 ---
 
