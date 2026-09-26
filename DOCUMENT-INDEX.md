@@ -45,7 +45,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Vendor Offboarding And Revocation](Governance-First-Security-Architecture-Vendor-Offboarding-And-Revocation-v0.1.md) - Planned and emergency vendor offboarding, credential confirmation, and residual access checks.
 - [Social Engineering And Human Manipulation Policy](Governance-First-Security-Architecture-Social-Engineering-Policy-v0.1.md) - Verification tiers, BEC controls, SIM-swapping response, deepfake governance, and out-of-band confirmation requirements.
 - [Secrets Sprawl And Hardcoded Credentials Policy](Governance-First-Security-Architecture-Secrets-Sprawl-And-Hardcoded-Credentials-v0.1.md) - Secret lifecycle, prohibited patterns, rotation schedules, CI/CD pipeline governance, and remediation workflow.
-- [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md) - Default-deny east-west traffic, segment classification, lateral movement indicators, mandatory isolation triggers, and break-glass authorisation.
+- [Lateral Movement Containment Policy](Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md) - Default-deny east-west traffic, segment classification, lateral movement indicators, mandatory isolation triggers, and break-glass authorisation. See also CA-06 Lateral Peer Coordination Rule.
 - [Log Integrity And Tamper-Evidence Policy](Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md) - Write-once log forwarding, immutability controls, absence-as-alert, forensic preservation, and retention requirements.
 - [Log Retention And Rotation Policy](Governance-First-Security-Architecture-Log-Retention-And-Rotation-Policy-v0.1.md) - Retention periods by log type, rotation triggers and procedure, authorised deletion workflow, capacity planning, and regulatory alignment (EU AI Act, GDPR, NIS2).
 - [Ransomware Recovery Policy](Governance-First-Security-Architecture-Ransomware-Recovery-Policy-v0.1.md) - 3-2-1-1 backup architecture, payment decision governance, containment phases, sanctions screening, GDPR notification obligations, and recovery process.
@@ -80,7 +80,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 ## Legal, Provider, And Future Readiness
 
 - [GDPR And EU AI Act Alignment](Governance-First-Security-Architecture-GDPR-EU-AI-Act-Alignment-v0.1.md) - Alignment goals without compliance claims.
-- [Provider And Platform Constraints](Governance-First-Security-Architecture-Provider-And-Platform-Constraints-v0.1.md) - Time-sensitive policy, platform, tool-use, and cyber constraints.
+- [Provider And Platform Constraints](Governance-First-Security-Architecture-Provider-And-Platform-Constraints-v0.1.md) - Time-sensitive policy, platform, tool-use, and cyber constraints. Note: platform-specific content in this document may become outdated as provider policies evolve; verify against current provider documentation before use.
 - [Post-Quantum And Future AI Readiness](Governance-First-Security-Architecture-Post-Quantum-And-Future-AI-Readiness-v0.1.md) - Crypto-agility and future capability reassessment.
 
 ## Test And Design-Only Material
@@ -104,6 +104,13 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Technical Reviewer Bundle](Technical-Reviewer-Bundle-v0.1.md) - Senior technical review path.
 - [Post-Review Revision Log](Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md) - Anonymized feedback, decisions, and traceability.
 
+## Gap Responses
+
+Documents produced in direct response to identified gaps from external review. Each document is linked to a specific gap finding in the Post-Review Revision Log.
+
+- [CA-06 Lateral Peer Coordination Rule](Governance-First-Security-Architecture-CA-06-Lateral-Peer-Coordination-Rule-v0.1.md) - Control rule governing lateral and peer-to-peer coordination between agents; prohibits unsanctioned inter-agent communication channels. Gap O response. See also Lateral Movement Containment Policy.
+- [CA-06 Control Test](Governance-First-Security-Architecture-CA-06-Control-Test-v0.1.md) - Analytical bounded control test for the CA-06 multi-agent coordination control; documents test design, expected outcomes, and empirical validation status. Gap O response.
+
 ## Commercial Discovery
 
 - [Governance Decision Assessment Workshop Offer](Governance-First-Security-Architecture-Governance-Decision-Assessment-Workshop-Offer-v0.1.md) - Narrow paid problem-validation offer without software or claims.
@@ -117,6 +124,6 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Contributing](CONTRIBUTING.md) - Allowed review contributions and hard boundaries.
 - [Code Of Conduct](CODE_OF_CONDUCT.md) - Participation expectations and private reporting path.
 - [Security And Sensitive Feedback](SECURITY.md) - Safe reporting boundary.
-- [GitHub Release Checklist](GITHUB-RELEASE-CHECKLIST.md) - Private-first and public-release gates.
+- [GitHub Release Checklist](GITHUB-RELEASE-CHECKLIST.md) - Internal process document; private-first and public-release gates. Not an architecture document.
 - [License](LICENSE) - Canonical CC BY-SA 4.0 legal code.
 - [Notices And Attribution](NOTICE.md) - Project attribution, license scope, exclusions, and claim boundaries.
