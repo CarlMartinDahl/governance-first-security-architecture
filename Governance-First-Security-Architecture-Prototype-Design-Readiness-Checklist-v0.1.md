@@ -538,6 +538,10 @@ Blocks if:
 
 Prototype design includes live tools, integrations, automation, egress, real data, or external effects.
 
+Decision Authority:
+
+The determination of whether a proposed addition constitutes hidden capability expansion is made by a named authority who is not the author of the addition. At v0.1 prototype stage, this authority is Martin Dahl in the role of Governance Authority. This designation does not eliminate the self-assessment risk inherent in a single-person project; it makes that risk explicit and bounded. At the v1.0 gate, an independent second reviewer must confirm the PDG-032 determination before promotion. This requirement is non-waivable.
+
 ## Readiness Summary Template
 
 Before prototype design discussion, complete:
