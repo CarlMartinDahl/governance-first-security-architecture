@@ -38,6 +38,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [AI-Human Governance](Governance-First-Security-Architecture-AI-Human-Governance-v0.1.md) - Recommendation, review, approval, override, and accountability.
 - [Capability Change Gate](Governance-First-Security-Architecture-Capability-Change-Gate-v0.1.md) - Governance required before capability expansion.
 - [Stop-State Policy](Governance-First-Security-Architecture-Stop-State-Policy-v0.1.md) - Earlier policy-level stop and blocked outcomes.
+- [Pre-Authorized Circuit Breaker Policy](Governance-First-Security-Architecture-Pre-Authorized-Circuit-Breaker-Policy-v0.1.md) - Pre-authorized automatic stop and containment actions that execute without real-time human approval when defined trigger conditions are met.
 - [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md) - Decision records, approval chains, AI assistance, and traceability.
 - [Recovery Rollback Incidents](Governance-First-Security-Architecture-Recovery-Rollback-Incidents-v0.1.md) - Freeze, isolation, rollback, incident review, and recovery.
 - [Third-Party Governance](Governance-First-Security-Architecture-Third-Party-Governance-v0.1.md) - Supplier authority, access lifecycle, scope boundaries, and compromised third-party response.
