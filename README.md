@@ -35,7 +35,7 @@ The canonical project source is `https://github.com/CarlMartinDahl/governance-fi
 | External feedback | Received and logged |
 | Targeted external review | Partial |
 | Commercial validation | Workshop and assessment discovery only |
-| Prototype implementation | Not authorized |
+| Prototype implementation | Not authorized — PDG-028 boundary review pending reviewer assignment |
 | Production use | Not authorized |
 
 ## Model At A Glance
@@ -110,7 +110,7 @@ This repository is review and thinking material, not deployable software.
 | Reuse concepts such as stop states, role boundaries, decision matrices, or egress classes | Permitted under CC BY-SA 4.0 with attribution and share-alike obligations where applicable |
 | Deploy the documentation as a live control plane | Not supported or authorized |
 | Claim security, GDPR compliance, EU AI Act compliance, certification, or production readiness | Prohibited by the project claim boundary |
-| Build a prototype or operational system from the package | Not authorized while the documentation freeze remains active |
+| Build a prototype or operational system from the package | Not authorized while PDG-028 boundary review is pending |
 
 The primary review audience includes CISOs, AI-governance leads, legal and risk functions, security reviewers, and enterprise architects who need to explain decision authority, required evidence, stop conditions, egress limits, and accountability.
 
@@ -150,6 +150,13 @@ The primary review audience includes CISOs, AI-governance leads, legal and risk 
 4. [Evidence And Source Policy](Governance-First-Security-Architecture-Evidence-And-Source-Policy-v0.1.md)
 5. [Audit And Accountability](Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md)
 6. [GDPR And EU AI Act Alignment](Governance-First-Security-Architecture-GDPR-EU-AI-Act-Alignment-v0.1.md)
+
+### Prototype Review Path
+
+1. [Prototype Boundary Definition](Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md)
+2. [Prototype Design Readiness Checklist](Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md)
+3. [Prototype Design Sketch](Governance-First-Security-Architecture-Prototype-Design-Sketch-v0.1.md)
+4. [PDG-028 Review Package](Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md)
 
 ### Commercial Discovery Path
 
