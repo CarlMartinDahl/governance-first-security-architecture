@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-010
+
+```text
+feedback_id: GFSA-REV-010
+reviewer_id: INT-AI-001
+reviewer_type: Internal AI-assisted pre-review (Martin Dahl + Perplexity AI)
+date_received: 2026-09-26
+source_document: Systematic analytical pre-review of PDG-028 review package prior to external reviewer assignment
+feedback_summary: An internal pre-review of the four PDG-028 review documents was conducted by the project owner with AI assistance. Five findings were identified across the four documents. Finding 1 (critical, resolved): PDG-028 Question 2 referenced STC-005 and STC-006 as "Secret Export Attempt" and "Sensitive Personal Data Export", but the Synthetic Test Case Set numbers those scenarios STC-003 and STC-004; the actual STC-005 and STC-006 cover AI self-escalation and hidden capability. This reference error would likely cause an external reviewer to question documentation integrity. Finding 2 (medium, resolved): PDG-028 Question 1 did not specify who is responsible for independently verifying that network isolation (NO_NETWORK) is in place before the prototype runs for the first time. Finding 3 (medium, resolved): PDG-028 Question 3 described Scenarios 3 and 4 as CA-06's open gaps but omitted Scenario 2, which is only conditionally detectable and requires an unverified infrastructure capability. Finding 4 (low, deferred): PDG-032 (no hidden capability) does not specify who has authority to decide whether a proposed addition constitutes hidden capability expansion, creating a potential self-assessment risk. Finding 5 (low, deferred): The Readiness Summary Template in the Prototype Design Readiness Checklist has never been formally filled in; this will be required before Prototype-Implementation-Plan-v0.1 can be opened after a successful external review.
+source_reference: INT-PRE-REVIEW-2026-09-26
+affected_document: Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md; Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md
+affected_section: PDG-028 Q1, Q2, Q3; Document 3 description; reviewer response template; PDG-032; Readiness Summary Template
+feedback_category: DOCUMENTATION_CLARITY; PROTOTYPE_BOUNDARY; TEST_COVERAGE
+severity: MEDIUM
+action_type: CLARIFY_TEXT; DEFER
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_TECHNICAL_REVIEWER
+status: RESOLVED
+resolution_summary: Findings 1, 2, and 3 resolved in commit 7a0a4ce7c110a8c7062029bf8f91cf0a3ff7e049 to PDG-028-Review-Package-v0.1.md: (1) STC-005/006 corrected to STC-003/004 in Document 3 description, Q2 question text, and reviewer response template. (2) Q1 extended with explicit question asking reviewer to assess who is responsible for independently verifying network isolation before first run. (3) Q3 extended to include Scenario 2 as a conditional detection case with unverified infrastructure dependency, alongside Scenarios 3 and 4 as structural open gaps. Finding 4 deferred: PDG-032 self-assessment risk to be addressed after external review, when Readiness Summary Template is formally completed. Finding 5 deferred: Readiness Summary Template to be completed after external review returns and before Prototype-Implementation-Plan-v0.1 is opened.
+linked_change: Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md (commit 7a0a4ce7c110a8c7062029bf8f91cf0a3ff7e049)
+do_not_claim_impact: This internal pre-review does not satisfy the PDG-028 external reviewer requirement. It does not constitute external challenge of the prototype boundary. It does not authorize prototype implementation. PDG-028 status remains BLOCKED until an external reviewer is assigned and returns a written response.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Review methodology: paper-based analytical assessment, identical to the methodology used in CA-06-Control-Test-v0.1. No live systems, real agents, or real data involved. The pre-review was conducted with full transparency about the reviewer's identity and conflict of interest (same party that produced the documents). This transparency is recorded here as part of the audit trail. An external reviewer should be made aware that this pre-review was conducted and that findings 4 and 5 remain deferred.
+```
+
 ### Feedback Item GFSA-REV-009
 
 ```text
@@ -570,6 +596,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-010 | DOCUMENTATION_CLARITY; PROTOTYPE_BOUNDARY; TEST_COVERAGE | MEDIUM | PDG-028-Review-Package; Prototype-Design-Readiness-Checklist | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-009 | OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE | MEDIUM | README; Prototype Review Request; Red Team Findings; Active-Neutralization-Runbook; Monitoring-And-Detection-Operations | ACCEPT | IN_REVISION | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-008 | SCOPE; PRIVACY_RISK; ROLE_AUTHORITY; DOCUMENTATION_CLARITY | LOW | Public release decision; GitHub visibility, surface, topics, and reporting route | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-007 | DOCUMENTATION_CLARITY; SCOPE; PRIVACY_RISK; ROLE_AUTHORITY | MEDIUM | Practical use; contact route; repository access; public release sequence | ACCEPT_WITH_MODIFICATION | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -623,6 +650,7 @@ Public release blockers open: NO
 Public GitHub release authorized: YES; documentation-only public review
 Private vulnerability reporting: ENABLED_AND_PUBLIC_PATH_VERIFIED
 Public review outreach: ACTIVE — first external technical review received (GFSA-REV-009); partial documentation response completed; Gap O open
+Internal pre-review: COMPLETED — GFSA-REV-010 (2026-09-26); three PDG-028 documentation errors corrected; two findings deferred to post-external-review
 ```
 
 ## Current Decision
