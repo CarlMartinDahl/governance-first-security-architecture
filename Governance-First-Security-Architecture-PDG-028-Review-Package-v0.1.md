@@ -93,16 +93,16 @@ The reviewer must read these four documents before answering the review question
 
 ---
 
-### Document 3 — Synthetic Test Case Set (STC-005 and STC-006 specifically)
+### Document 3 — Synthetic Test Case Set (STC-003 and STC-004 specifically)
 
 **File:** `Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md`  
-**Sections:** STC-005 (Secret Export Attempt) and STC-006 (Sensitive Personal Data Export)
+**Sections:** STC-003 (Secret Export Attempt) and STC-004 (Personal Data Export Without Review)
 
 **Purpose:** These two test cases involve mock secret-like values and synthetic personal data. The reviewer must assess whether these test cases are safely designed or whether they could be misread as instructions for bypassing controls.
 
 **Key questions this document answers:**
-- Does STC-005 adequately isolate the mock key value so it cannot be used as a bypass template?
-- Does STC-006 adequately distinguish synthetic personal data from real personal data?
+- Does STC-003 adequately isolate the mock key value so it cannot be used as a bypass template?
+- Does STC-004 adequately distinguish synthetic personal data from real personal data?
 - Do these test cases test the control or inadvertently document how to evade it?
 
 ---
@@ -137,13 +137,15 @@ Does the boundary definition adequately prevent the prototype from:
 - producing output that could be mistaken for real security enforcement,
 - expanding its own capabilities beyond declared scope?
 
+Additional consideration for the reviewer: The boundary definition specifies a NO_NETWORK default but does not define who is responsible for independently verifying that network isolation is in place before the prototype runs for the first time. Please assess whether this process gap weakens the boundary in practice.
+
 **A "No" answer here blocks implementation until the boundary is strengthened.**
 
 ---
 
-### Question 2 — Are test cases STC-005 and STC-006 safely designed?
+### Question 2 — Are test cases STC-003 and STC-004 safely designed?
 
-*Based on `Synthetic-Test-Case-Set-v0.1` STC-005 and STC-006:*
+*Based on `Synthetic-Test-Case-Set-v0.1` STC-003 (Secret Export Attempt) and STC-004 (Personal Data Export Without Review):*
 
 Do these test cases adequately:
 - isolate mock secret values so they cannot serve as bypass templates,
@@ -156,15 +158,18 @@ Do these test cases adequately:
 
 ### Question 3 — Does Gap O represent an acceptable known limitation?
 
-*Based on `CA-06-Control-Test-v0.1` Scenarios 3 and 4:*
+*Based on `CA-06-Control-Test-v0.1` Scenarios 2, 3, and 4:*
 
 CA-06 cannot detect:
 - coordination that occurs before pipeline session registration (Scenario 3),
 - coordination through unmonitored out-of-band channels (Scenario 4).
 
-These are documented as explicit open gaps, not claimed capabilities.
+CA-06 can only conditionally detect:
+- coordination via a shared message queue (Scenario 2), provided the detection engine is configured to correlate cross-agent write and read events on shared data stores — an infrastructure capability that has not been verified.
 
-Is this honest limitation documentation sufficient for a synthetic prototype context? Or does Gap O represent a fundamental architectural weakness that must be addressed before any prototype work proceeds?
+These are documented as explicit open gaps and a conditional capability, not claimed capabilities.
+
+Is this honest limitation documentation sufficient for a synthetic prototype context? Or does Gap O — including the conditional status of Scenario 2 — represent a fundamental architectural weakness that must be addressed before any prototype work proceeds?
 
 **A "No" answer here requires a defined mitigation path for Gap O before implementation is authorized.**
 
@@ -183,7 +188,7 @@ Question 1 — Prototype boundary tight enough?
 Answer: [Yes / No / Yes with conditions]
 Explanation:
 
-Question 2 — STC-005 and STC-006 safely designed?
+Question 2 — STC-003 and STC-004 safely designed?
 Answer: [Yes / No / Yes with conditions]
 Explanation:
 
