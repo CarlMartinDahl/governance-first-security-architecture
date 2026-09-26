@@ -3,6 +3,8 @@
 **Version:** 0.1 — Initial Release
 **Status:** Active
 **Classification:** Governance Policy
+**Document Owner:** Martin Dahl
+**Verification Owner:** Martin Dahl (interim — pending external reviewer assignment)
 
 ---
 
@@ -122,3 +124,32 @@ Cloud environments implement segmentation through equivalent controls: VPCs, sec
 - Vulnerability Disclosure And Patch Governance
 - Capability Change Gate
 - Log Integrity And Tamper-Evidence Policy
+
+---
+
+## 10. Document Control
+
+This section defines ownership, verification responsibility, and review schedule for this document. All roles are assigned per the governance accountability model.
+
+| Control Field | Value |
+|---|---|
+| Document Owner | Martin Dahl |
+| Verification Owner | Martin Dahl (interim — pending external reviewer assignment) |
+| Last Reviewed | 2026-09-26 |
+| Next Scheduled Review | 2027-09-26 |
+| Review Trigger (unscheduled) | Any significant infrastructure change; segmentation finding of High or above severity |
+| Approval Authority | Document Owner + Verification Owner; external reviewer required before v1.0 promotion |
+
+### 10.1 Verification Scope
+
+The Verification Owner is responsible for confirming that:
+
+- Segment classifications in Section 4 accurately reflect the current governed environment
+- Boundary requirements in Section 5 are technically enforceable in the current infrastructure
+- Micro-segmentation controls in Section 6 are implemented or have a documented implementation plan
+- Segmentation testing in Section 7 is scheduled and results are tracked
+- Cloud and hybrid boundary requirements in Section 8 are applied to all current cloud deployments
+
+### 10.2 Interim Ownership Note
+
+The Verification Owner designation of Martin Dahl is interim. This role should be transferred to an independent verifier — preferably the external reviewer engaged under PDG-028 — before this document is promoted to v1.0. This interim assignment resolves GFSA-REV-010 Finding 2 (verification owner absent) while explicitly preserving the requirement for independent verification at the v1.0 gate.
