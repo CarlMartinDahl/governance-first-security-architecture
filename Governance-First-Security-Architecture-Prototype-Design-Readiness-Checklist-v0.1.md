@@ -547,42 +547,46 @@ The determination of whether a proposed addition constitutes hidden capability e
 Before prototype design discussion, complete:
 
 ```text
-PDG-001:
-PDG-002:
-PDG-003:
-PDG-004:
-PDG-005:
-PDG-006:
-PDG-007:
-PDG-008:
-PDG-009:
-PDG-010:
-PDG-011:
-PDG-012:
-PDG-013:
-PDG-014:
-PDG-015:
-PDG-016:
-PDG-017:
-PDG-018:
-PDG-019:
-PDG-020:
-PDG-021:
-PDG-022:
-PDG-023:
-PDG-024:
-PDG-025:
-PDG-026:
-PDG-027:
-PDG-028:
-PDG-029:
-PDG-030:
-PDG-031:
-PDG-032:
-Overall decision:
+PDG-001: PASS
+PDG-002: PASS
+PDG-003: PASS
+PDG-004: PASS
+PDG-005: PASS
+PDG-006: PASS
+PDG-007: PASS
+PDG-008: PASS
+PDG-009: PASS
+PDG-010: PASS
+PDG-011: PASS
+PDG-012: PASS
+PDG-013: PASS
+PDG-014: PASS
+PDG-015: PASS
+PDG-016: PASS
+PDG-017: PASS
+PDG-018: PASS
+PDG-019: PASS
+PDG-020: PASS
+PDG-021: PASS
+PDG-022: PASS
+PDG-023: PASS
+PDG-024: PASS
+PDG-025: PASS
+PDG-026: PASS
+PDG-027: PASS
+PDG-028: PASS_WITH_CONDITION
+PDG-029: PASS
+PDG-030: PASS
+PDG-031: PASS
+PDG-032: PASS_WITH_CONDITION
+Overall decision: PASS_WITH_CONDITIONS
 Conditions:
-Blocked items:
-Reviewer required:
+  - PDG-028: Prototype implementation requires at least one external technical/security review before proceeding.
+  - PDG-032: Independent second reviewer required at v1.0 gate to confirm no hidden capability expansion. Non-waivable.
+Blocked items: None
+Reviewer required: Yes — required before prototype implementation (PDG-028 condition)
+Assessed by: Martin Dahl (Governance Authority)
+Assessment date: 2026-09-26
 ```
 
 ## Current Readiness Assessment
@@ -590,8 +594,8 @@ Reviewer required:
 Informal current status:
 
 ```text
-Prototype design discussion readiness: APPROACHING_READY_WITH_CONDITIONS
-Prototype implementation readiness: NOT_READY
+Prototype design discussion readiness: READY_WITH_CONDITIONS
+Prototype implementation readiness: NOT_READY — external review required (PDG-028)
 Production readiness: NOT_READY
 Security validation readiness: NOT_READY
 Compliance validation readiness: NOT_READY
@@ -605,8 +609,8 @@ At least one targeted external technical/security review should challenge the pr
 
 ## Current Decision
 
-The documentation package is approaching readiness for a prototype design discussion.
+The documentation package is ready for a prototype design discussion.
 
-It is not ready for prototype implementation.
+It is not ready for prototype implementation without external review (PDG-028 condition).
 
 It is not ready for runtime, automation, integration, production, security claims, or compliance claims.
