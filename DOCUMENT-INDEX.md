@@ -29,6 +29,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Risk And Action Taxonomy](Governance-First-Security-Architecture-Risk-And-Action-Taxonomy-v0.1.md) - Risk levels, action classes, escalation, and hard blocks.
 - [Abuse Case Library](Governance-First-Security-Architecture-Abuse-Case-Library-v0.1.md) - Misuse and attack scenarios for review.
 - [Supply Chain Abuse Cases](Governance-First-Security-Architecture-Supply-Chain-Abuse-Cases-v0.1.md) - Third-party, supplier, and supply chain attack scenarios including agentic AI threats.
+- [Machine Time Threat Model](Governance-First-Security-Architecture-Machine-Time-Threat-Model-v0.1.md) - Threat model for autonomous and scheduled machine-time actions outside human session oversight.
 
 ## Governance Policies
 
@@ -100,6 +101,9 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Internal Consistency Review](Governance-First-Security-Architecture-Internal-Consistency-Review-v0.1.md) - Internal contradictions, cleanup findings, and historical review state.
 - [External Review Package Manifest](Governance-First-Security-Architecture-External-Review-Package-Manifest-v0.1.md) - Suggested reviewer subsets and outputs.
 - [External Reviewer Message Pack](Governance-First-Security-Architecture-External-Reviewer-Message-Pack-v0.1.md) - Role-based review requests.
+- [PDG-028 Review Package](Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md) - Targeted boundary review package required before prototype implementation is authorized. Defines four required reading documents, three specific review questions, and reviewer output format.
+- [Red Team Findings v0.1](Governance-First-Security-Architecture-Red-Team-Findings-v0.1.md) - First red team findings log.
+- [Red Team Findings v0.2](Governance-First-Security-Architecture-Red-Team-Findings-v0.2.md) - Updated red team findings with gap responses and revision tracking.
 - [Security Reviewer Bundle](Security-Reviewer-Bundle-v0.1.md) - Security-oriented review path.
 - [Technical Reviewer Bundle](Technical-Reviewer-Bundle-v0.1.md) - Senior technical review path.
 - [Post-Review Revision Log](Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md) - Anonymized feedback, decisions, and traceability.
