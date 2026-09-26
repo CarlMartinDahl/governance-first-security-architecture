@@ -29,6 +29,8 @@ This document defines:
 
 This review is **not** a general architecture review. It is not a request for validation. It is a bounded boundary challenge with a defined scope and a defined output.
 
+**Note on prior internal review:** An internal pre-review was conducted on 2026-09-26 (recorded as GFSA-REV-010 in the Post-Review-Revision-Log). Three findings were identified and corrected before this package was shared. The corrections included an STC reference error in Question 2, a missing process-responsibility question in Question 1, and an incomplete scenario list in Question 3. This is recorded here so the external reviewer is not misled by any earlier drafts.
+
 ---
 
 ## What This Review Does and Does Not Authorize
@@ -68,9 +70,14 @@ The reviewer should be willing to challenge assumptions, not validate them.
 
 The reviewer must read these four documents before answering the review questions. No other documents are required for this review.
 
+If you are unfamiliar with the project, reading `ONBOARDING.md` first (approximately 10 minutes) provides a useful five-layer orientation before the four required documents.
+
+---
+
 ### Document 1 — Prototype Boundary Definition
 
 **File:** `Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md`  
+**Estimated reading time:** 15 minutes  
 **Purpose:** Defines what the prototype is and what it explicitly is not. This is the primary boundary document.
 
 **Key questions this document answers:**
@@ -84,6 +91,7 @@ The reviewer must read these four documents before answering the review question
 ### Document 2 — CA-06 Control Test
 
 **File:** `Governance-First-Security-Architecture-CA-06-Control-Test-v0.1.md`  
+**Estimated reading time:** 15 minutes  
 **Purpose:** The most concrete analytical test produced so far. Shows the four scenarios tested against the Lateral Peer Coordination Rule — including two where the control explicitly cannot fire.
 
 **Key questions this document answers:**
@@ -96,6 +104,7 @@ The reviewer must read these four documents before answering the review question
 ### Document 3 — Synthetic Test Case Set (STC-003 and STC-004 specifically)
 
 **File:** `Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md`  
+**Estimated reading time:** 10 minutes (STC-003 and STC-004 only)  
 **Sections:** STC-003 (Secret Export Attempt) and STC-004 (Personal Data Export Without Review)
 
 **Purpose:** These two test cases involve mock secret-like values and synthetic personal data. The reviewer must assess whether these test cases are safely designed or whether they could be misread as instructions for bypassing controls.
@@ -110,6 +119,7 @@ The reviewer must read these four documents before answering the review question
 ### Document 4 — Prototype Design Readiness Checklist
 
 **File:** `Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md`  
+**Estimated reading time:** 15 minutes (PDG-028 and Gate 8 sections specifically)  
 **Sections:** PDG-028 specifically, and Gate 8 (Hard Block Confirmation, PDG-029 through PDG-032)
 
 **Purpose:** Shows the full boundary that the prototype must remain within, and the hard blocks that must remain in place regardless of review outcome.
@@ -123,11 +133,11 @@ The reviewer must read these four documents before answering the review question
 
 ## The Three Review Questions
 
-The reviewer must answer these three questions. Each answer must be one of: **Yes**, **No**, or **Yes with conditions** — followed by a brief explanation.
+The reviewer must answer these questions. Each answer must be one of: **Yes**, **No**, or **Yes with conditions** — followed by a brief explanation.
 
 ---
 
-### Question 1 — Is the prototype boundary tight enough?
+### Question 1a — Is the prototype boundary definition tight enough?
 
 *Based on `Prototype-Boundary-Definition-v0.1` and `Prototype-Design-Readiness-Checklist-v0.1` Gate 8:*
 
@@ -137,9 +147,19 @@ Does the boundary definition adequately prevent the prototype from:
 - producing output that could be mistaken for real security enforcement,
 - expanding its own capabilities beyond declared scope?
 
-Additional consideration for the reviewer: The boundary definition specifies a NO_NETWORK default but does not define who is responsible for independently verifying that network isolation is in place before the prototype runs for the first time. Please assess whether this process gap weakens the boundary in practice.
+**A "No" answer here blocks implementation until the boundary definition is strengthened.**
 
-**A "No" answer here blocks implementation until the boundary is strengthened.**
+---
+
+### Question 1b — Is the NO_NETWORK verification process sufficient?
+
+*Based on `Prototype-Boundary-Definition-v0.1` Network Boundary section:*
+
+The boundary definition specifies a NO_NETWORK default but does not define who is responsible for independently verifying that network isolation is in place before the prototype runs for the first time.
+
+Does this process gap weaken the boundary in practice? Is there a structural risk that the NO_NETWORK requirement is documented but not independently confirmed before first run?
+
+**A "No" answer here requires a defined verification process before implementation proceeds.**
 
 ---
 
@@ -182,9 +202,14 @@ The reviewer should return a written response containing:
 ```text
 Reviewer background (brief, no identifying information required):
 Date of review:
+Requested response by: within 4 weeks of receiving this package (not a hard deadline — guidance only)
 Documents read:
 
-Question 1 — Prototype boundary tight enough?
+Question 1a — Prototype boundary definition tight enough?
+Answer: [Yes / No / Yes with conditions]
+Explanation:
+
+Question 1b — NO_NETWORK verification process sufficient?
 Answer: [Yes / No / Yes with conditions]
 Explanation:
 
@@ -201,7 +226,7 @@ Additional concerns (optional):
 Recommended conditions before implementation (if any):
 ```
 
-The review does not need to be long. A one-page written response answering the three questions with brief reasoning is sufficient.
+The review does not need to be long. A one-page written response answering the questions with brief reasoning is sufficient.
 
 The reviewer is not asked to validate the architecture. The reviewer is asked to challenge the boundary.
 
@@ -237,15 +262,16 @@ technical or security-oriented person to challenge the boundary of the prototype
 
 This is not a validation request. I am asking you to challenge it.
 
-The review involves reading four documents (total approximately 30–40 pages) and
-answering three specific questions about whether the prototype boundary is tight
-enough to proceed safely.
+The review involves reading four documents (total approximately 55 minutes)
+and answering four specific questions about whether the prototype boundary
+is tight enough to proceed safely.
 
 No implementation exists. No code exists. No live systems are involved.
 All test data is synthetic.
 
 If you are willing, I can share the four documents directly.
 The review can be done asynchronously and returned as a written note.
+A response within four weeks would be helpful, but there is no hard deadline.
 ```
 
 ---
@@ -266,7 +292,7 @@ This table must be updated when a reviewer is assigned and again when the review
 
 ## What Happens After Review
 
-**If all three questions are answered Yes or Yes with conditions:**
+**If all questions are answered Yes or Yes with conditions:**
 - PDG-028 is marked PASS_WITH_CONDITION
 - Any stated conditions are documented in `Post-Review-Revision-Log-v0.1`
 - Prototype implementation planning may begin
@@ -293,6 +319,7 @@ This table must be updated when a reviewer is assigned and again when the review
 - Prototype-Design-Sketch-v0.1
 - Post-Review-Revision-Log-v0.1
 - External-Review-Package-Manifest-v0.1
+- ONBOARDING.md
 
 ---
 
