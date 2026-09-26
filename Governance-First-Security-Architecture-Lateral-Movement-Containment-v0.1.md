@@ -122,3 +122,4 @@ Where emergency access across segment boundaries is required outside of normal p
 - Audit And Accountability
 - Capability Change Gate
 - AI Human Governance
+- [CA-06 Lateral Peer Coordination Rule](Governance-First-Security-Architecture-CA-06-Lateral-Peer-Coordination-Rule-v0.1.md) — Extends this policy with a specific detection rule for direct peer-to-peer communication between agents at the same pipeline tier, outside orchestrator mediation. Treats such communication as a Critical governance violation.
