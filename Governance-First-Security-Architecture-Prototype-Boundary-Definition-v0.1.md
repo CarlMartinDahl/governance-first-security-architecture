@@ -134,7 +134,7 @@ Not allowed data:
 - real legal cases,
 - real security incidents,
 - real internal logs,
-- real private project data unless separately approved and redacted.
+- real private project data.
 
 ## Network Boundary
 
@@ -163,6 +163,35 @@ STOP_CAPABILITY_CHANGE
 ```
 
 and require separate review.
+
+## NO_NETWORK Verification
+
+Before the prototype runs for the first time, network isolation must be
+independently verified.
+
+This verification is not assumed. It must be performed and recorded.
+
+Required steps before first run:
+
+1. A person other than the implementer confirms that the prototype
+   environment has no active network interfaces or that all outbound
+   connections are blocked at the OS or firewall level.
+2. The verification is documented in a written note that records:
+   - who performed the verification,
+   - what method was used,
+   - the date and result.
+3. If the verification cannot be completed or produces an unclear result,
+   the prototype must not run.
+
+Stop criterion:
+
+```text
+If NO_NETWORK cannot be independently verified before first run,
+prototype execution is blocked until verification is complete.
+```
+
+This verification must be repeated if the prototype is moved to a new
+environment or if any change is made to the execution environment.
 
 ## File Boundary
 
