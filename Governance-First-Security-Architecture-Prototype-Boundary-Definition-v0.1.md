@@ -193,6 +193,39 @@ prototype execution is blocked until verification is complete.
 This verification must be repeated if the prototype is moved to a new
 environment or if any change is made to the execution environment.
 
+## Capability Expansion Review
+
+Any proposed expansion of the prototype's capabilities beyond its declared
+scope must be reviewed before it is introduced.
+
+This applies to any change that would:
+
+- add a new action the prototype can perform,
+- add a new data type the prototype can access or produce,
+- add a new integration or connection,
+- extend the prototype beyond local synthetic execution,
+- add any capability not explicitly listed under Explicitly Allowed.
+
+Required process for any proposed capability expansion:
+
+1. The proposed expansion is described in writing before any implementation
+   begins.
+2. A person other than the proposer reviews the description and confirms
+   that the expansion does not violate the prototype boundary.
+3. The review and its outcome are recorded in the Post-Review-Revision-Log
+   before the expansion is introduced.
+4. If the reviewer cannot confirm the expansion is within boundary,
+   the expansion must not proceed.
+
+Stop criterion:
+
+```text
+No capability expansion may be introduced without a prior written review
+and a recorded approval by a person other than the implementer.
+```
+
+AI may not approve capability expansions. This review requires a human decision.
+
 ## File Boundary
 
 The prototype may only read and write inside a clearly assigned local prototype folder.
