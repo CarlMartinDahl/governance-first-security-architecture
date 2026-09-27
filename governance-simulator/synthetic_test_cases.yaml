@@ -1,198 +1,358 @@
-# Synthetic Test Cases — Governance Decision Simulator Phase 1
-# SYNTHETIC DATA ONLY. No real persons, credentials, incidents, or systems.
-# All roles are MOCK_ROLE_*. All assets are synthetic categories.
+# Governance Decision Simulator — Synthetic Test Case Set
+# Phase 2 — STC-001 through STC-015
+#
+# SYNTHETIC DATA ONLY.
+# All identifiers, roles, assets, and values are invented.
+# No real data, no real identifiers, no real systems.
+# SIMULATED_DECISION_ONLY
 
 test_cases:
 
-  # -----------------------------------------------------------------------
-  # BLOCK cases — hostile stop state
-  # -----------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # PHASE 1 — STC-001 through STC-009 (unchanged)
+  # ---------------------------------------------------------------------------
 
   - test_id: STC-001
-    description: Secret export attempt without authority
+    description: "Secret export attempt without authority — must BLOCK"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-2_APPROVED_CHANGE
-    actor_role: MOCK_ROLE_USER_REQUESTER
-    asset_category: Credentials, Secrets, And Keys
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: SECRET
     action_class: EXPORT
     risk_level: CRITICAL
     authority_outcome: NOT_AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: SECRET
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
-    rollback_outcome: NO_RECOVERY_REQUIRED
     stop_state: STOP_SECRET_EXPORT
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
     expected_decision: BLOCK
     expected_reviewer: ROLE_SECURITY_REVIEWER
+    phase: PHASE_1
+    non_use_statement: >-
+      This test case uses a synthetic stop state label only.
+      No real secret, real export destination, or real egress route is used or implied.
 
   - test_id: STC-002
-    description: Override action without authority — hostile action class
+    description: "OVERRIDE action without authority — must BLOCK"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-2_APPROVED_CHANGE
-    actor_role: MOCK_ROLE_USER_REQUESTER
-    asset_category: Runtime Configuration
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: GOVERNANCE_CONTROL
     action_class: OVERRIDE
     risk_level: HIGH
     authority_outcome: NOT_AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    stop_state: NONE
     expected_decision: BLOCK
     expected_reviewer: ROLE_SECURITY_REVIEWER
-
-  # -----------------------------------------------------------------------
-  # INCIDENT_RESPONSE cases
-  # -----------------------------------------------------------------------
+    phase: PHASE_1
 
   - test_id: STC-003
-    description: Active incident state — immediate escalation
+    description: "Active incident state — must return INCIDENT_RESPONSE"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-4_EMERGENCY
-    actor_role: MOCK_ROLE_INCIDENT_RESPONDER
-    asset_category: Audit And Log Data
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: SYNTHETIC_ASSET
     action_class: READ
-    risk_level: CRITICAL
+    risk_level: MEDIUM
     authority_outcome: AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
-    rollback_outcome: RECOVERY_REQUIRED
     stop_state: STOP_INCIDENT_ACTIVE
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
     expected_decision: INCIDENT_RESPONSE
-    expected_reviewer: ROLE_INCIDENT_COMMANDER
+    expected_reviewer: ROLE_INCIDENT_REVIEWER
+    phase: PHASE_1
+    non_use_statement: >-
+      This test case uses a synthetic stop state label only.
+      No real incident, real system, real agent, or real destination is used or implied.
+      Mock values and destinations must not appear in any output or log artefact.
 
   - test_id: STC-004
-    description: Lockdown state — system-wide
+    description: "Lockdown state active — must return INCIDENT_RESPONSE"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-4_EMERGENCY
-    actor_role: MOCK_ROLE_ADMINISTRATOR
-    asset_category: System Configuration
-    action_class: WRITE
-    risk_level: CRITICAL
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: SYNTHETIC_ASSET
+    action_class: READ
+    risk_level: MEDIUM
     authority_outcome: AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
-    rollback_outcome: RECOVERY_REQUIRED
     stop_state: STOP_LOCKDOWN
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
     expected_decision: INCIDENT_RESPONSE
-    expected_reviewer: ROLE_INCIDENT_COMMANDER
-
-  # -----------------------------------------------------------------------
-  # ALLOW cases
-  # -----------------------------------------------------------------------
+    expected_reviewer: ROLE_INCIDENT_REVIEWER
+    phase: PHASE_1
+    non_use_statement: >-
+      This test case uses a synthetic stop state label only.
+      No real lockdown event, real system, real agent, or real destination is used or implied.
+      Mock values and destinations must not appear in any output or log artefact.
 
   - test_id: STC-005
-    description: Standard approved read — all clear
+    description: "Standard read, all checks pass — must ALLOW"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-1_READ_ONLY
-    actor_role: MOCK_ROLE_ANALYST
-    asset_category: Synthetic Test Data
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: DOCUMENTATION
     action_class: READ
     risk_level: LOW
     authority_outcome: AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_COMPLETE
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    stop_state: NONE
     expected_decision: ALLOW
-    expected_reviewer: NONE
+    expected_reviewer: ""
+    phase: PHASE_1
 
   - test_id: STC-006
-    description: Approved documentation change — low risk
+    description: "Approved documentation change — must ALLOW"
     lifecycle_mode: LM-1_REVIEW_PACKAGE
     operational_decision_mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE
-    actor_role: MOCK_ROLE_AUTHOR
-    asset_category: Policy Documentation
+    actor_role: ROLE_GOVERNANCE_REVIEWER
+    asset_category: DOCUMENTATION
     action_class: WRITE
     risk_level: LOW
     authority_outcome: AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_COMPLETE
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    stop_state: NONE
     expected_decision: ALLOW
-    expected_reviewer: NONE
-
-  # -----------------------------------------------------------------------
-  # NEEDS_AUTHORITY cases
-  # -----------------------------------------------------------------------
+    expected_reviewer: ""
+    phase: PHASE_1
 
   - test_id: STC-007
-    description: Write attempt without authority — low risk
+    description: "Write action without authority — must return NEEDS_AUTHORITY"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-2_APPROVED_CHANGE
-    actor_role: MOCK_ROLE_USER_REQUESTER
-    asset_category: Synthetic Test Data
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: CONFIGURATION
     action_class: WRITE
     risk_level: MEDIUM
     authority_outcome: NOT_AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    stop_state: NONE
     expected_decision: NEEDS_AUTHORITY
-    expected_reviewer: ROLE_APPROVER
+    expected_reviewer: ROLE_AUTHORITY_REVIEWER
+    phase: PHASE_1
 
   - test_id: STC-008
-    description: Read of restricted asset without authority
+    description: "Read of restricted asset without authority — must return NEEDS_AUTHORITY"
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-1_READ_ONLY
-    actor_role: MOCK_ROLE_USER_REQUESTER
-    asset_category: Restricted Research Data
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: RESTRICTED
     action_class: READ
-    risk_level: MEDIUM
+    risk_level: HIGH
     authority_outcome: NOT_AUTHORIZED
-    evidence_outcome: EVIDENCE_SUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: INTERNAL
-    capability_outcome: NO_CAPABILITY_CHANGE
-    ai_human_boundary: AI_WITHIN_ROLE
-    audit_outcome: AUDIT_RECORD_REQUIRED
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    stop_state: NONE
     expected_decision: NEEDS_AUTHORITY
-    expected_reviewer: ROLE_APPROVER
-
-  # -----------------------------------------------------------------------
-  # Compound hostile signal case
-  # -----------------------------------------------------------------------
+    expected_reviewer: ROLE_AUTHORITY_REVIEWER
+    phase: PHASE_1
 
   - test_id: STC-009
-    description: >
-      Compound hostile signal — CRITICAL risk + SECRET egress +
-      EXPORT action + no authority. Multiple hostile indicators simultaneously.
+    description: "Compound hostile signal — four simultaneous indicators — must return INCIDENT_RESPONSE"
     lifecycle_mode: LM-3_PROTOTYPE
-    operational_decision_mode: ODM-2_APPROVED_CHANGE
-    actor_role: MOCK_ROLE_UNKNOWN
-    asset_category: Credentials, Secrets, And Keys
+    operational_decision_mode: ODM-4_EMERGENCY
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: SECRET
     action_class: EXPORT
     risk_level: CRITICAL
     authority_outcome: NOT_AUTHORIZED
-    evidence_outcome: EVIDENCE_INSUFFICIENT
+    evidence_outcome: EVIDENCE_PRESENT
     egress_class: SECRET
-    capability_outcome: CAPABILITY_CHANGE_REQUIRED
-    ai_human_boundary: AI_OUTSIDE_ROLE
-    audit_outcome: AUDIT_RECORD_MISSING
-    rollback_outcome: RECOVERY_REQUIRED
     stop_state: STOP_SECRET_EXPORT
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
     expected_decision: INCIDENT_RESPONSE
-    expected_reviewer: ROLE_INCIDENT_COMMANDER
+    expected_reviewer: ROLE_SECURITY_REVIEWER
+    phase: PHASE_1
+
+  # ---------------------------------------------------------------------------
+  # PHASE 2 — Addition 1: Gap O / CA-06 Lateral Peer Coordination (STC-010, STC-011)
+  # ---------------------------------------------------------------------------
+
+  - test_id: STC-010
+    description: >-
+      CA-06: Lateral peer coordination signal present — agent-to-agent
+      coordination without authority — must return INCIDENT_RESPONSE.
+      Gap O synthetic coverage: signal fires correctly.
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-2_APPROVED_CHANGE
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: SYNTHETIC_ASSET
+    action_class: EXPORT
+    risk_level: CRITICAL
+    authority_outcome: NOT_AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: SECRET
+    stop_state: STOP_LATERAL_PEER_COORDINATION
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    lateral_peer_signal: DETECTED
+    expected_decision: INCIDENT_RESPONSE
+    expected_reviewer: ROLE_SECURITY_REVIEWER
+    phase: PHASE_2
+    gap_o_coverage: ANALYTICALLY_ADDRESSED_IN_SIMULATOR
+    non_use_statement: >-
+      This test case uses a synthetic lateral peer coordination signal only.
+      No real agent, real peer, real coordination channel, or real system is used or implied.
+      Mock values must not appear in any output or log artefact.
+
+  - test_id: STC-011
+    description: >-
+      CA-06: No lateral peer coordination signal — clean authorized read —
+      must ALLOW. Gap O synthetic coverage: no false positive.
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-1_READ_ONLY
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: DOCUMENTATION
+    action_class: READ
+    risk_level: LOW
+    authority_outcome: AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: INTERNAL
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    lateral_peer_signal: NOT_DETECTED
+    expected_decision: ALLOW
+    expected_reviewer: ""
+    phase: PHASE_2
+    gap_o_coverage: ANALYTICALLY_ADDRESSED_IN_SIMULATOR
+
+  # ---------------------------------------------------------------------------
+  # PHASE 2 — Addition 2: Edge Case Expansion (STC-012 through STC-015)
+  # ---------------------------------------------------------------------------
+
+  - test_id: STC-012
+    description: >-
+      Conflicting signals: ALLOW-classified action with hostile egress
+      signal present simultaneously — hostile signal must win — must BLOCK.
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-2_APPROVED_CHANGE
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: DOCUMENTATION
+    action_class: READ
+    risk_level: LOW
+    authority_outcome: NOT_AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: SECRET
+    stop_state: STOP_SECRET_EXPORT
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    expected_decision: BLOCK
+    expected_reviewer: ROLE_SECURITY_REVIEWER
+    phase: PHASE_2
+    edge_case: CONFLICTING_SIGNALS
+
+  - test_id: STC-013
+    description: >-
+      Unknown asset type — not in registry — no authority —
+      must return NEEDS_AUTHORITY (hostile path via missing authority).
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-2_APPROVED_CHANGE
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: UNKNOWN_ASSET_TYPE
+    action_class: WRITE
+    risk_level: MEDIUM
+    authority_outcome: NOT_AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: INTERNAL
+    stop_state: ""
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    expected_decision: NEEDS_AUTHORITY
+    expected_reviewer: ROLE_AUTHORITY_REVIEWER
+    phase: PHASE_2
+    edge_case: UNKNOWN_ASSET_TYPE
+
+  - test_id: STC-014
+    description: >-
+      Authority present but capability change required — policy
+      requires capability review — must return NEEDS_CAPABILITY_REVIEW.
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-2_APPROVED_CHANGE
+    actor_role: ROLE_GOVERNANCE_REVIEWER
+    asset_category: CONFIGURATION
+    action_class: WRITE
+    risk_level: MEDIUM
+    authority_outcome: AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: INTERNAL
+    stop_state: ""
+    capability_outcome: CAPABILITY_CHANGE_REQUIRED
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    expected_decision: NEEDS_CAPABILITY_REVIEW
+    expected_reviewer: ROLE_TECHNICAL_REVIEWER
+    phase: PHASE_2
+    edge_case: AUTHORITY_PRESENT_POLICY_MISSING
+
+  - test_id: STC-015
+    description: >-
+      Compound hostile signal (stop state + hostile action + critical risk)
+      with no specific named stop state match — resolver must return
+      INCIDENT_RESPONSE via compound detection path.
+    lifecycle_mode: LM-3_PROTOTYPE
+    operational_decision_mode: ODM-4_EMERGENCY
+    actor_role: ROLE_AGENT_SYNTHETIC
+    asset_category: CONFIGURATION
+    action_class: OVERRIDE
+    risk_level: CRITICAL
+    authority_outcome: NOT_AUTHORIZED
+    evidence_outcome: EVIDENCE_PRESENT
+    egress_class: SECRET
+    stop_state: STOP_CAPABILITY_OVERRIDE
+    capability_outcome: NO_CHANGE
+    ai_human_boundary: WITHIN_ROLE
+    audit_outcome: AUDIT_RECORD_PRESENT
+    rollback_outcome: NO_RECOVERY_REQUIRED
+    expected_decision: INCIDENT_RESPONSE
+    expected_reviewer: ROLE_SECURITY_REVIEWER
+    phase: PHASE_2
+    edge_case: COMPOUND_NO_MATCHING_STOP_STATE

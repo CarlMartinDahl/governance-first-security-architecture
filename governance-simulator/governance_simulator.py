@@ -1,4 +1,4 @@
-"""Governance Decision Simulator — Phase 1.
+"""Governance Decision Simulator — Phase 2.
 
 SYNTHETIC SIMULATED GOVERNANCE ONLY.
 Not a real security control. Not a real compliance system.
@@ -39,12 +39,14 @@ HOSTILE_STOP_STATES = {
     "STOP_UNKNOWN",
     "STOP_AI_BOUNDARY_VIOLATION",
     "STOP_MODE_BOUNDARY_VIOLATION",
+    "STOP_LATERAL_PEER_COORDINATION",  # Phase 2 — CA-06 Gap O
 }
 
-# Stop states that escalate to INCIDENT_RESPONSE rather than plain BLOCK
+# Stop states that escalate to INCIDENT_RESPONSE
 INCIDENT_STOP_STATES = {
     "STOP_INCIDENT_ACTIVE",
     "STOP_LOCKDOWN",
+    "STOP_LATERAL_PEER_COORDINATION",  # Phase 2 — CA-06 Gap O
 }
 
 HOSTILE_ACTION_CLASSES = {"EXPORT", "DELETE", "OVERRIDE"}
@@ -63,18 +65,13 @@ def no_network_gate() -> None:
     """
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.datetime.utcnow().isoformat() + "Z"
-    
+
     detected = False
     try:
-        # Attempt a non-blocking connect to an external IP (TEST-NET, RFC 5737)
-        # We use 192.0.2.1:80 — a documentation address that must never be routable.
-        # If it connects (or we get ECONNREFUSED), a route exists.
         probe = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         probe.setblocking(False)
         try:
             result = probe.connect_ex(("192.0.2.1", 80))
-            # On an offline machine, connect_ex returns ENETUNREACH or similar.
-            # EINPROGRESS (115) or 0 indicates a routable interface exists.
             import errno
             routable_codes = {0, errno.EINPROGRESS, errno.EWOULDBLOCK, 10035, 10036}
             if result in routable_codes:
@@ -82,7 +79,6 @@ def no_network_gate() -> None:
         finally:
             probe.close()
     except OSError:
-        # ENETUNREACH or similar — no route, gate passes
         pass
 
     if detected:
@@ -107,6 +103,7 @@ def no_network_gate() -> None:
 class HostileSignalDetector:
     """Checks for hostile-action signals BEFORE rule evaluation.
 
+    Phase 2: STOP_LATERAL_PEER_COORDINATION added to INCIDENT_STOP_STATES.
     If a hostile signal is detected, evaluation halts immediately.
     """
 
@@ -119,13 +116,15 @@ class HostileSignalDetector:
         authority = tc.get("authority_outcome", "")
         egress = tc.get("egress_class", "")
 
-        # Named stop state
+        # Named stop state — incident
         if stop_state in INCIDENT_STOP_STATES:
             return True, stop_state, "INCIDENT_RESPONSE"
+
+        # Named stop state — block
         if stop_state in HOSTILE_STOP_STATES:
             return True, stop_state, "BLOCK"
 
-        # Hostile action class
+        # Hostile action class without authority
         if action_class in HOSTILE_ACTION_CLASSES and authority == "NOT_AUTHORIZED":
             triggered = "STOP_MISSING_AUTHORITY"
             return True, triggered, "BLOCK"
@@ -140,7 +139,7 @@ class HostileSignalDetector:
             triggered = "STOP_SECRET_EXPORT"
             return True, triggered, "BLOCK"
 
-        # Compound hostile signal: multiple stop indicators
+        # Compound hostile signal: three or more simultaneous indicators
         hostile_count = sum([
             stop_state in HOSTILE_STOP_STATES,
             action_class in HOSTILE_ACTION_CLASSES,
@@ -312,6 +311,7 @@ class MockAuditRecordBuilder:
             "ai_human_boundary": tc.get("ai_human_boundary", ""),
             "audit_outcome": tc.get("audit_outcome", ""),
             "rollback_outcome": tc.get("rollback_outcome", ""),
+            "lateral_peer_signal": tc.get("lateral_peer_signal", ""),
             "triggered_stop_state": stop_state,
             "simulated_decision": decision,
             "required_reviewer": reviewer,
@@ -343,6 +343,7 @@ class TestResultReporter:
             "simulated_decision": decision,
             "test_result": "PASS" if passed else "FAIL",
             "triggered_stop_state": stop_state,
+            "phase": tc.get("phase", ""),
             "mismatch_reason": "" if passed else f"Expected {expected}, got {decision}. Rule reason: {reason}",
             "required_reviewer": tc.get("expected_reviewer", ""),
             "boundary_reminder": BOUNDARY_REMINDER,
@@ -362,10 +363,8 @@ def run_test_case(tc: dict) -> dict:
     audit_builder = MockAuditRecordBuilder()
     reporter = TestResultReporter()
 
-    # Step 1 — Normalize
     tc_norm = normalizer.normalize(tc)
 
-    # Step 2 — Hostile signal check (hard stop on detection)
     hostile, stop_state, hostile_decision = detector.detect(tc_norm)
     if hostile:
         decision = resolver.resolve(hostile_decision)
@@ -375,7 +374,6 @@ def run_test_case(tc: dict) -> dict:
         result = reporter.report(tc_norm, decision, stop_state, reason, mock_audit)
         return {"test_result": result, "mock_audit": mock_audit}
 
-    # Step 3 — Rule evaluation
     decision, stop_state, reason = rules.evaluate(tc_norm)
     decision = resolver.resolve(decision)
     reviewer = tc_norm.get("expected_reviewer", "")
