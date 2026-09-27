@@ -462,7 +462,7 @@ Blocks if:
 
 External reviewers may receive overclaiming or unclear framing.
 
-### PDG-028 - External Review Not Required Before Checklist Completion
+### PDG-028 - External Review Completed With Conditions
 
 Requirement:
 
@@ -472,13 +472,20 @@ Required status:
 
 `PASS_WITH_CONDITION`
 
-Condition:
+Current status:
 
-Before prototype implementation, at least one technical/security-oriented external review should challenge the boundary.
+`PASS_WITH_CONDITION — Review completed by Sami (external), 2026-09-27. Four conditions outstanding. Implementation blocked until all conditions are resolved.`
+
+Conditions outstanding (must all be resolved before implementation is authorized):
+
+1. **Condition 1a** — Remove any exception in `Prototype-Boundary-Definition-v0.1` that permits edited real project data. The SYNTHETIC_ONLY requirement must be unqualified. Define a named process responsibility for capability extension review. *(Status: implemented in Prototype-Boundary-Definition-v0.1)*
+2. **Condition 1b — Primary blocker** — Define a documented, independent NO_NETWORK verification procedure in `Prototype-Boundary-Definition-v0.1`. The procedure must specify who performs the check, how it is performed, and what outcome blocks first run. *(Status: implemented in Prototype-Boundary-Definition-v0.1)*
+3. **Condition 2** — Add an explicit non-use statement to STC-003 and STC-004. Verify that mock values and destinations do not appear in any output or log artefacts. *(Status: implemented in Synthetic-Test-Case-Set-v0.1)*
+4. **Condition 3** — Ensure CA-06 is not described as a functioning detection control anywhere in the architecture. Gap O must be carried forward as an explicit open item in any future implementation or detection work. *(Status: confirmed in CA-06-Control-Test-v0.1 — paper-analysis status explicitly stated, Gap O explicitly open)*
 
 Blocks if:
 
-Prototype implementation begins without targeted review.
+Prototype implementation begins without all four conditions resolved and recorded.
 
 ## Gate 8 - Hard Block Confirmation
 
@@ -581,12 +588,13 @@ PDG-031: PASS
 PDG-032: PASS_WITH_CONDITION
 Overall decision: PASS_WITH_CONDITIONS
 Conditions:
-  - PDG-028: Prototype implementation requires at least one external technical/security review before proceeding.
+  - PDG-028: External review completed by Sami (2026-09-27). Four conditions outstanding — see PDG-028 section. Implementation blocked until all four conditions are resolved and recorded.
   - PDG-032: Independent second reviewer required at v1.0 gate to confirm no hidden capability expansion. Non-waivable.
 Blocked items: None
-Reviewer required: Yes — required before prototype implementation (PDG-028 condition)
+Reviewer required: Yes — implementation requires all PDG-028 conditions resolved
 Assessed by: Martin Dahl (Governance Authority)
 Assessment date: 2026-09-26
+Last updated: 2026-09-27 (PDG-028 review completed by Sami)
 ```
 
 ## Current Readiness Assessment
@@ -595,22 +603,25 @@ Informal current status:
 
 ```text
 Prototype design discussion readiness: READY_WITH_CONDITIONS
-Prototype implementation readiness: NOT_READY — external review required (PDG-028)
+Prototype implementation readiness: NOT_READY — four PDG-028 conditions outstanding (see PDG-028 section)
 Production readiness: NOT_READY
 Security validation readiness: NOT_READY
 Compliance validation readiness: NOT_READY
 ```
 
-Main remaining condition:
+Main remaining conditions:
 
 ```text
-At least one targeted external technical/security review should challenge the prototype boundary before implementation is considered.
+1. (Primary blocker) NO_NETWORK verification procedure must be documented and executed before first run.
+2. SYNTHETIC_ONLY boundary confirmed unqualified; capability extension review process named.
+3. STC-003 and STC-004 non-use statements in place; mock values must not appear in outputs or logs.
+4. CA-06 correctly scoped as paper analysis; Gap O explicitly open for all future detection work.
 ```
 
 ## Current Decision
 
 The documentation package is ready for a prototype design discussion.
 
-It is not ready for prototype implementation without external review (PDG-028 condition).
+It is not ready for prototype implementation until all four PDG-028 conditions are resolved (primary blocker: NO_NETWORK verification).
 
 It is not ready for runtime, automation, integration, production, security claims, or compliance claims.
