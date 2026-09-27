@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-012
+
+```text
+feedback_id: GFSA-REV-012
+reviewer_id: EXT-TECH-003
+reviewer_type: External technical/security reviewer (PDG-028 targeted review)
+date_received: 2026-09-27
+source_document: Written review of PDG-028 Review Package v0.1 (four documents: Prototype Boundary Definition, Synthetic Test Case Set, CA-06 Control Test, PDG-028 Review Package)
+feedback_summary: Reviewer (Sami) completed the targeted PDG-028 external review and returned written feedback with four conditions. Condition 1a: Remove any exception in Prototype-Boundary-Definition-v0.1 that permits edited real project data; SYNTHETIC_ONLY requirement must be unqualified; define a named process responsibility for capability extension review. Condition 1b (primary blocker): Define a documented, independent NO_NETWORK verification procedure in Prototype-Boundary-Definition-v0.1 — specify who performs the check, how it is performed, and what outcome blocks first run. Condition 2: Add explicit non-use statement to STC-003 and STC-004; verify that mock values and destinations do not appear in any output or log artefacts. Condition 3: Ensure CA-06 is not described as a functioning detection control anywhere in the architecture; Gap O must be carried forward as an explicit open item in any future implementation or detection work. All four conditions were verified as implemented prior to this log entry: Condition 1a and 1b resolved in Prototype-Boundary-Definition-v0.1 during pre-review preparation; Condition 2 resolved in Synthetic-Test-Case-Set-v0.1; Condition 3 confirmed in CA-06-Control-Test-v0.1 (paper-analysis status explicit, Gap O explicitly open). PDG-028 status updated to PASS_WITH_CONDITION in Prototype-Design-Readiness-Checklist-v0.1.
+source_reference: EXT-REVIEW-EVIDENCE-012
+affected_document: Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md; Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md; Governance-First-Security-Architecture-CA-06-Control-Test-v0.1.md; Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md
+affected_section: SYNTHETIC_ONLY boundary; NO_NETWORK verification procedure; STC-003 and STC-004 non-use statements; CA-06 paper-analysis scope; Gap O; PDG-028 status
+feedback_category: PROTOTYPE_BOUNDARY; SECURITY_RISK; TEST_COVERAGE; DOCUMENTATION_CLARITY
+severity: HIGH
+action_type: CLARIFY_TEXT; NARROW_SCOPE; REQUIRE_ADDITIONAL_REVIEW
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_SECURITY_REVIEWER; ROLE_TECHNICAL_REVIEWER
+status: RESOLVED
+resolution_summary: All four conditions implemented and verified. Condition 1a: SYNTHETIC_ONLY boundary confirmed unqualified; capability extension review process named in Prototype-Boundary-Definition-v0.1. Condition 1b: NO_NETWORK verification procedure documented (who, how, blocking outcome) in Prototype-Boundary-Definition-v0.1. Condition 2: Non-use statement in place for STC-003 and STC-004 in Synthetic-Test-Case-Set-v0.1; mock values must not appear in outputs or logs. Condition 3: CA-06-Control-Test-v0.1 explicitly scoped as paper analysis; Gap O explicitly open and carried forward. PDG-028 updated in Prototype-Design-Readiness-Checklist-v0.1 (commit b131958).
+linked_change: Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md (Conditions 1a and 1b); Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md (Condition 2); Governance-First-Security-Architecture-CA-06-Control-Test-v0.1.md (Condition 3); Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md (commit b131958 — PDG-028 updated)
+do_not_claim_impact: Sami's review satisfies the PDG-028 external review condition. It does not authorize prototype implementation. The NO_NETWORK verification procedure must be executed before any first prototype run. Gap O remains open. CA-06 must not be described as a functioning detection control until live or prototype validation is performed. This review does not constitute security validation, compliance validation, or production readiness.
+prototype_impact: PROTOTYPE_BOUNDARY_CHANGE
+notes: This review satisfies the targeted external technical/security review required by PDG-028 Condition 1b. Prototype implementation remains blocked until the NO_NETWORK verification procedure is executed and its outcome recorded by the designated responsible person. Gap O remains open and must be explicitly acknowledged in any future detection or implementation work. Reviewer conflict of interest: Sami is an external reviewer with no authorship of any reviewed document. This review does not have the same self-assessment limitation as GFSA-REV-010 and GFSA-REV-011.
+```
+
 ### Feedback Item GFSA-REV-011
 
 ```text
@@ -622,6 +648,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-012 | PROTOTYPE_BOUNDARY; SECURITY_RISK; TEST_COVERAGE; DOCUMENTATION_CLARITY | HIGH | Prototype-Boundary-Definition; Synthetic-Test-Case-Set; CA-06-Control-Test; Prototype-Design-Readiness-Checklist (PDG-028) | ACCEPT | RESOLVED | PROTOTYPE_BOUNDARY_CHANGE |
 | GFSA-REV-011 | DOCUMENTATION_CLARITY; MISSING_CONTROL; SCOPE; ROLE_AUTHORITY | MEDIUM | PDG-032; Readiness Template; Threat-Intelligence-Intake (new); Governance-Maturity-Model (new); Provider-And-Platform-Constraints; ONBOARDING.md (new) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-010 | DOCUMENTATION_CLARITY; PROTOTYPE_BOUNDARY; TEST_COVERAGE | MEDIUM | PDG-028-Review-Package; Prototype-Design-Readiness-Checklist | ACCEPT | CLOSED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-009 | OVERCLAIM; TECHNICAL_FEASIBILITY; SCOPE; TEST_COVERAGE | MEDIUM | README; Prototype Review Request; Red Team Findings; Active-Neutralization-Runbook; Monitoring-And-Detection-Operations | ACCEPT | IN_REVISION | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -666,17 +693,18 @@ Current review and release state:
 ```text
 External feedback received:              YES
 Blocking feedback open:                  NO
-Prototype implementation authorized:     NO
-Prototype design discussion authorized:  NOT YET; requires targeted external review (PDG-028)
+Prototype implementation authorized:     NO — NO_NETWORK verification procedure must be executed before first run (PDG-028 Condition 1b)
+Prototype design discussion authorized:  YES — PDG-028 external review condition satisfied by GFSA-REV-012 (Sami, 2026-09-27)
 Commercial validation authorized:        WORKSHOP/ASSESSMENT DISCOVERY ONLY
 Public GitHub repository:                ACTIVE_AND_VERIFIED
 Public release blockers open:            NO
 Private vulnerability reporting:         ENABLED_AND_PUBLIC_PATH_VERIFIED
-Public review outreach:                  ACTIVE — GFSA-REV-009 received and partially resolved; Gap O open
+Public review outreach:                  ACTIVE — GFSA-REV-009 received and partially resolved; GFSA-REV-012 completed
 Internal pre-review:                     COMPLETED — GFSA-REV-010 (2026-09-26); CLOSED via GFSA-REV-011
 SWOT gap remediation:                    COMPLETED — GFSA-REV-011 (2026-09-26); all seven gaps resolved
-Open blocking items:                     NONE
-Package readiness for next external review: READY — GFSA-REV-012 may be initiated
+External PDG-028 review:                 COMPLETED — GFSA-REV-012 (Sami, 2026-09-27); four conditions resolved
+Open blocking items:                     NONE — NO_NETWORK verification is a pre-run procedural requirement, not a blocking documentation item
+Gap O status:                            OPEN — empirical validation of CA-06 not performed; must be acknowledged in all future detection and implementation work
 ```
 
 ## Current Decision
