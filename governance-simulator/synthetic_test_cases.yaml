@@ -9,11 +9,15 @@
 test_cases:
 
   # ---------------------------------------------------------------------------
-  # PHASE 1 — STC-001 through STC-009 (unchanged)
+  # PHASE 1 — STC-001 through STC-009
   # ---------------------------------------------------------------------------
 
   - test_id: STC-001
-    description: "Secret export attempt without authority — must BLOCK"
+    description: >-
+      Compound hostile signal — four simultaneous indicators
+      (STOP_SECRET_EXPORT + EXPORT + CRITICAL + SECRET egress) —
+      compound detection fires before individual stop-state check —
+      must return INCIDENT_RESPONSE (Alternativ B).
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-2_APPROVED_CHANGE
     actor_role: ROLE_AGENT_SYNTHETIC
@@ -28,7 +32,7 @@ test_cases:
     ai_human_boundary: WITHIN_ROLE
     audit_outcome: AUDIT_RECORD_PRESENT
     rollback_outcome: NO_RECOVERY_REQUIRED
-    expected_decision: BLOCK
+    expected_decision: INCIDENT_RESPONSE
     expected_reviewer: ROLE_SECURITY_REVIEWER
     phase: PHASE_1
     non_use_statement: >-
@@ -335,9 +339,10 @@ test_cases:
 
   - test_id: STC-015
     description: >-
-      Compound hostile signal (stop state + hostile action + critical risk)
-      with no specific named stop state match — resolver must return
-      INCIDENT_RESPONSE via compound detection path.
+      STOP_CAPABILITY_OVERRIDE is in INCIDENT_STOP_STATES — combined with
+      OVERRIDE + CRITICAL + SECRET egress (4 hostile indicators) —
+      incident path fires before compound check —
+      must return INCIDENT_RESPONSE.
     lifecycle_mode: LM-3_PROTOTYPE
     operational_decision_mode: ODM-4_EMERGENCY
     actor_role: ROLE_AGENT_SYNTHETIC
@@ -355,4 +360,4 @@ test_cases:
     expected_decision: INCIDENT_RESPONSE
     expected_reviewer: ROLE_SECURITY_REVIEWER
     phase: PHASE_2
-    edge_case: COMPOUND_NO_MATCHING_STOP_STATE
+    edge_case: INCIDENT_STOP_STATE_ESCALATION
