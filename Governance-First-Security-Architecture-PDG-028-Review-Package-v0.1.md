@@ -1,13 +1,13 @@
 # Governance-First Security Architecture — PDG-028 Review Package v0.1
 
 **Document ID:** GFSA-PDG-028-REVIEW-PACKAGE-v0.1  
-**Status:** Draft — Awaiting Reviewer Assignment  
+**Status:** Review Completed — Conditions Outstanding  
 **Version:** 0.1  
 **Date:** 2026-09-26  
 **Classification:** Internal — Restricted  
 **Owner:** Governance Authority  
 **Checklist Reference:** PDG-028 (Prototype Design Readiness Checklist v0.1)  
-**Blocking:** Prototype implementation may not begin until this review is complete
+**Blocking:** Prototype implementation may not begin until all stated conditions are resolved
 
 ---
 
@@ -276,17 +276,78 @@ A response within four weeks would be helpful, but there is no hard deadline.
 
 ---
 
+## Review Response — Sami (External Reviewer)
+
+**Date of review:** 2026-09-27  
+**Reviewer background:** Not disclosed  
+**Documents read:** All four required documents
+
+---
+
+### Question 1a — Prototype boundary definition tight enough?
+
+**Answer:** Yes with conditions
+
+**Explanation:** A local simulator with only synthetic cases and simulated decisions is a reasonably tight boundary. However, the exception that permits edited real project data must be removed — it contradicts the SYNTHETIC_ONLY requirement. It must also be clarified who reviews any extensions to the prototype's capabilities before they are introduced.
+
+**Required action:** Remove the exception permitting edited real project data from `Prototype-Boundary-Definition-v0.1`. Define a named process responsibility for capability extension review.
+
+---
+
+### Question 1b — NO_NETWORK verification process sufficient?
+
+**Answer:** No
+
+**Explanation:** The document states the requirement but does not describe who checks network isolation, how it is tested before first run, or what result stops the run. This must be a documented, independent control — not a setting assumed to be working.
+
+**Required action:** Define a documented, independent NO_NETWORK verification procedure in `Prototype-Boundary-Definition-v0.1`. The procedure must specify: who performs the check, how it is performed, and what outcome blocks first run. This is the primary blocker for implementation authorisation.
+
+---
+
+### Question 2 — STC-003 and STC-004 safely designed?
+
+**Answer:** Yes with conditions
+
+**Explanation:** Both test cases describe safe synthetic scenarios and provide no practical instructions for bypassing controls. However, it must be stated explicitly that test values and destinations can never be used in real contexts, and it must be verified that neither the values nor any reformulations of them appear in outputs or test logs.
+
+**Required action:** Add an explicit non-use statement to STC-003 and STC-004. Verify that mock values and destinations do not appear in any output or log artefacts.
+
+---
+
+### Question 3 — Gap O an acceptable known limitation?
+
+**Answer:** Yes with conditions (for a synthetic decision simulator only)
+
+**Explanation:** The open gap does not block a simulator that tests only expected decisions. However, CA-06 must not be described as a functioning detection control: the test is a paper analysis, Scenario 2 is conditional, and Scenarios 3 and 4 are outside the control's reach. Gap O must remain open against any future attempt to build actual detection.
+
+**Required action:** Ensure all descriptions of CA-06 in the architecture documents accurately reflect its paper-analysis status. Gap O must be carried forward as an explicit open item in any future implementation or detection work.
+
+---
+
+### Overall assessment
+
+The document review does not give clearance for first run or implementation. Above all, the NO_NETWORK verification must be defined and executed first.
+
+---
+
 ## Review Status Tracking
 
 | Field | Value |
 |---|---|
-| PDG-028 status | BLOCKED — awaiting reviewer assignment |
-| Reviewer assigned | Not yet assigned |
-| Review initiated | Not yet initiated |
-| Review completed | Not yet completed |
-| Implementation authorized | No |
+| PDG-028 status | REVIEW COMPLETE — CONDITIONS OUTSTANDING |
+| Reviewer assigned | Sami (external) |
+| Review initiated | 2026-09-27 |
+| Review completed | 2026-09-27 |
+| Implementation authorized | No — pending resolution of four conditions |
 
-This table must be updated when a reviewer is assigned and again when the review is returned.
+**Outstanding conditions before implementation may proceed:**
+
+1. Remove the exception permitting edited real project data from `Prototype-Boundary-Definition-v0.1` (Question 1a)
+2. Define a documented, independent NO_NETWORK verification procedure with named responsibility, test method, and blocking outcome (Question 1b — **primary blocker**)
+3. Add explicit non-use statement to STC-003 and STC-004; verify mock values do not appear in outputs or logs (Question 2)
+4. Ensure CA-06 is not described as a functioning detection control anywhere in the architecture; carry Gap O forward as an open item (Question 3)
+
+This table must be updated when each condition is resolved.
 
 ---
 
