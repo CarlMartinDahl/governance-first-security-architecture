@@ -136,7 +136,7 @@ Each piece of relevant intelligence is routed to one or more governance controls
 | ISAC advisory or national authority alert | Governance Authority notification | Monitoring-And-Detection-Operations; Stop-State-Policy review |
 | Post-quantum cryptographic risk | Cryptographic-Policy review | Post-Quantum-Readiness update |
 | Regulatory guidance update | GDPR-And-EU-AI-Act-Alignment review | Governance Authority notification |
-| Active campaign targeting sector | Governance Authority notification | Monitoring-And-Detection-Operations (HR/TR/PR rule tuning); Incident-Response-Policy |
+| Active campaign targeting sector | Governance Authority notification | Monitoring-And-Detection-Operations (HR/TR/PR rule tuning); Recovery-Rollback-Incidents-v0.1 |
 | Vendor security bulletin | Vulnerability-Disclosure-And-Patch-Governance | Capability-Change-Gate if patch requires component replacement |
 
 Routing does not transfer accountability. The AI Operator who receives the intelligence retains accountability for confirming that the routed control owner has acknowledged receipt within the intake SLA.
@@ -206,7 +206,7 @@ The Intake Log entry remains open until the receiving control owner confirms act
 - Cryptographic-Policy
 - Post-Quantum-Readiness
 - GDPR-And-EU-AI-Act-Alignment
-- Incident-Response-Policy
+- Recovery-Rollback-Incidents-v0.1
 - Log-Integrity-And-Tamper-Evidence-Policy
 - Capability-Change-Gate
 - Stop-State-Policy

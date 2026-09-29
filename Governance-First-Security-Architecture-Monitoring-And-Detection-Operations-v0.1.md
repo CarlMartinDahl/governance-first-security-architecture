@@ -155,11 +155,12 @@ The detection engine must maintain a pipeline view: a composite signal that aggr
 | CA-02 | Any pipeline agent generates a new anomaly within 30 minutes of another agent in the same pipeline recovering from a prior anomaly | High | Rapid sequential anomalies across agents indicate a persistent attacker moving laterally through the pipeline |
 | CA-03 | Cumulative anomaly score across all agents in a pipeline exceeds the pipeline alert threshold (defined in Operational Mandate) | Critical | Pipeline-level aggregate violation regardless of individual agent scores |
 | CA-04 | An orchestrating agent issues an instruction to a sub-agent that would not be permitted under the sub-agent's own Operational Mandate | Critical | Attempted authority laundering via orchestrator |
-| CA-05 | A sub-agent's output volume or content type diverges materially from what the orchestrating agent's instruction would predict | High | Sub-agent may be operating on injected instruction rather than orchestrator instruction |
+| CA-05 | A sub-agent's output volume or content type diverges materially from what the orchestrating agent's instruction would predict | Critical | Sub-agent may be operating on injected instruction rather than orchestrator instruction |
+| CA-06 | Two or more agents in the same pipeline communicate directly with each other outside orchestrator mediation (lateral peer coordination signal) | Critical | Direct peer-to-peer coordination bypasses the orchestrator-mediated communication model and matches the MT-04 lateral coordination pattern |
 
 **Pipeline anomaly score calculation:** Each active agent in a pipeline contributes its current anomaly score to a running pipeline total. Individual anomaly scores are weighted by the agent's authority tier in the pipeline (orchestrators weighted higher than leaf agents). The pipeline threshold is defined in the Operational Mandate and reviewed as part of baseline establishment.
 
-**Response to cross-agent correlation alerts:** CA-01 through CA-03 alerts are treated as High or Critical regardless of the individual agent severity that contributed to them. CA-04 and CA-05 are always Critical. All cross-agent correlation alerts require immediate human triage with no auto-resolution permitted. A CA-04 or CA-05 alert triggers the Group Isolation track in Active-Neutralization-Runbook-v0.1.
+**Response to cross-agent correlation alerts:** CA-01 through CA-03 alerts are treated as High or Critical regardless of the individual agent severity that contributed to them. CA-04, CA-05, and CA-06 are always Critical. All cross-agent correlation alerts require immediate human triage with no auto-resolution permitted. A CA-04 or CA-05 alert triggers the Group Isolation track in Active-Neutralization-Runbook-v0.1. CA-06 alerts likewise trigger Group Isolation; the full rule is defined in CA-06-Lateral-Peer-Coordination-Rule-v0.1.
 
 This section remediates Gap C identified in GFSA-RED-TEAM-FINDINGS-v0.1.
 
@@ -258,6 +259,7 @@ The following monitoring failures are stop conditions that halt agent operation:
 - Network-Segmentation-Architecture-v0.1
 - Private-AI-Deployment-Guide-v0.1
 - Red Team Findings: GFSA-RED-TEAM-FINDINGS-v0.1 Gap C
+- CA-06-Lateral-Peer-Coordination-Rule-v0.1 (full definition of rule CA-06)
 
 ---
 
