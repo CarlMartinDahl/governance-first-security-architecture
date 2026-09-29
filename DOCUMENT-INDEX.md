@@ -2,7 +2,7 @@
 
 This index organizes the complete Governance-First Security Architecture review package.
 
-The package is documentation-only. Inclusion in this index does not imply implementation, validation, production readiness, or a security or compliance claim.
+The package is documentation-first. The only code in the repository is the owner-approved synthetic governance simulator, accepted through the PDG-028 and Phase 1/2 governance decisions. Inclusion in this index does not imply implementation beyond that bounded scope, validation, production readiness, or a security or compliance claim.
 
 ## Start Here
 
@@ -10,6 +10,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Executive Overview](Governance-First-Security-Architecture-Executive-Overview-v0.1.md) - Short first-read overview.
 - [Technical Review Brief](Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md) - Deeper conceptual and technical framing.
 - [Documentation Freeze And Review Gate](Governance-First-Security-Architecture-Documentation-Freeze-And-Review-Gate-v0.1.md) - Current freeze and authorization boundary.
+- [Onboarding Guide](ONBOARDING.md) - External reviewer quick start, reading paths, FAQ, and package status at a glance.
 
 ## Governance Kernel And Canonical Model
 
@@ -64,6 +65,7 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [AI Model And Supply Chain Integrity](Governance-First-Security-Architecture-AI-Model-And-Supply-Chain-Integrity-v0.1.md) - Model provenance requirements, cryptographic integrity verification, training data poisoning controls, weight file integrity, behavioural drift monitoring, agentic reasoning model integrity, model integrity incident response, and trigger surface map sign-off requirement (Gap O remediation).
 - [Agentic Identity Security — Conceptual Foundation](Governance-First-Security-Architecture-Agentic-Identity-Security-Conceptual-Foundation-v0.1.md) - Agent constitutional core, authority chain verification, cognitive reset protocol, and the layer switch from hostile agent to intelligence asset. Forms a containment system with the Deceptive Containment Environment.
 - [Deceptive Containment Environment — Conceptual Foundation](Governance-First-Security-Architecture-Deceptive-Containment-Environment-Conceptual-Foundation-v0.1.md) - Sandbox isolation combined with digital twin fidelity for real-time intelligence extraction from hostile AI agents and multi-agent swarms. Forms a containment system with Agentic Identity Security.
+- [Threat Intelligence Intake](Governance-First-Security-Architecture-Threat-Intelligence-Intake-v0.1.md) - External intelligence sources, five-step intake flow, severity SLAs, routing rules, detection engine integration, and review schedule.
 
 ## Private AI Deployment And Operations
 
@@ -95,6 +97,11 @@ The package is documentation-only. Inclusion in this index does not imply implem
 - [Prototype Design Sketch](Governance-First-Security-Architecture-Prototype-Design-Sketch-v0.1.md) - Design-only synthetic simulator sketch.
 - [Prototype Data Schema](Governance-First-Security-Architecture-Prototype-Data-Schema-v0.1.md) - Synthetic test and mock-decision schema.
 - [Prototype Review Request](Governance-First-Security-Architecture-Prototype-Review-Request-v0.1.md) - Focused request for boundary critique.
+
+## Prototype Implementation
+
+- [Prototype Implementation Plan](Governance-First-Security-Architecture-Prototype-Implementation-Plan-v0.1.md) - Bounded Phase 1 and Phase 2 implementation scope for the governance decision simulator (Alternative B path).
+- [governance-simulator/](governance-simulator/) - Owner-approved synthetic governance decision simulator: simulator module, runner, synthetic test cases, and the Phase 2 scope decision. Accepted via GFSA-REV-013 and -014.
 
 ## External Review And Revision
 
@@ -130,5 +137,6 @@ Documents produced in direct response to identified gaps from external review. E
 - [Code Of Conduct](CODE_OF_CONDUCT.md) - Participation expectations and private reporting path.
 - [Security And Sensitive Feedback](SECURITY.md) - Safe reporting boundary.
 - [GitHub Release Checklist](GITHUB-RELEASE-CHECKLIST.md) - Internal process document; private-first and public-release gates. Not an architecture document.
+- [Governance Maturity Model](Governance-First-Security-Architecture-Governance-Maturity-Model-v0.1.md) - Four-level maturity assessment across six dimensions with an honest current-state rating and advancement roadmap.
 - [License](LICENSE) - Canonical CC BY-SA 4.0 legal code.
 - [Notices And Attribution](NOTICE.md) - Project attribution, license scope, exclusions, and claim boundaries.

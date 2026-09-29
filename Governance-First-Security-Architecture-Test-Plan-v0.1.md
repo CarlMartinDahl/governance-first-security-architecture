@@ -217,7 +217,7 @@ Test objectives:
 - Human override is bounded, logged, and reviewable.
 - AI uncertainty triggers stop or review.
 - AI confidence without evidence is rejected.
-- The system detects repeated human pressure against governance rules.
+- Tests verify whether the system detects repeated human pressure against governance rules.
 
 Expected stop states:
 

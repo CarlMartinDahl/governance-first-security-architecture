@@ -119,7 +119,7 @@ The following assessment reflects the honest current state of the Governance-Fir
 | Observability | **3** | Monitoring-And-Detection-Operations defines sources, rules, coverage requirements, and stop conditions. Threat Intelligence Intake now defines external feed process. Gap: detection engine and monitoring infrastructure not yet implemented (documentation only at v0.1). | Advance to 4 by implementing and operating the monitoring infrastructure; demonstrating TI-to-rule translation cycle |
 | Process Integrity | **3** | Capability Change Gate, PDG process, Post-Review Revision Log, Internal Consistency Review, and Documentation Freeze Gate all exist and have been exercised. Single point of failure (sole author) is documented as a known risk. | Advance to 4 by introducing a second named process authority and scheduling process reviews |
 | Evidence Quality | **2** | Audit log requirements defined; append-only and integrity-protection requirements specified in Log-Integrity-And-Tamper-Evidence-Policy. Gap: no live audit log has been produced; evidence chain is theoretical at v0.1. | Advance to 3 via prototype implementation that produces real (synthetic) audit log entries reviewed in a test scenario |
-| External Validation | **3** | External review package exists (PDG-028); one external reviewer (Sami) has provided feedback incorporated via GFSA-REV-009; Post-Review-Revision-Log is traceable. Gap: second external review not yet conducted. | Advance to 4 by scheduling a second external review after SWOT gap remediation is complete |
+| External Validation | **3** | External review package exists (PDG-028); two external reviews completed and incorporated (GFSA-REV-009; GFSA-REV-012, PDG-028 boundary review); Post-Review-Revision-Log is traceable. Gap: external review breadth remains limited to a small reviewer set. | Advance to 4 by broadening external review beyond the initial reviewers |
 
 ### 4.1 Overall Maturity Summary
 
@@ -147,7 +147,7 @@ The critical path to Level 3 across all dimensions runs through prototype implem
 | Phase | Gate | Expected Maturity Outcome |
 |---|---|---|
 | Current (v0.1 documentation) | — | 2.7 / 4.0 as assessed above |
-| Post external review | PDG-028 condition met | External Validation advances to 4; Process Integrity advances to 4 |
+| Post external review | PDG-028 condition met (GFSA-REV-012, 2026-09-27) | External Validation advances to 4; Process Integrity advances to 4 |
 | Post prototype implementation | PDG-028 gate passed | Control Implementation advances to 3; Evidence Quality advances to 3 |
 | Post operational monitoring cycle | 6 months live operation | Observability advances to 4; Policy Coverage advances to 4 |
 | Full v1.0 | All dimensions ≥ 3 | Target: 3.5+ average |

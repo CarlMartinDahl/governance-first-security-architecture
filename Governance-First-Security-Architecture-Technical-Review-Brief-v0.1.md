@@ -90,7 +90,7 @@ The proposed model treats these questions as primary security controls, not seco
 
 ## Main Security Idea
 
-The model protects both directions:
+The model is intended to protect both directions:
 
 1. Ingress: attempts to enter, access, manipulate, or escalate inside the system.
 2. Egress: attempts to export, leak, copy, execute, transmit, or move value out of the system.
@@ -415,7 +415,7 @@ No real data processing.
 No production use.
 No security claim.
 No compliance claim.
-No prototype implementation.
+No prototype implementation beyond the owner-approved Phase 1 and Phase 2 synthetic simulator scope.
 ```
 
 ## Review Questions For Technical Expert
@@ -440,9 +440,9 @@ No prototype implementation.
 
 ```text
 Concept documentation: READY_FOR_CRITICAL_REVIEW
-Targeted external review: PARTIAL; MORE_REQUIRED
+Targeted external review: PDG-028 COMPLETED (GFSA-REV-012); broader review MORE_REQUIRED
 Build authorization: NOT_GRANTED
-Prototype implementation: BLOCKED
+Prototype implementation: PHASE 1-2 EXECUTED AND ACCEPTED; PHASE 3 NOT AUTHORIZED
 ```
 
 Required next step:

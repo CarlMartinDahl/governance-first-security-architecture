@@ -334,13 +334,13 @@ The document review does not give clearance for first run or implementation. Abo
 
 | Field | Value |
 |---|---|
-| PDG-028 status | REVIEW COMPLETE — CONDITIONS OUTSTANDING |
+| PDG-028 status | PASS_WITH_CONDITION: ALL CONDITIONS RESOLVED (GFSA-REV-012) |
 | Reviewer assigned | Sami (external) |
 | Review initiated | 2026-09-27 |
 | Review completed | 2026-09-27 |
-| Implementation authorized | No — pending resolution of four conditions |
+| Implementation authorized | Phase 1 and Phase 2 synthetic simulator executed and accepted (GFSA-REV-013, -014); Phase 3 requires a new documented owner decision |
 
-**Outstanding conditions before implementation may proceed:**
+**Conditions recorded at review (all resolved per GFSA-REV-012):**
 
 1. Remove the exception permitting edited real project data from `Prototype-Boundary-Definition-v0.1` (Question 1a)
 2. Define a documented, independent NO_NETWORK verification procedure with named responsibility, test method, and blocking outcome (Question 1b — **primary blocker**)

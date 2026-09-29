@@ -44,7 +44,7 @@ The air-gapped backup copy must be:
 - Stored under physical access control separate from primary data centre
 
 ### 4.2 Recovery Time Verification
-Recovery from the air-gapped backup must be tested at minimum annually with a documented recovery time measurement. The maximum acceptable recovery time is defined in the governance record and reviewed by the board or equivalent.
+Recovery from the air-gapped backup is verified through the restoration testing required in Section 4.1; in addition, a full recovery test with a documented recovery time measurement must be performed at minimum annually. The maximum acceptable recovery time is defined in the governance record and reviewed by the board or equivalent.
 
 ### 4.3 Named Decision Authorities
 Before an incident, the following roles must be named and alternates designated:

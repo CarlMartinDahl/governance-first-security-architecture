@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-015
+
+```text
+feedback_id: GFSA-REV-015
+reviewer_id: EXT-TECH-003
+reviewer_type: External contributor corpus consistency sweep (Sami) with parallel AI-assisted document analysis; entry proposed via pull request, owner acceptance required
+date_received: 2026-09-28
+source_document: Full-corpus consistency sweep of all root documents and governance-simulator/ against the merged revision-log state, filed as issues #7 through #12 on the canonical repository; structural analysis comment on issue #3
+feedback_summary: Systematic sweep of the corpus (stale current-state claims, stop-state and mode vocabulary drift, cross-document references, internal policy contradictions, overclaim wording) identified 52 distinct findings after deduplication, filed as six issues (#7 stale current-state cluster across roughly 15 documents; #8 simulator stop-state and mode vocabulary diverges from the Stop-State Registry with no crosswalk, including a three-way STOP_SECRET_EXPORT classification conflict and conflicting mode-ID meanings such as LM-4_PRODUCTION; #9 two incompatible synthetic test-case catalogues sharing the STC-001..015 identifiers; #10 cross-document reference defects including roles with no Role Registry entry and CA-06 parentage; #11 internal contradictions in log retention, deletion authority, backup test frequency, and CA-05 severity; #12 eight overclaim lines identified from roughly 230 triaged candidates). This pull request applies the bounded documentation corrections for the doc-side findings: current-state blocks updated to the merged revision-log state, overclaim wording weakened to intent framing, retention precedence and deletion-authority cross-references aligned, ransomware restore-test frequency clarified, CA-05 severity made consistent with its circuit-breaker trigger, CA-06 added to Monitoring-And-Detection-Operations Section 5.4 and related documents, Incident-Response-Policy references repointed to Recovery-Rollback-Incidents-v0.1, DOCUMENT-INDEX gaps closed, and the three forward-looking repository notes in the CA-06 rule document removed. Historical review-request text was left unmodified.
+source_reference: EXT-CORPUS-SWEEP-2026-09-28
+affected_document: README.md; GOVERNANCE.md; NOTICE.md; ONBOARDING.md; DOCUMENT-INDEX.md; Governance-First-Security-Architecture-Implementation-Roadmap-v0.1.md; Governance-First-Security-Architecture-Governance-Maturity-Model-v0.1.md; Governance-First-Security-Architecture-Roles-And-Responsibilities-v0.1.md; Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md; Governance-First-Security-Architecture-Executive-Overview-v0.1.md; Governance-First-Security-Architecture-Test-Plan-v0.1.md; Governance-First-Security-Architecture-Active-Neutralization-Runbook-v0.1.md; Governance-First-Security-Architecture-Asset-To-Kernel-Mapping-v0.1.md; Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md; Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md; Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md; Governance-First-Security-Architecture-Mode-Model-Normalization-v0.1.md; Governance-First-Security-Architecture-Decision-State-Matrix-v0.1.md; Governance-First-Security-Architecture-Capability-Change-Gate-v0.1.md; Governance-First-Security-Architecture-CA-06-Lateral-Peer-Coordination-Rule-v0.1.md; Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md; Governance-First-Security-Architecture-Ransomware-Recovery-Policy-v0.1.md; Governance-First-Security-Architecture-Monitoring-And-Detection-Operations-v0.1.md; Governance-First-Security-Architecture-Threat-Intelligence-Intake-v0.1.md
+affected_section: current-state blocks and status tables; Main Security Idea and Ingress/Egress sections; immutability and retention sections; cross-agent correlation rules; related-documents lists; document index
+feedback_category: DOCUMENTATION_CLARITY; OVERCLAIM; TECHNICAL_FEASIBILITY
+severity: MEDIUM
+action_type: CLARIFY_TEXT; WEAKEN_CLAIM
+decision: PENDING
+assigned_owner: Project owner
+required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER; ROLE_GOVERNANCE_REVIEWER
+status: PROPOSED
+resolution_summary: Pending owner decision. Corrections in this pull request cover the doc-side findings only. Findings that require owner decisions are deliberately not applied: role registration or mapping (#10), stop-state crosswalk or rename (#8), STC catalogue rename or renumber (#9), and all code-side fixes (#3, #4, #5).
+linked_change: This pull request (24 documents); issues #7, #8, #9, #10, #11, #12; comment on issue #3
+do_not_claim_impact: These corrections do not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. Vocabulary and catalogue decisions remain with the project owner. All corrections are documentation-only.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Proposed by external contributor (Sami, EXT-TECH-003). Full findings list with file and line evidence is recorded in the contributor workspace and in issues #7 through #12. Historical and dated narrative sections were deliberately left untouched; only current-state claims were corrected. Where a correction required choosing between conflicting values (retention precedence, CA-05 severity), the proposed choice is stated in the pull request and the owner may substitute a different value.
+```
+
 ### Feedback Item GFSA-REV-014
 
 ```text

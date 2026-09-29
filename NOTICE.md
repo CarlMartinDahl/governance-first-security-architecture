@@ -24,7 +24,7 @@ Accurate descriptive attribution is welcome. See [PROJECT-IDENTITY.md](PROJECT-I
 
 ## Future Software
 
-No software is currently included or licensed by this repository.
+Software: the repository includes the synthetic Governance Decision Simulator (governance-simulator/), included under the PDG-028 and Phase 1/2 governance decisions. An explicit code-license decision for that code (intended: Mozilla Public License 2.0) has not yet been made; until it is, no software-license grant is made by this notice.
 
 If software is later authorized, original project code is intended to use Mozilla Public License 2.0 only after the license text and applicable notices are explicitly added. The current CC BY-SA 4.0 license must not be interpreted as a software-license or implementation authorization.
 

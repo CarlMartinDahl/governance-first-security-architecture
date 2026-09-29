@@ -75,7 +75,7 @@ Quarantine isolates the agent from external resources and other agents without t
    - The agent may continue to generate outputs but all write, execute, and call actions are blocked at the gateway
    - Outputs are logged but not delivered to downstream consumers
 
-5. **Log the quarantine event** in the audit log and in Stop-State-Registry-v0.1 (quarantine events are registered even if not a full stop state).
+5. **Log the quarantine event** in the audit log. Stop-State-Registry-v0.1 does not define a quarantine record; quarantine registration there would require a registry addition through the review process.
 
 6. **Notify Governance Authority** within 15 minutes with: agent identity, attribution confidence, evidence summary, quarantine timestamp.
 
@@ -142,9 +142,9 @@ Group neutralization terminates a coordinated set of agents simultaneously. The 
 
 1. **Map the complete agent group:** List every agent identity involved, their process/container IDs, and their interdependencies.
 
-2. **Sequence the neutralization:** Neutralize the orchestrating agent (highest in the instruction chain) first, then work outward to participant agents. This prevents the orchestrator from issuing countermeasures during the operation.
+2. **Sequence the neutralization:** Neutralize the orchestrating agent (highest in the instruction chain) first, then work outward to participant agents. This sequencing is intended to prevent the orchestrator from issuing countermeasures during the operation.
 
-3. **Execute in rapid succession:** Each individual agent follows the Track 2 procedure, but all pre-condition steps (state preservation, token revocation) must be completed for ALL agents before ANY termination begins. This prevents partial neutralization from triggering adaptive responses.
+3. **Execute in rapid succession:** Each individual agent follows the Track 2 procedure, but all pre-condition steps (state preservation, token revocation) must be completed for ALL agents before ANY termination begins. This is designed to reduce the risk of partial neutralization triggering adaptive responses.
 
 4. **Simultaneous token revocation:** Revoke all group agent tokens in a single atomic operation (or as close to simultaneous as the identity registry allows). Do not revoke tokens one by one.
 

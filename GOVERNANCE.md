@@ -55,7 +55,7 @@ See [ATTRIBUTION.md](ATTRIBUTION.md) and [PROJECT-IDENTITY.md](PROJECT-IDENTITY.
 
 ## Future Code Boundary
 
-This repository contains no implementation code and currently accepts none.
+This repository contains only the owner-approved synthetic governance simulator (governance-simulator/), accepted through the PDG-028 and Phase 1/2 governance decisions. No further implementation code is accepted without a new explicit review-gate decision.
 
 If software work is later authorized through an explicit review-gate decision, the intended default license for original project code is Mozilla Public License 2.0. No MPL-2.0 license grant exists until code and the corresponding license notice are actually added to the repository.
 
