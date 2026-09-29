@@ -200,7 +200,7 @@ Raise it as a scoped blocking issue. Identify the specific claim or structural a
 The canonical maintainer (Martin Dahl), per GOVERNANCE.md. External reviewers do not have merge authority.
 
 **Q: Is this framework ready for production use?**
-No. Current maturity is 2.7/4.0 on the Governance Maturity Model. It is in documentation review stage. The Prototype Design Readiness Checklist has been completed with conditions; implementation requires external review first.
+No. Current maturity is 2.7/4.0 on the Governance Maturity Model. The targeted external review of the prototype boundary is complete (PDG-028 passed with conditions, GFSA-REV-012), and the Phase 1 and Phase 2 synthetic simulator has been executed and accepted (GFSA-REV-013, -014). Further implementation (Phase 3) requires a new documented owner decision.
 
 ---
 
@@ -211,10 +211,10 @@ No. Current maturity is 2.7/4.0 on the Governance Maturity Model. It is in docum
 | Package status | `FROZEN_FOR_EXTERNAL_REVIEW` |
 | Overall maturity | 2.7 / 4.0 (Governance Maturity Model) |
 | Implementation authorised | No |
-| Prototype gate | PDG-028 (external review required before implementation) |
+| Prototype gate | PDG-028 passed with conditions (2026-09-27); Phase 3 requires a new owner decision |
 | Open SWOT gaps | 0 (all gaps from GFSA-REV-010 resolved as of this version) |
-| Last structured review | GFSA-REV-010 (2026-09) |
-| External reviews completed | 1 (Sami, GFSA-REV-009) |
+| Last structured review | GFSA-REV-014 (2026-09-27) |
+| External reviews completed | 2 (GFSA-REV-009; GFSA-REV-012, Sami) |
 
 ---
 

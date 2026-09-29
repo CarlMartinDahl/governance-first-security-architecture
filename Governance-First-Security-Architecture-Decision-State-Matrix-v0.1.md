@@ -180,6 +180,8 @@ Current project lifecycle mode:
 LM-1_REVIEW_PACKAGE
 ```
 
+Update (GFSA-REV-015, 2026-09-28): the mode above records the documentation-phase state. Bounded synthetic prototype work has since been authorized and executed under owner decisions (GFSA-REV-013, -014); see the Mode Model Normalization document for the current-mode record.
+
 ## Operational Decision Mode Matrix
 
 | Operational Decision Mode | Observe | Plan | Review | Document | Change Docs | Prototype Design | Prototype Action | Runtime/Production |
@@ -453,6 +455,8 @@ For the current project state:
 Lifecycle Mode: LM-1_REVIEW_PACKAGE
 Operational Decision Mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE
 ```
+
+Update (GFSA-REV-015, 2026-09-28): bounded synthetic prototype work has since been authorized and executed under owner decisions (GFSA-REV-013, -014). The allowance list below records the documentation-phase boundary.
 
 Allowed:
 

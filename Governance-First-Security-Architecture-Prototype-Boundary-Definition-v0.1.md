@@ -476,6 +476,6 @@ Lifecycle Mode: LM-1_REVIEW_PACKAGE
 Operational Decision Mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE
 ```
 
-This document does not move the project into prototype design.
+Update (GFSA-REV-015, 2026-09-28): the mode block above records the documentation-phase state. Bounded synthetic prototype work has since been authorized and executed under owner decisions (Prototype-Implementation-Plan-v0.1; Prototype-Phase-2-Decision-v0.1; GFSA-REV-013 and -014). The boundary constraints on this page, including the unqualified SYNTHETIC_ONLY requirement and the NO_NETWORK verification procedure, apply unchanged to that work.
 
-It only defines the safety boundary for a possible future prototype discussion.
+This document itself does not authorize implementation.

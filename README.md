@@ -35,7 +35,7 @@ The canonical project source is `https://github.com/CarlMartinDahl/governance-fi
 | External feedback | Received and logged |
 | Targeted external review | Partial |
 | Commercial validation | Workshop and assessment discovery only |
-| Prototype implementation | Not authorized — PDG-028 boundary review pending reviewer assignment |
+| Prototype implementation | Phase 1 and Phase 2 synthetic simulator executed and accepted; Phase 3 not authorized |
 | Production use | Not authorized |
 
 ## Model At A Glance
@@ -110,7 +110,7 @@ This repository is review and thinking material, not deployable software.
 | Reuse concepts such as stop states, role boundaries, decision matrices, or egress classes | Permitted under CC BY-SA 4.0 with attribution and share-alike obligations where applicable |
 | Deploy the documentation as a live control plane | Not supported or authorized |
 | Claim security, GDPR compliance, EU AI Act compliance, certification, or production readiness | Prohibited by the project claim boundary |
-| Build a prototype or operational system from the package | Not authorized while PDG-028 boundary review is pending |
+| Build a prototype or operational system from the package | Requires a new documented owner decision; Phase 1 and Phase 2 of the synthetic simulator are accepted, Phase 3 is not authorized |
 
 The primary review audience includes CISOs, AI-governance leads, legal and risk functions, security reviewers, and enterprise architects who need to explain decision authority, required evidence, stop conditions, egress limits, and accountability.
 
@@ -202,7 +202,7 @@ Requested attribution: `Governance-First Security Architecture Project by Martin
 
 The complete standard legal code is in [LICENSE](LICENSE). Project attribution, scope notes, third-party exclusions, and claim boundaries are in [NOTICE.md](NOTICE.md) and [ATTRIBUTION.md](ATTRIBUTION.md).
 
-No software is currently included. If software is later authorized through the review gate, original project code is intended to use [Mozilla Public License 2.0](https://www.mozilla.org/MPL/2.0/). That future code license is not active and does not authorize implementation now.
+The repository includes the owner-approved, synthetic-only Governance Decision Simulator under [governance-simulator/](governance-simulator/), accepted through the PDG-028 and Phase 1/2 governance decisions. No further code is accepted without a new review-gate decision. If additional software is later authorized, original project code is intended to use [Mozilla Public License 2.0](https://www.mozilla.org/MPL/2.0/); that license is not active and does not authorize implementation now.
 
 ## Originator And Canonical Maintainer
 

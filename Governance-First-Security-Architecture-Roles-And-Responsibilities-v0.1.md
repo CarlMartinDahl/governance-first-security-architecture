@@ -301,7 +301,7 @@ AI Assistant: ROLE_AI_ASSISTANT — documentation and analysis only
 System Owner: not formally assigned
 Security Reviewer: not formally assigned
 Governance Reviewer: not formally assigned
-External Reviewers: not yet assigned
+External Reviewers: engaged (GFSA-REV-009; GFSA-REV-012, completed 2026-09-27)
 ```
 
 All governance controls that require a named human role beyond ROLE_USER_REQUESTER and ROLE_AI_ASSISTANT are currently nominal.

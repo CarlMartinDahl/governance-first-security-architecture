@@ -380,6 +380,8 @@ Reason:
 - Approved changes are limited to review feedback, bounded corrections, and repository-readiness checks.
 - No runtime, automation, prototype, integration, or production work is authorized.
 
+Update (GFSA-REV-015, 2026-09-28): the block above records the documentation-phase mode. Bounded synthetic prototype work (LM-3 class) was subsequently authorized and executed under owner decisions; see Prototype-Implementation-Plan-v0.1, Prototype-Phase-2-Decision-v0.1, and GFSA-REV-013/-014.
+
 ## Mode Mapping From Earlier Documents
 
 Older or earlier shorthand should be interpreted as follows:

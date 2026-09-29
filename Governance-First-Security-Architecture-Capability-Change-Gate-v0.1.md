@@ -414,6 +414,8 @@ The Mode Model Normalization document is authoritative. Lifecycle Mode and Opera
 
 At `LM-1_REVIEW_PACKAGE` with `ODM-3_APPROVED_DOCUMENTATION_CHANGE`, bounded documentation corrections may proceed when approved. Capability change, prototype action, runtime behavior, automation, integration, and live-data use remain blocked.
 
+Update (GFSA-REV-015, 2026-09-28): bounded synthetic prototype work within the constraints described under Future Synthetic Prototype Modes was authorized and executed on 2026-09-27 (Prototype-Phase-2-Decision-v0.1; GFSA-REV-013, -014).
+
 ### Future Synthetic Prototype Modes
 
 `LM-3_LIMITED_SYNTHETIC_PROTOTYPE` or `ODM-5_SYNTHETIC_TEST`, if separately approved in the future, may allow isolated mock actions and synthetic data. They do not authorize real secrets, live integrations, sensitive export, or production effects.

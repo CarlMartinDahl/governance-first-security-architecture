@@ -433,9 +433,11 @@ Stage 8: Expanded research or stop.
 The project is currently in:
 
 ```text
-Stage 3 - External review and challenge
+Stage 6 - Limited prototype build (bounded, synthetic-only)
 Documentation freeze: ACTIVE
-Targeted external review: PARTIAL
+Targeted external review: COMPLETED (PDG-028 PASS_WITH_CONDITION, GFSA-REV-012)
+Prototype execution: PHASE 1 AND PHASE 2 COMPLETE (GFSA-REV-013, GFSA-REV-014)
+Phase 3: NOT AUTHORIZED - requires a new documented owner decision
 ```
 
 The current allowed work is:
@@ -446,7 +448,7 @@ Feedback logging and bounded documentation correction.
 Paid workshop/assessment discovery without software.
 ```
 
-The existence of prototype-boundary and design-only documents does not move the project into Stage 4, Stage 5, or implementation.
+Prototype documents alone do not move the project forward. Mode movement happens only through documented owner decisions; Phase 1 and Phase 2 of the synthetic simulator were authorized and executed that way (GFSA-REV-013, GFSA-REV-014).
 
 It is not yet ready for:
 

@@ -474,9 +474,9 @@ Required status:
 
 Current status:
 
-`PASS_WITH_CONDITION — Review completed by Sami (external), 2026-09-27. Four conditions outstanding. Implementation blocked until all conditions are resolved.`
+`PASS_WITH_CONDITION: Review completed by Sami (external), 2026-09-27. All four conditions implemented and verified as resolved (GFSA-REV-012).`
 
-Conditions outstanding (must all be resolved before implementation is authorized):
+Conditions (all resolved per GFSA-REV-012, 2026-09-27):
 
 1. **Condition 1a** — Remove any exception in `Prototype-Boundary-Definition-v0.1` that permits edited real project data. The SYNTHETIC_ONLY requirement must be unqualified. Define a named process responsibility for capability extension review. *(Status: implemented in Prototype-Boundary-Definition-v0.1)*
 2. **Condition 1b — Primary blocker** — Define a documented, independent NO_NETWORK verification procedure in `Prototype-Boundary-Definition-v0.1`. The procedure must specify who performs the check, how it is performed, and what outcome blocks first run. *(Status: implemented in Prototype-Boundary-Definition-v0.1)*
@@ -588,10 +588,10 @@ PDG-031: PASS
 PDG-032: PASS_WITH_CONDITION
 Overall decision: PASS_WITH_CONDITIONS
 Conditions:
-  - PDG-028: External review completed by Sami (2026-09-27). Four conditions outstanding — see PDG-028 section. Implementation blocked until all four conditions are resolved and recorded.
+  - PDG-028: External review completed by Sami (2026-09-27). All four conditions resolved (GFSA-REV-012). Phase 1 and Phase 2 synthetic prototype executed and accepted (GFSA-REV-013, -014). Phase 3 requires a new documented owner decision.
   - PDG-032: Independent second reviewer required at v1.0 gate to confirm no hidden capability expansion. Non-waivable.
 Blocked items: None
-Reviewer required: Yes — implementation requires all PDG-028 conditions resolved
+Reviewer required: PDG-028 external review complete; Phase 3 implementation requires a new documented owner decision
 Assessed by: Martin Dahl (Governance Authority)
 Assessment date: 2026-09-26
 Last updated: 2026-09-27 (PDG-028 review completed by Sami)
@@ -603,13 +603,13 @@ Informal current status:
 
 ```text
 Prototype design discussion readiness: READY_WITH_CONDITIONS
-Prototype implementation readiness: NOT_READY — four PDG-028 conditions outstanding (see PDG-028 section)
+Prototype implementation readiness: PHASE 1-2 COMPLETE (bounded synthetic simulator, GFSA-REV-013/-014); Phase 3 NOT_READY pending a new documented owner decision
 Production readiness: NOT_READY
 Security validation readiness: NOT_READY
 Compliance validation readiness: NOT_READY
 ```
 
-Main remaining conditions:
+Main PDG-028 conditions (all resolved per GFSA-REV-012):
 
 ```text
 1. (Primary blocker) NO_NETWORK verification procedure must be documented and executed before first run.
@@ -622,6 +622,6 @@ Main remaining conditions:
 
 The documentation package is ready for a prototype design discussion.
 
-It is not ready for prototype implementation until all four PDG-028 conditions are resolved (primary blocker: NO_NETWORK verification).
+It is not ready for prototype implementation beyond the executed Phase 1 and Phase 2 scope until a new documented owner decision authorizes Phase 3.
 
 It is not ready for runtime, automation, integration, production, security claims, or compliance claims.
