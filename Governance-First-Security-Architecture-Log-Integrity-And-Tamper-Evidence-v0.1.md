@@ -60,7 +60,7 @@ All logs must be forwarded to a centralised log management system that is:
 | Control | Requirement |
 |---|---|
 | Write-once storage | Log destination must be configured as write-once (WORM) or append-only for the log ingestion account |
-| Deletion protection | Log records must not be deletable within their retention period except by a named Log Governance role through a documented exception process |
+| Deletion protection | Log records must not be deletable within their retention period; any exception requires a documented exception process with named authority. Deletion after retention expiry follows Log-Retention-And-Rotation-Policy-v0.1 Section 5 |
 | Forwarding lag alert | If log forwarding from any system stops for more than 15 minutes, an alert is generated — silence is treated as a signal |
 | Hash chaining (recommended) | Where technology supports it, log records should include a hash of the previous record to enable tamper detection |
 | Out-of-band integrity check | At minimum weekly, log volume and record counts are compared against expected baselines; deviations trigger investigation |
@@ -77,7 +77,7 @@ All logs must be forwarded to a centralised log management system that is:
 | Network flow logs | 90 days | Active incident |
 | Application error and exception logs | 90 days | Post-incident forensic review |
 
-Retention periods may be extended by regulatory obligation. They may not be shortened without documented approval from the Log Governance role.
+Retention periods may be extended by regulatory obligation. Where a log type also appears in Log-Retention-And-Rotation-Policy-v0.1 Section 3, the higher of the two minimum retention periods applies; rotation and deletion handling follow that policy. Retention periods may not be shortened without documented approval from the designated governance authority.
 
 ---
 
