@@ -89,11 +89,11 @@ The model is intended to protect against:
 
 ## Ingress And Egress
 
-The model protects both directions.
+The model is intended to protect both directions.
 
 ### Ingress
 
-Protection against unauthorized entry, manipulation, privilege escalation, or influence.
+Intended protection against unauthorized entry, manipulation, privilege escalation, or influence.
 
 Examples:
 
@@ -107,7 +107,7 @@ Examples:
 
 ### Egress
 
-Protection against unauthorized escape of value from within the system.
+Intended protection against unauthorized escape of value from within the system.
 
 Examples:
 

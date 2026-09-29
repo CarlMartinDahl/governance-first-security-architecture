@@ -12,7 +12,7 @@ This document maps asset categories to the minimal governance kernel for future 
 
 ## Purpose
 
-The purpose of this document is to connect what the architecture protects to how the governance kernel should react.
+The purpose of this document is to connect what the architecture is intended to protect to how the governance kernel should react.
 
 The Asset Register identifies important asset categories.
 
