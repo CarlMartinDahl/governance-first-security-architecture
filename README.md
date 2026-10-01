@@ -33,7 +33,7 @@ The canonical project source is `https://github.com/CarlMartinDahl/governance-fi
 | Repository | Documentation only |
 | Documentation package | Frozen for external review |
 | External feedback | Received and logged |
-| Targeted external review | Partial |
+| Targeted external review | PDG-028 boundary review completed (GFSA-REV-012); broader external review remains limited |
 | Commercial validation | Workshop and assessment discovery only |
 | Prototype implementation | Phase 1 and Phase 2 synthetic simulator executed and accepted; Phase 3 not authorized |
 | Production use | Not authorized |
