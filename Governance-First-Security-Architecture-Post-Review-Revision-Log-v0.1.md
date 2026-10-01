@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-016
+
+```text
+feedback_id: GFSA-REV-016
+reviewer_id: INT-AI-001
+reviewer_type: Internal AI-assisted manual consistency review (Martin Dahl + Perplexity AI); entry proposed via pull request, owner acceptance required
+date_received: 2026-10-01
+source_document: Manual traceability and boundary review of Stop-State-Registry-v0.1; Mode-Model-Normalization-v0.1; Decision-State-Matrix-v0.1; governance-simulator/Prototype-Phase-2-Decision-v0.1.md; governance-simulator/governance_simulator.py; governance-simulator/synthetic_test_cases.yaml; issues #8 and #9
+feedback_summary: Manual consistency review (no code executed). Findings: (1) simulator code and YAML are internally aligned for the 15 executed cases; (2) the documentary Synthetic-Test-Case-Set uses STC-001..024 for scenarios that differ from the simulator STC-001..015 set, so acceptance references have ambiguous evidence pointers; (3) simulator stop-state and mode vocabulary differs materially from the canonical Stop-State Registry and Mode Model Normalization documents; (4) the Phase 2 CA-06 case is not sufficient evidence that the lateral-peer signal itself is evaluated, because the result appears to depend on the assigned stop state; (5) the NO_NETWORK check appears to perform a connection attempt and does not visibly enforce fail-closed behavior, so re-verification is needed; (6) Phase 2 acceptance evidence shows only that current test cases pass their own expected outputs, not that the simulator fully implements the Decision-State Matrix, Stop-State Registry, or Mode Model Normalization.
+source_reference: INT-SIM-TRACEABILITY-REVIEW-2026-10-01
+affected_document: governance-simulator/governance_simulator.py; governance-simulator/synthetic_test_cases.yaml; governance-simulator/Prototype-Phase-2-Decision-v0.1.md; Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md; Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md; Governance-First-Security-Architecture-Mode-Model-Normalization-v0.1.md; Governance-First-Security-Architecture-Decision-State-Matrix-v0.1.md; Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md (PDG-028 references)
+affected_section: STC identifier namespace; simulator stop-state and mode vocabulary; CA-06 / STC-010 and STC-011 signal evaluation; NO_NETWORK check; Phase 2 acceptance evidence scope
+feedback_category: TEST_COVERAGE; TERMINOLOGY; PROTOTYPE_BOUNDARY; DOCUMENTATION_CLARITY
+severity: MEDIUM
+action_type: CLARIFY_TEXT; REQUIRE_ADDITIONAL_REVIEW; BLOCK_PROTOTYPE_STEP
+decision: PENDING
+assigned_owner: Project owner
+required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER
+status: PROPOSED
+resolution_summary: Pending owner decision. Owner decisions required: (a) reserve STC-xxx for the simulator test set and rename the documentary catalogue to DOC-TC-xxx, then update PDG-028 references; (b) treat canonical registry, mode, and matrix vocabulary as the source of truth for future prototype work; (c) record current simulator vocabulary and matrix deviations as known Phase 2 limitations; (d) require a new, explicitly approved phase decision before changing simulator logic to implement canonical vocabulary, mode/action enforcement, risk enforcement, or additional signal evaluation; (e) re-verify NO_NETWORK behavior and CA-06 signal handling before relying on them as Phase 2 acceptance evidence.
+linked_change: This pull request (GFSA-REV-016 entry only); related open issues #8 and #9; no issue is closed by this entry
+do_not_claim_impact: This entry does not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. No code was executed. Phase 2 acceptance evidence is evidence that current test cases pass their own expected outputs only. No live integration, real-data processing, production use, security claim, compliance claim, or runtime authority is authorized. No Phase 3 implementation is authorized.
+prototype_impact: PROTOTYPE_TEST_CHANGE
+notes: Proposed manual review; acceptance, rejection, and wording changes are the project owner's decision. Findings 2 and 3 correspond to issues #9 and #8 and are not resolved by this entry. Findings 4 and 5 relate to the open NO_NETWORK finding (issue #3) and require separate re-verification.
+```
+
 ### Feedback Item GFSA-REV-015
 
 ```text
@@ -726,6 +752,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-016 | TEST_COVERAGE; TERMINOLOGY; PROTOTYPE_BOUNDARY; DOCUMENTATION_CLARITY | MEDIUM | governance-simulator; Synthetic-Test-Case-Set; Stop-State-Registry; Mode-Model-Normalization; Decision-State-Matrix; PDG-028 references | PENDING | PROPOSED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-013 | TEST_COVERAGE; PROTOTYPE_BOUNDARY | INFO | governance-simulator (governance_simulator.py; run_simulator.py; synthetic_test_cases.yaml) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-012 | PROTOTYPE_BOUNDARY; SECURITY_RISK; TEST_COVERAGE; DOCUMENTATION_CLARITY | HIGH | Prototype-Boundary-Definition; Synthetic-Test-Case-Set; CA-06-Control-Test; Prototype-Design-Readiness-Checklist (PDG-028) | ACCEPT | RESOLVED | PROTOTYPE_BOUNDARY_CHANGE |
 | GFSA-REV-011 | DOCUMENTATION_CLARITY; MISSING_CONTROL; SCOPE; ROLE_AUTHORITY | MEDIUM | PDG-032; Readiness Template; Threat-Intelligence-Intake (new); Governance-Maturity-Model (new); Provider-And-Platform-Constraints; ONBOARDING.md (new) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -776,6 +803,7 @@ Prototype implementation:                PHASE 1 AND PHASE 2 EXECUTED under owne
 Prototype design discussion authorized:  YES — PDG-028 external review condition satisfied by GFSA-REV-012 (Sami, 2026-09-27)
 Phase 1 acceptance test:                 PASSED — 9 PASS / 0 FAIL (GFSA-REV-013, 2026-09-27)
 Phase 2 acceptance test:                 PASSED — 15 PASS / 0 FAIL, independently verified 2026-09-27 (GFSA-REV-014; entry PROPOSED, pending owner acceptance)
+Simulator traceability review:           PROPOSED — GFSA-REV-016 (2026-10-01); manual review, no code executed; pending owner decision; no issue closed; no Phase 3 authorized
 Commercial validation authorized:        WORKSHOP/ASSESSMENT DISCOVERY ONLY
 Public GitHub repository:                ACTIVE_AND_VERIFIED
 Public release blockers open:            NO
