@@ -23,7 +23,7 @@ It is intended to map the architecture's governance ideas to GDPR and EU AI Act 
 Source baseline last reviewed:
 
 ```text
-2026-08-15
+2026-11-24
 ```
 
 This document is based on high-level alignment with:
@@ -41,14 +41,14 @@ Primary review sources:
 
 ## Current AI Act Timing Boundary
 
-As of the source-review date:
+Under Regulation (EU) 2024/1689 (Art. 113) as of `2026-11-24`:
 
-- prohibited-practice and AI-literacy provisions have begun applying,
-- governance and general-purpose AI obligations have begun applying,
-- transparency obligations apply from August 2026,
-- high-risk system timelines differ by category and have been affected by later implementation changes.
+- **2 February 2025 (currently applicable):** Chapter I & II — **Art. 4** (AI literacy for providers and deployers) and **Art. 5** (prohibited AI practices).
+- **2 August 2025 (currently applicable):** Chapter V (**Arts. 51–56** GPAI model obligations) and Chapter VII governance and penalty provisions.
+- **2 August 2026 (currently applicable):** General application of the Act, including **Art. 50** (external transparency obligations) and **Annex III high-risk AI obligations** (including **Art. 12/19/26(6)** 6-month minimum operational log retention, **Art. 14** human oversight, **Art. 18(1)** 10-year provider compliance documentation, **Art. 25** deployer-to-provider reclassification, **Art. 26** deployer duties, **Art. 27** Fundamental Rights Impact Assessments (FRIA), and **Art. 73** serious incident reporting).
+- **2 August 2027:** High-risk AI systems embedded as safety components in Annex I harmonized product legislation (Art. 113(c)).
 
-The applicable date, role, system category, and obligation must be re-verified against current primary sources for each actual use case. This document does not determine legal applicability.
+The applicable date, role (provider vs. deployer), system category, and any subsequently enacted Official Journal amendments must be re-verified against current primary legal sources for each actual use case by qualified counsel. This document does not determine legal applicability.
 
 ## Purpose
 
@@ -82,20 +82,20 @@ Governance support is not legal approval.
 
 Governance goal:
 
-Personal data processing should not occur unless the system can identify a valid purpose and authority basis for the processing.
+Personal data processing must not occur unless **both** a specified, explicit, legitimate purpose (**GDPR Art. 5(1)(b)**) **and** a valid statutory lawful basis (**GDPR Art. 6(1)**, plus an **Art. 9(2)** condition for special category data) have been documented and verified prior to processing, with transparent Arts. 13–14 notices to data subjects.
 
 Architecture support:
 
-- lawful purpose check
-- actor/role accountability
-- audit trail
-- transparency record
-- human review for high-risk processing
+- documented lawful-basis and purpose-limitation check (`STOP_LAWFUL_BASIS_MISSING` when absent)
+- actor/role accountability and statutory DPO consultation boundary (GDPR Arts. 37–39)
+- privacy-minimised audit trail
+- transparency notice reference
+- human review and contestability for automated decisions with legal or similarly significant effects (GDPR Art. 22)
 
 Policy expression:
 
 ```text
-No lawful purpose, no processing.
+No documented GDPR lawful basis and specified purpose, no personal-data processing.
 ```
 
 ### 2. Purpose Limitation
@@ -257,77 +257,71 @@ Policy expression:
 No high-risk AI without human accountability.
 ```
 
-### 2. Human Oversight
+### 2. Human Oversight & Automated Decision-Making (EU AI Act Art. 14 & GDPR Art. 22)
 
 Governance goal:
 
-High-risk AI-supported action should not proceed without meaningful human oversight where required.
+High-risk AI-supported action must not proceed without meaningful human oversight where required, and automated decisions producing legal or similarly significant effects on natural persons must satisfy **GDPR Art. 22** safeguards.
 
 Architecture support:
 
-- human review versus approval distinction
-- accountable approver
-- override audit
-- AI refusal explanation
-- shared context ledger
+- human review versus approval distinction (preventing *SCHUFA*-style rubber-stamping under CJEU Case C-634/21 by requiring meaningful human competence, authority, independent evidence, and time to overturn AI output)
+- anti-automation-bias controls (**EU AI Act Art. 14(4)(b)**): surfacing uncertainty and counter-evidence prominently, tracking human-override rates, and prohibiting pre-filled approval defaults
+- contestability and human-redress path (**GDPR Art. 22(3)** & Arts. 13(2)(f)/15(1)(h)) where deterministic or AI-assisted controls (including automated suspensions) produce legal or similarly significant effects on individuals
+- accountable approver, override audit, AI refusal explanation, and shared context ledger
 
 Policy expression:
 
 ```text
-AI may propose. Governance must decide.
+AI may propose. Meaningful, non-rubber-stamped human governance must decide where legally or risk-required.
 ```
 
-### 3. Transparency And Traceability
+### 3. Transparency And Traceability (EU AI Act Art. 50)
 
 Governance goal:
 
-AI involvement should be traceable, and AI-generated or AI-assisted outputs should not be confused with human-authorized decisions.
+AI involvement must be traceable internally **and** disclosed externally to affected natural persons where required under **EU AI Act Art. 50** (human-AI interaction notice under Art. 50(1), machine-readable marking of synthetic content under Art. 50(2), emotion/biometric notice under Art. 50(3), and deepfake/public-interest text disclosure under Art. 50(4)).
 
 Architecture support:
 
-- AI assistance audit event
-- non-authorization labels
-- source references
-- uncertainty marking
-- decision chain record
+- internal AI assistance audit event and non-authorization labels
+- external user-facing AI interaction and synthetic-content disclosure check (`Art. 50`)
+- source references, uncertainty marking, and decision chain record
 
 Policy expression:
 
 ```text
-AI recommendation is not authorization.
+AI recommendation is not authorization, and external AI interaction must be transparently disclosed where legally required.
 ```
 
-### 4. Technical Documentation And Record-Keeping
+### 4. Technical Documentation, AI Literacy And Record-Keeping (Arts. 4, 11, 12, 18, 19, 26, 27, 73)
 
 Governance goal:
 
-AI-supported systems should preserve documentation and logs that make governance review possible.
+AI-supported systems should preserve privacy-minimised documentation and logs that support compliance review, while respecting distinct statutory retention duties (**Arts. 19(1)/26(6)**: minimum 6 months for operational logs, subject to GDPR; **Art. 18(1)**: 10 years for provider technical/QMS/conformity documentation), **Art. 4** AI literacy, **Art. 27** Fundamental Rights Impact Assessments (FRIA) where applicable, and **Art. 73** serious-incident reporting (2 / 10 / 15 days).
 
 Architecture support:
 
-- audit and accountability policy
-- decision events
-- source/evidence records
-- review/approval chain
-- stop-state records
-- capability-change records
+- audit and accountability policy with GDPR Art. 5(1)(e) retention ceilings and payload separation
+- decision events, source/evidence records, review/approval chain, stop-state records
+- capability-change records including **Art. 25 deployer-to-provider reclassification check** (fine-tuning, substantial modification, rebranding, or repurposing into high-risk)
+- `STOP_DPIA_OR_FRIA_REQUIRED` gate before deploying high-risk processing
 
 Policy expression:
 
 ```text
-No governance change without trace.
+No governance or capability change without trace, literacy readiness, and statutory impact review.
 ```
 
 ### 5. Accuracy, Robustness, And Security-Oriented Controls
 
 Governance goal:
 
-AI-supported outputs should not be treated as reliable without evidence, uncertainty handling, and security boundaries.
+AI-supported outputs should not be treated as reliable without verified evidence sufficiency, bounded uncertainty handling, and security boundaries.
 
 Architecture support:
 
-- evidence sufficiency
-- source authority/staleness review
+- evidence sufficiency and source authority/staleness review
 - fail-closed stop states
 - ingress/egress controls
 - AI tool boundary restrictions
@@ -336,41 +330,40 @@ Architecture support:
 Policy expression:
 
 ```text
-No certainty, no execution.
+No verified evidence sufficiency and bounded uncertainty, no execution.
 ```
 
-### 6. Prohibited Or Restricted Use Awareness
+### 6. Prohibited Or Restricted Use Gate (EU AI Act Art. 5 — Currently Binding)
 
 Governance goal:
 
-The architecture should be able to block or escalate AI uses that may be prohibited, restricted, or high-risk under applicable law.
+The architecture must block AI uses that fall within **EU AI Act Art. 5** prohibited practices (binding since 2 February 2025, e.g., workplace emotion inference under Art. 5(1)(f), social scoring, manipulative exploitation) or lack a verified GDPR lawful basis.
 
 Architecture support:
 
-- prohibited action classes in future versions
-- risk classification
-- human/legal review gate
-- stop state for unclear legal basis
+- canonical `STOP_PROHIBITED_AI_USE` stop state (`BLOCK`, or `INCIDENT_RESPONSE` if already deployed)
+- canonical `STOP_LAWFUL_BASIS_MISSING` and `STOP_UNAPPROVED_CROSS_BORDER_TRANSFER` stop states
+- mandatory pre-deployment legal/privacy review gate and statutory DPO consultation boundary (GDPR Arts. 37–39)
 
 Policy expression:
 
 ```text
-No legally unclear high-risk AI path without review.
+Prohibited AI practices and legally unsupported processing are hard-blocked before execution.
 ```
 
 ## EU AI Act Risk Areas Requiring Specialist Review
 
-AI governance/legal review is required before defining:
+AI governance/legal review (with statutory DPO consultation where personal data is involved) is required before defining:
 
-- whether a use case is prohibited, high-risk, limited-risk, or minimal-risk
-- provider versus deployer responsibilities
-- conformity assessment implications
-- required technical documentation
-- human oversight requirements
-- post-market monitoring
-- transparency duties
-- GPAI-related duties where relevant
-- biometric, employment, education, law enforcement, or critical infrastructure use cases
+- whether a use case is prohibited (Art. 5), high-risk (Annex I / Annex III, including Annex III(4)(b) workplace monitoring), limited-risk (Art. 50), or minimal-risk
+- provider versus deployer responsibilities and **Art. 25** reclassification triggers (fine-tuning, substantial modification, rebranding)
+- conformity assessment, CE marking, and **Art. 18(1)** 10-year provider documentation vs. **Arts. 19(1)/26(6)** 6-month operational log retention
+- **Art. 4** AI literacy training obligations
+- **Art. 14** human oversight & automation-bias controls and **GDPR Art. 22** automated decision-making / contestability
+- **Art. 27** Fundamental Rights Impact Assessments (FRIA) and **GDPR Art. 35/36** DPIAs / prior consultation
+- **Art. 50** external transparency and synthetic-content marking duties
+- **Art. 73** serious-incident reporting (2 / 10 / 15 days) and post-market monitoring
+- GPAI-related duties (Arts. 51–56) where relevant
 
 This architecture must not classify regulated AI use cases without expert review.
 
@@ -378,16 +371,16 @@ This architecture must not classify regulated AI use cases without expert review
 
 | Architecture Control | GDPR Alignment Goal | EU AI Act Alignment Goal |
 |---|---|---|
-| Lawful purpose check | Lawfulness, purpose limitation | Use-case governance |
-| Data minimisation | Data minimisation | Risk reduction |
-| Egress control | Integrity/confidentiality | Security and misuse prevention |
-| Evidence sufficiency | Accuracy/accountability | Accuracy and robustness |
-| Audit trail | Accountability | Record-keeping |
-| Human review/approval | Accountability | Human oversight |
-| Mode ladder | Risk limitation | Risk-based governance |
-| Capability-change gate | Security/accountability | Lifecycle risk control |
-| Stop states | Integrity/accountability | Risk mitigation |
-| Recovery/incident handling | Security and breach readiness | Monitoring and response support |
+| Lawful basis & purpose check (`STOP_LAWFUL_BASIS_MISSING`) | Art. 5(1)(b), Art. 6(1), Art. 9(2) | Use-case governance |
+| Data minimisation & payload separation | Art. 5(1)(c), Art. 5(1)(e), Art. 17 | Privacy-safe logging (Arts. 12/19/26(6)) |
+| Egress & transfer control (`STOP_UNAPPROVED_CROSS_BORDER_TRANSFER`) | Art. 32, Chapter V (*Schrems II* TIA) | Security and misuse prevention (Art. 15) |
+| Evidence sufficiency & uncertainty marking | Art. 5(1)(d) accuracy / accountability | Accuracy and robustness (Art. 15) |
+| Audit trail & retention ceilings | Art. 5(2) accountability | Record-keeping (Arts. 12, 18, 19, 26(6)) |
+| Human review/approval & anti-rubber-stamping | Art. 22 safeguards & contestability | Human oversight & Art. 14(4)(b) |
+| External AI disclosure | Arts. 13–14 transparency | Art. 50 transparency & synthetic marking |
+| Capability-change gate & Art. 25 check | Art. 25 privacy by design | Provider reclassification & lifecycle control |
+| Prohibited-use & impact gates (`STOP_PROHIBITED_AI_USE`, `STOP_DPIA_OR_FRIA_REQUIRED`) | Arts. 35–36 DPIA / prior consultation | Art. 5 prohibited practices & Art. 27 FRIA |
+| Recovery/incident handling | Arts. 33–34 breach readiness | Art. 73 serious incident reporting |
 
 ## Must-Not-Claim Statements
 
@@ -417,19 +410,16 @@ This model requires legal/compliance review before compliance claims.
 
 Future versions should preserve:
 
-- purpose of processing
-- lawful basis review reference where applicable
-- data categories
-- asset sensitivity
-- AI involvement
-- human review/approval
-- risk classification
-- source/evidence basis
-- decision outcome
-- stop state if blocked
+- purpose of processing and statutory GDPR lawful basis reference (Art. 6(1) / Art. 9(2))
+- DPIA (GDPR Art. 35) / FRIA (EU AI Act Art. 27) and DPO consultation reference where applicable
+- data categories, asset sensitivity, and Chapter V transfer / TIA reference
+- AI involvement, Art. 50 disclosure status, and Art. 25 provider/deployer classification
+- human review/approval (including anti-automation-bias check and override record)
+- risk classification and source/evidence basis
+- decision outcome and canonical stop state if blocked
 - egress attempt or export
-- retention classification
-- incident handling if applicable
+- retention ceiling classification and legal-hold status
+- incident handling and statutory notification assessment (GDPR Arts. 33–34, NIS2 Art. 23, AI Act Art. 73)
 
 ## Open Questions
 
@@ -439,10 +429,10 @@ Future versions should preserve:
 4. What compliance claims must be explicitly prohibited?
 5. Which personal data categories should be out of scope for early versions?
 6. Which AI use cases should be out of scope for early versions?
-7. How should human oversight be documented?
-8. How should AI-generated output be labeled?
-9. How should records be retained without overcollecting personal data?
-10. When is a DPIA-like review required?
+7. How should meaningful human oversight (preventing Art. 22 rubber-stamping and Art. 14(4)(b) automation bias) be documented?
+8. How should AI-generated output and user interactions be disclosed under Art. 50?
+9. How should records be retained via WORM metadata + separated/erasable personal-data payloads without violating Art. 5(1)(e) or Art. 17?
+10. When are a statutory **GDPR Art. 35 DPIA** (including Art. 36 prior consultation) and an **EU AI Act Art. 27 FRIA** mandatory for the target workflow?
 
 ## References For Review
 

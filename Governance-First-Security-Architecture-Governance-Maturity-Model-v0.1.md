@@ -110,47 +110,47 @@ Has the framework been assessed by someone other than its author?
 
 ## 4. Current State Assessment — GFSA v0.1
 
-The following assessment reflects the honest current state of the Governance-First Security Architecture as of version 0.1. Assessments are conservative: a dimension is rated at the highest level for which all criteria are fully met, not partially met.
+The following assessment reflects the honest current state of the Governance-First Security Architecture as of `v0.1.x` (recalibrated under `GFSA-REV-018` to enforce the cumulative rubric in Section 2 strictly). Assessments are conservative: **Operational Maturity** rates the highest level for which *all* cumulative criteria are met in practice (implemented, operated, and evidenced), while **Design / Specification Readiness** separately notes what is documented on paper so documentation completeness is never conflated with operational verification.
 
-| Dimension | Current Level | Rationale | Next Step to Advance |
-|---|---|---|---|
-| Policy Coverage | **3** | 60+ documents covering all core domains; internal consistency review completed (GFSA-REV-010); cross-references corrected. Gap: new domains (threat intelligence intake) only just added at v0.1. | Advance to 4 by establishing a formal policy gap review cycle (quarterly or semi-annual) |
-| Control Implementation | **2** | Controls named and described with firing criteria and ownership. CA-06 Control Test completed analytically; detection boundaries documented. Gap: empirical testing in a live or prototype environment not yet performed. | Advance to 3 via prototype implementation and live control test (gated by PDG-028 external review) |
-| Observability | **3** | Monitoring-And-Detection-Operations defines sources, rules, coverage requirements, and stop conditions. Threat Intelligence Intake now defines external feed process. Gap: detection engine and monitoring infrastructure not yet implemented (documentation only at v0.1). | Advance to 4 by implementing and operating the monitoring infrastructure; demonstrating TI-to-rule translation cycle |
-| Process Integrity | **3** | Capability Change Gate, PDG process, Post-Review Revision Log, Internal Consistency Review, and Documentation Freeze Gate all exist and have been exercised. Single point of failure (sole author) is documented as a known risk. | Advance to 4 by introducing a second named process authority and scheduling process reviews |
-| Evidence Quality | **2** | Audit log requirements defined; append-only and integrity-protection requirements specified in Log-Integrity-And-Tamper-Evidence-Policy. Gap: no live audit log has been produced; evidence chain is theoretical at v0.1. | Advance to 3 via prototype implementation that produces real (synthetic) audit log entries reviewed in a test scenario |
-| External Validation | **3** | External review package exists (PDG-028); two external reviews completed and incorporated (GFSA-REV-009; GFSA-REV-012, PDG-028 boundary review); Post-Review-Revision-Log is traceable. Gap: external review breadth remains limited to a small reviewer set. | Advance to 4 by broadening external review beyond the initial reviewers |
+| Dimension | Operational Level (Strict Cumulative) | Design / Spec Readiness | Rationale | Next Step to Advance Operational Level |
+|---|---|---|---|---|
+| Policy Coverage | **3** | Defined & cross-checked | Core domains documented and reconciled (`GFSA-REV-010`, `-015`, `-016`, `-018`); CI link/consistency checks active. Gap: formal periodic policy-gap review cycle not yet operating. | Advance to 4 by establishing a recurring semi-annual policy review cycle driven by live findings |
+| Control Implementation | **1** | Specified (analytical + synthetic sim) | Controls are named and described; CA-06 tested analytically; bounded synthetic decision simulator (`15 PASS / 0 FAIL`) verifies synthetic logic only. Gap: no live enforcement engine or empirical control validation exists (`Gap O` open). | Advance to 2 via scoped pilot/prototype control implementation with named operational owners; advance to 3 via empirical control testing |
+| Observability | **1** | Specified (docs only) | Log sources, detection rules (`HR-01`–`HR-11`, `CA-01`–`CA-06`), and stop conditions are defined on paper. Gap: **no detection engine or live monitoring infrastructure is implemented or measured** — therefore Level 2 criteria are not met. | Advance to 2 by implementing a detection engine with routed alerts; advance to 3 by measuring monitoring coverage |
+| Process Integrity | **2** | Defined & exercised locally | Capability Change Gate, PDG process, Post-Review Revision Log, CI checks, and freeze gate exist and have been exercised on the repository. Gap: sole-maintainer authority concentration remains a known single point of failure (`Roles-And-Responsibilities-v0.1`). | Advance to 3 by exercising governance processes with independent named operational role holders beyond a sole maintainer |
+| Evidence Quality | **1** | Specified (synthetic mock records only) | Audit schemas, retention ceilings, and tamper-evidence requirements are defined; simulator emits synthetic `MOCK_AUDIT_RECORD` files. Gap: **no production append-only audit log pipeline has been operated** — therefore Level 2 criteria are not met. | Advance to 2 by deploying an append-only, integrity-protected audit pipeline; advance to 3 by auditing real evidence chains |
+| External Validation | **2** | Targeted external review completed | External review package exists (`PDG-028`); external technical/security reviewers engaged (`GFSA-REV-009`, `GFSA-REV-012`, `GFSA-REV-015`). Gap: external review breadth remains small (`GFSA-REV-009` still `IN_REVISION`; independent external legal/DPO and CISO reviews not yet completed). | Advance to 3 by incorporating independent external legal/GDPR/EU AI Act and CISO reviews and closing `GFSA-REV-009` |
 
 ### 4.1 Overall Maturity Summary
 
-```
-Dimension               Level   Status
-─────────────────────────────────────────────────────
-1. Policy Coverage       3/4    Defined, structured, verified
-2. Control Implementation 2/4   Defined, structured
-3. Observability         3/4    Defined, structured, verified
-4. Process Integrity     3/4    Defined, structured, verified
-5. Evidence Quality      2/4    Defined, structured
-6. External Validation   3/4    Defined, structured, verified
-─────────────────────────────────────────────────────
-Overall GFSA v0.1:       2.7 / 4.0 (documentation-only phase)
+```text
+Dimension                 Operational   Design / Spec Status
+──────────────────────────────────────────────────────────────────────
+1. Policy Coverage         3 / 4        Defined, structured, reconciled
+2. Control Implementation  1 / 4        Defined (synthetic simulator only)
+3. Observability           1 / 4        Defined on paper (no live infra)
+4. Process Integrity       2 / 4        Defined, exercised (sole-maintainer risk)
+5. Evidence Quality        1 / 4        Defined on paper (mock audit only)
+6. External Validation     2 / 4        Targeted technical review only
+──────────────────────────────────────────────────────────────────────
+Overall Operational GFSA v0.1:  1.7 / 4.0  (documentation-first + synthetic simulator phase)
 ```
 
-The 2.7 average reflects an architecture that is well-defined, structured, and partially verified — but not yet empirically tested or operating in a live environment. This is the correct and expected state for a documentation-only v0.1 release. The two dimensions at Level 2 (Control Implementation, Evidence Quality) are structurally dependent on prototype implementation, which is gated by external review per PDG-028.
+An overall operational maturity of **1.7 / 4.0** is the honest, expected score for a documentation-first architecture with a bounded synthetic simulator and no live enforcement or monitoring infrastructure. Scoring unimplemented dimensions at Level 1 preserves the credibility of the model's cumulative rubric and prevents paper specifications from being mistaken for verified operational controls.
 
 ---
 
 ## 5. Advancement Roadmap
 
-The critical path to Level 3 across all dimensions runs through prototype implementation, which is gated by PDG-028 external review.
+Advancing operational maturity requires independent external review across legal/CISO domains, real-world workshop validation, and (only if later authorized by a new owner decision) scoped operational implementation:
 
-| Phase | Gate | Expected Maturity Outcome |
+| Phase | Gate | Expected Operational Maturity Outcome |
 |---|---|---|
-| Current (v0.1 documentation) | — | 2.7 / 4.0 as assessed above |
-| Post external review | PDG-028 condition met (GFSA-REV-012, 2026-09-27) | External Validation advances to 4; Process Integrity advances to 4 |
-| Post prototype implementation | PDG-028 gate passed | Control Implementation advances to 3; Evidence Quality advances to 3 |
-| Post operational monitoring cycle | 6 months live operation | Observability advances to 4; Policy Coverage advances to 4 |
-| Full v1.0 | All dimensions ≥ 3 | Target: 3.5+ average |
+| Current (`v0.1.x` baseline) | — | **1.7 / 4.0** (strict cumulative operational baseline) |
+| Post broadened external review & workshops | Independent external legal/GDPR/AI Act + CISO review + 2–3 assessments | External Validation advances to 3; Process Integrity advances toward 3 |
+| Post authorized scoped pilot (future Phase 3+) | New owner decision + empirical control & audit-pipeline testing | Control Implementation advances to 2–3; Evidence Quality advances to 2–3; Observability advances to 2 |
+| Post operational monitoring cycle | 6+ months live operation with measured coverage & review cadence | Observability advances to 3–4; Policy Coverage advances to 4 |
+| Full `v1.0` operational maturity | All dimensions ≥ 3 | Target: 3.0–3.5+ average |
 
 ---
 

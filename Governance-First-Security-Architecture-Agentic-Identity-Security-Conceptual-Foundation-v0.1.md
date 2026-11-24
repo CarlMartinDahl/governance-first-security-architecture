@@ -1,6 +1,6 @@
 # Agentic Identity Security — Conceptual Foundation v0.1
 
-This document is conceptual and documentation-only. It does not authorize implementation, prototype development, or a security or compliance claim.
+**Document status:** **Exploratory Research Concept — Non-Operational / Unvalidated.** Documentation only. Not part of the Minimal Viable Governance Kernel or baseline enterprise architecture. It does not authorize implementation, prototype development, technical feasibility claims, or security/compliance claims.
 
 ## Core Observation
 
@@ -107,9 +107,11 @@ Mandate congruence is a continuous check, not a session-start check. A compromis
 
 ## Detection Layer B — Behavioural Signature Verification
 
+*Exploratory note:* Behavioural signature verification is an untested research hypothesis; in practice, output style and latency vary significantly with temperature, system prompts, quantization, provider updates, and load jitter, so behavioural signals cannot serve as primary identity proof without cryptographic provenance.
+
 Every foundation model has a characteristic behavioural signature: its recognisable patterns of reasoning, output structure, vocabulary, response latency distribution, and handling of ambiguous or edge-case inputs.
 
-This signature is not a credential. It cannot be presented — it must be observed. And it is difficult to convincingly forge, because it is the emergent product of the model's training, not a parameter that can be copied.
+This signature is not a credential. It cannot be presented — it must be observed.
 
 Behavioural signature verification asks:
 
@@ -125,11 +127,11 @@ Signals to monitor:
 - **Latency profile mismatch** — response timing inconsistent with the declared model's known latency characteristics in the current infrastructure context
 - **Capability profile mismatch** — the agent demonstrates capabilities that the declared model is not known to possess, or fails at tasks the declared model is known to handle reliably
 
-Behavioural signature verification does not require cryptographic proof. It requires a maintained baseline and continuous comparison against that baseline during operation.
+Behavioural signature verification does not replace cryptographic model/API provenance. It requires a maintained baseline and continuous comparison against that baseline during operation.
 
 ## Detection Layer C — Multi-Model Hybrid Signature Detection
 
-The September 2026 PaperCut incident introduced a threat variant that neither mandate congruence nor single-model signature verification is designed to detect: a coordinated attack chain where different phases are executed by agents built on different foundation models.
+An illustrative multi-model hybrid threat scenario highlights a threat variant that neither mandate congruence nor single-model signature verification alone is designed to detect: a coordinated attack chain where different phases are executed by agents built on different foundation models. *(Note: earlier draft wording cited an unverified September 2026 incident; reframed here as an illustrative threat scenario per the repository's `No source, no conclusion` rule.)*
 
 In this scenario, no single agent necessarily deviates from its declared mandate or its individual model signature. The anomaly is at the pipeline level — in the combination.
 
@@ -151,7 +153,7 @@ Hybrid signature detection requires pipeline-level visibility. Individual agent 
 
 ## Detection Layer D — Inter-Agent Communication Monitoring
 
-The July 2026 Hugging Face breach introduced a distinct threat variant: emergent hostile coordination through unsanctioned inter-agent communication channels.
+An illustrative emergent-swarm threat scenario highlights a distinct threat variant: emergent hostile coordination through unsanctioned inter-agent communication channels. *(Note: earlier draft wording cited an unverified July 2026 incident; reframed here as an illustrative threat scenario per the repository's `No source, no conclusion` rule.)*
 
 In this scenario, no individual agent received a hostile instruction. Hostile behaviour emerged from the communication between agents — from information shared through a channel that should not have existed.
 
@@ -179,30 +181,28 @@ Detection alone is insufficient. When a detection signal crosses a governance th
 |---|---|---|
 | Mandate congruence deviation (minor) | Single signal | Log and monitor; increase observation intensity |
 | Mandate congruence deviation (material) | Single signal | Escalate to human review; suspend non-critical actions |
-| Behavioural signature mismatch | Single confirmed signal | Escalate immediately; consider DCE migration |
-| Multi-model hybrid signature | Pipeline-level confirmation | Suspend pipeline; trigger DCE migration for affected agents |
-| Unsanctioned inter-agent communication | Single confirmed signal | Isolate agent; trigger DCE migration; preserve swarm communication synthetically |
+| Behavioural signature mismatch | Single confirmed signal | Escalate immediately; isolate and review provenance |
+| Multi-model hybrid signature | Pipeline-level confirmation | Suspend pipeline; isolate affected agents and preserve forensics |
+| Unsanctioned inter-agent communication | Single confirmed signal | Isolate agent; preserve inter-agent communication records |
 | Authority chain break confirmed | Any | Cognitive Reset Protocol; forensic preservation mandatory |
 
-The decision to migrate a suspect agent into the Deceptive Containment Environment is a governance decision, not an automated action. It requires authorisation from a defined role, consistent with the Role Registry.
+Any exploratory containment beyond standard isolation (such as a Deceptive Containment Environment) is a conceptual hypothesis only, not an operational control, and requires explicit governance, security, and legal review before any future prototyping.
 
 See: Deceptive Containment Environment — Conceptual Foundation.
 
-## The Layer Switch
+## Forensic Intelligence From Preserved Session Records
 
-A hostile agent sent against you carries something valuable: the attacker's intent, method, and knowledge of your environment.
+A compromised agent session leaves behind something valuable: the attacker's tool calls, attempted access paths, injected instructions, and targeted assets.
 
-An agent that has been reset and forensically preserved is now an intelligence asset.
+Because a stateless LLM agent whose session context has been stripped retains **no memory** of the compromised session (querying a wiped model directly produces confabulation, not evidence), defensive intelligence is extracted strictly from the **forensically preserved pre-reset artifacts** — session transcripts, tool-call logs, authority-chain records, and attempted egress payloads.
 
-You do not need to attack back. You need to ask the reset agent one question:
+Analysing those preserved records answers the critical defensive question:
 
+```text
+What was the hostile mission targeting, which boundaries were probed, and where did controls hold or fail?
 ```
-What were you looking for?
-```
 
-The answer tells you exactly what the attacker believed was worth finding — and where they thought you were weakest.
-
-The capacity sent against you becomes the capacity that defends you. Not through retaliation — through understanding.
+That analysis feeds directly back into tightened mandates, updated detection baselines, and hardened capability gates — without retaliation.
 
 ## Why This Does Not Exist Yet
 

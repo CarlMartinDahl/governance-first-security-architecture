@@ -1402,6 +1402,19 @@ The initial Phase 1 and Phase 2 runs of the Governance Decision Simulator (`GFSA
 | STOP_COMPOUND_HOSTILE_SIGNAL | INCIDENT_RESPONSE |
 | STOP_ROLLBACK_MISSING | REVIEW_REQUIRED |
 | REVIEW_REQUIRED_RECOVERY | REVIEW_REQUIRED |
+| STOP_LAWFUL_BASIS_MISSING | BLOCK |
+| STOP_PROHIBITED_AI_USE | BLOCK (escalate to `INCIDENT_RESPONSE` if already deployed) |
+| STOP_DPIA_OR_FRIA_REQUIRED | REVIEW_REQUIRED |
+| STOP_UNAPPROVED_CROSS_BORDER_TRANSFER | BLOCK |
+
+## Legal, Privacy And Regulatory Stops
+
+Added under `GFSA-REV-018` so legal/privacy blockers referenced in `GDPR-EU-AI-Act-Alignment-v0.1` and `Data-Egress-And-Exfiltration-Prevention-v0.1` resolve to canonical stop-state identifiers:
+
+- **`STOP_LAWFUL_BASIS_MISSING` (`BLOCK`):** Personal-data processing lacks a documented GDPR Art. 5(1)(b) purpose and Art. 6(1) / Art. 9(2) lawful basis. Required reviewer: `ROLE_PRIVACY_REVIEWER` and `ROLE_LEGAL_COMPLIANCE_REVIEWER` (with statutory DPO consultation where required).
+- **`STOP_PROHIBITED_AI_USE` (`BLOCK` / `INCIDENT_RESPONSE` if deployed):** Proposed or observed AI use falls within EU AI Act Art. 5 prohibited practices (e.g., workplace emotion inference under Art. 5(1)(f), social scoring, manipulative exploitation). Required reviewer: `ROLE_LEGAL_COMPLIANCE_REVIEWER` and `ROLE_AI_GOVERNANCE_REVIEWER`.
+- **`STOP_DPIA_OR_FRIA_REQUIRED` (`REVIEW_REQUIRED`):** Planned processing or high-risk AI deployment triggers a mandatory GDPR Art. 35 DPIA (including Art. 36 prior consultation where residual risk remains high) or EU AI Act Art. 27 FRIA that has not been completed. Required reviewer: `ROLE_PRIVACY_REVIEWER`, `ROLE_LEGAL_COMPLIANCE_REVIEWER`, and statutory DPO advisory.
+- **`STOP_UNAPPROVED_CROSS_BORDER_TRANSFER` (`BLOCK`):** Personal data egress or remote non-EEA access lacks a verified GDPR Chapter V transfer mechanism (adequacy decision, SCCs + *Schrems II* Transfer Impact Assessment + EDPB 01/2020 supplementary measures, or strictly bounded Art. 49 derogation). Required reviewer: `ROLE_PRIVACY_REVIEWER` and `ROLE_LEGAL_COMPLIANCE_REVIEWER`.
 
 ## Current Consistency Decision
 

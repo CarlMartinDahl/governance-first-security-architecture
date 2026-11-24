@@ -1,7 +1,7 @@
 # Governance-First Security Architecture
 ## Log Integrity And Tamper-Evidence Policy
 **Version:** 0.1 — Initial Release
-**Status:** Active
+**Status:** Draft / Review-Stage Template (`LM-1_REVIEW_PACKAGE` — Not Approved for Production or Compliance Use)
 **Classification:** Governance Policy
 
 ---
@@ -59,9 +59,9 @@ All logs must be forwarded to a centralised log management system that is:
 
 | Control | Requirement |
 |---|---|
-| Write-once storage | Log destination must be configured as write-once (WORM) or append-only for the log ingestion account |
-| Deletion protection | Log records must not be deletable within their retention period; any exception requires a documented exception process with named authority. Deletion after retention expiry follows Log-Retention-And-Rotation-Policy-v0.1 Section 5 |
-| Forwarding lag alert | If log forwarding from any system stops for more than 15 minutes, an alert is generated — silence is treated as a signal |
+| Write-once storage | Log metadata and hash manifests must be configured as time-bounded write-once (WORM) or append-only for the log ingestion account; raw personal-data payloads must be redacted/tokenised at ingestion or stored separately with crypto-shredding to reconcile WORM tamper-evidence with GDPR Art. 5(1)(e) and Art. 17 |
+| Deletion protection | Log records must not be deletable within their retention period; any exception requires a documented exception process with named authority. Deletion after retention expiry (including GDPR Art. 17 / Art. 5(1)(e) disposal and Legal Hold checks) follows Log-Retention-And-Rotation-Policy-v0.1 Section 5 |
+| Forwarding lag alert | If log forwarding from any system stops for more than 15 minutes, an alert is generated — silence is treated as a signal (for active AI agent sessions, out-of-band session heartbeats govern faster silence detection per `Monitoring-And-Detection-Operations-v0.1` `HR-05`) |
 | Hash chaining (recommended) | Where technology supports it, log records should include a hash of the previous record to enable tamper detection |
 | Out-of-band integrity check | At minimum weekly, log volume and record counts are compared against expected baselines; deviations trigger investigation |
 
@@ -77,7 +77,7 @@ All logs must be forwarded to a centralised log management system that is:
 | Network flow logs | 90 days | Active incident |
 | Application error and exception logs | 90 days | Post-incident forensic review |
 
-Retention periods may be extended by regulatory obligation. Where a log type also appears in Log-Retention-And-Rotation-Policy-v0.1 Section 3, the higher of the two minimum retention periods applies; rotation and deletion handling follow that policy. Retention periods may not be shortened without documented approval from the designated governance authority.
+Retention periods may be extended only by documented statutory obligation or time-reviewed Legal Hold (GDPR Art. 17(3)(e)). Where a log type also appears in `Log-Retention-And-Rotation-Policy-v0.1` Section 3, both minimum floors and maximum GDPR retention ceilings apply — longer retention requires a documented GDPR Art. 5(1)(e) necessity justification and legal basis. Retention periods may not be shortened below statutory minimums without documented approval from `ROLE_LEGAL_COMPLIANCE_REVIEWER`, `ROLE_PRIVACY_REVIEWER` (with DPO consultation), and the designated governance authority.
 
 ---
 
@@ -117,13 +117,13 @@ When an incident is declared:
 
 ## 11. Regulatory And Legal Considerations
 
-Log integrity directly affects the organisation's ability to:
-- Demonstrate compliance with GDPR Article 32 (technical and organisational security measures)
+Log integrity directly supports the organisation's ability to:
+- Support accountability evidence for GDPR Article 32 (technical and organisational security measures)
 - Respond to data subject access requests and breach notifications
-- Meet NIS2, ISO 27001, and sector-specific audit requirements
-- Produce evidence in legal proceedings
+- Support NIS2, ISO 27001, and sector-specific audit requirements
+- Produce tamper-evident records in legal proceedings
 
-The Log Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) is responsible for ensuring log practices meet current regulatory requirements and liaising with legal counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) when log evidence may be required.
+Regulatory compliance verification of logging practices is the responsibility of `ROLE_LEGAL_COMPLIANCE_REVIEWER` and `ROLE_PRIVACY_REVIEWER` (with statutory DPO consultation where applicable); the operational Log Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) implements the technical controls and liaises with legal counsel when log evidence is required.
 
 ---
 
