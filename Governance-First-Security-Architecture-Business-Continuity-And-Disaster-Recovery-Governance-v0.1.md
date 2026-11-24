@@ -94,11 +94,11 @@ AI systems with operational authority (Tier B or above actions per the Agentic O
 
 A disaster declaration activates the full continuity response. It is a governance decision, not an automatic technical trigger:
 
-- **Authority to declare**: the named Continuity Governance role in the Role Registry, or the Stop State authority if the Continuity role is unavailable
+- **Authority to declare**: the named Continuity Governance function (mapped in `Role-Registry-v0.1` to `ROLE_SYSTEM_OWNER` and `ROLE_GOVERNANCE_REVIEWER`), or the Stop State authority (`ROLE_INCIDENT_REVIEWER`) if unavailable
 - **Threshold**: declaration is triggered when a disruption is expected to exceed the MTO of one or more Tier 1 systems, or when restoration within RTO is not achievable through normal incident response
 - **Declaration activates**: alternate site or mode activation, external communication protocols, regulatory notification assessment, and escalated recovery resource allocation
 - **Declaration is logged** with timestamp, declaring authority, and rationale
-- **Undeclaring**: recovery is not complete until the Continuity Governance role confirms that affected systems meet their normal operational criteria — not merely that they are technically available
+- **Undeclaring**: recovery is not complete until the Continuity Governance function (`ROLE_SYSTEM_OWNER` / `ROLE_GOVERNANCE_REVIEWER` with `ROLE_INCIDENT_REVIEWER` verification) confirms that affected systems meet their normal operational criteria — not merely that they are technically available
 
 ---
 
@@ -149,7 +149,7 @@ Recovery is not complete when systems are technically available. Return to norma
 2. **Security posture confirmation** — the incident or disruption has not left residual access, compromised credentials, or weakened controls
 3. **Audit log continuity** — the audit trail covers the disruption period; gaps in logging are documented
 4. **Root cause documented** — the cause of the disruption is understood before normal operations resume
-5. **Governance sign-off** — the Continuity Governance role formally closes the incident
+5. **Governance sign-off** — the Continuity Governance function (`ROLE_SYSTEM_OWNER` / `ROLE_GOVERNANCE_REVIEWER`) formally closes the incident
 6. **Post-incident review** — findings feed into the Risk And Action Taxonomy and continuity programme within 30 days
 
 ---

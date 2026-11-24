@@ -110,7 +110,7 @@ Applies to all cryptographic operations performed by or on behalf of the organis
 
 Use of a conditionally approved or prohibited algorithm may be required for legacy system interoperability or third-party constraints. Exceptions:
 
-- Require named approval from the Cryptographic Governance role
+- Require named approval from the Cryptographic Governance function (mapped in `Role-Registry-v0.1` to `ROLE_SECURITY_REVIEWER` and `ROLE_TECHNICAL_REVIEWER`)
 - Must document: which prohibited algorithm, which system, why it cannot be changed, what compensating controls are in place, and a hard remediation deadline
 - Are reviewed at every governance cycle; they do not auto-renew
 - Prohibited algorithms (MD5, SHA-1, SSL, TLS 1.0/1.1) have no exception path for new implementations — exceptions apply to existing systems only and only with a migration timeline

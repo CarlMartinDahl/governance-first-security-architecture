@@ -78,7 +78,7 @@ The following conditions trigger mandatory isolation of the affected system, def
 - System observed communicating with known command-and-control infrastructure
 - System found to have been modified outside of the Change Gate process
 
-Isolation authority: any Security Operations role may isolate; re-connection requires named approval from Security Governance role and documented justification.
+Isolation authority: any Security Operations function (`ROLE_INCIDENT_REVIEWER` / `ROLE_SECURITY_REVIEWER`) may isolate; re-connection requires named approval from the Security Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) and documented justification.
 
 ---
 
@@ -106,7 +106,7 @@ Where emergency access across segment boundaries is required outside of normal p
 
 ## 9. Segmentation Review
 
-- Segmentation rules are reviewed quarterly by the Security Governance role
+- Segmentation rules are reviewed quarterly by the Security Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`)
 - Any change to segmentation rules follows the Capability Change Gate process
 - Penetration testing must include lateral movement scenarios at minimum annually
 - Results of lateral movement testing feed into the Synthetic Test Case Set and Risk and Action Taxonomy

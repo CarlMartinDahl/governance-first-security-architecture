@@ -99,7 +99,7 @@ Standing privileged access — where an account holds elevated permissions conti
 Break-glass accounts exist for emergency scenarios where normal just-in-time provisioning is unavailable. They are not for convenience.
 
 - Break-glass credentials are stored in a physically secured location and/or a secret management system accessible only in emergencies
-- Use of any break-glass account triggers immediate notification to the Security Governance role
+- Use of any break-glass account triggers immediate notification to the Security Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`)
 - All break-glass sessions are fully recorded
 - Post-use: break-glass credentials are rotated immediately after use; use is reviewed within 24 hours
 - Break-glass accounts are tested for accessibility at minimum annually without activating them operationally
@@ -109,7 +109,7 @@ Break-glass accounts exist for emergency scenarios where normal just-in-time pro
 
 ## 10. Privileged Access Review
 
-- All privileged account assignments are reviewed quarterly by the Security Governance role
+- All privileged account assignments are reviewed quarterly by the Security Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`)
 - Review confirms: the individual still requires the access, the access scope remains appropriate, the account has been used within the review period (unused privileged accounts are revoked)
 - Privileged access for individuals who have changed roles, gone on extended leave, or left the organisation is revoked immediately under Vendor Offboarding And Revocation and the Role Registry offboarding process
 - Review results are documented in Audit and Accountability

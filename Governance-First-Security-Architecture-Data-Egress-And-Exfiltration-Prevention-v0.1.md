@@ -32,8 +32,8 @@ Applies to all data leaving the governed environment by any mechanism: human-ini
 |---|---|---|---|
 | Public | Permitted | None beyond standard process | No restrictions |
 | Internal | Restricted | Line manager or equivalent | Approved channels only; no personal storage services |
-| Confidential | Denied by default | Named data owner + Security Governance | Encrypted channel; recipient identity verified; logged |
-| Restricted | Denied by default | Named data owner + Security Governance + legal review where applicable | End-to-end encrypted; recipient vetted; audit record mandatory; GDPR transfer rules apply |
+| Confidential | Denied by default | Named data owner + Security Governance (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) | Encrypted channel; recipient identity verified; logged |
+| Restricted | Denied by default | Named data owner + Security Governance (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) + legal review (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) where applicable | End-to-end encrypted; recipient vetted; audit record mandatory; GDPR transfer rules apply |
 
 AI-generated outputs that contain or are derived from Confidential or Restricted data inherit that classification for egress purposes.
 

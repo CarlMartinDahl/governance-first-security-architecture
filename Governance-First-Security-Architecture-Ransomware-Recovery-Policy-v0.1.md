@@ -49,7 +49,7 @@ Recovery from the air-gapped backup is verified through the restoration testing 
 ### 4.3 Named Decision Authorities
 Before an incident, the following roles must be named and alternates designated:
 - **Ransomware Incident Commander** — overall incident authority
-- **Payment Decision Authority** — the only role authorised to approve ransom payment consideration
+- **Payment Decision Authority** — mapped in `Role-Registry-v0.1` to `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER` with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` participation; the only authority permitted to approve ransom payment consideration
 - **Legal Counsel Contact** — engaged immediately upon incident declaration
 - **Law Enforcement Liaison** — designated contact for reporting obligations
 - **Communications Authority** — authorised to communicate externally about the incident
@@ -82,7 +82,7 @@ Before an incident, the following roles must be named and alternates designated:
 This is the highest-stakes governance decision in a ransomware incident. The following framework governs it.
 
 ### 7.1 Who Decides
-Only the named Payment Decision Authority, with legal counsel present, may authorise exploration of payment. No other individual or role has this authority.
+Only the named Payment Decision Authority (`ROLE_SYSTEM_OWNER` / `ROLE_APPROVER`), with legal counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) present, may authorise exploration of payment. No other individual or role has this authority.
 
 ### 7.2 Prerequisites Before Payment Is Considered
 - Restoration from backup has been assessed as infeasible within acceptable recovery time, OR backup has been confirmed compromised
