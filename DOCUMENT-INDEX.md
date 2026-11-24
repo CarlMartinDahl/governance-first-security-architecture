@@ -90,7 +90,7 @@ The package is documentation-first. The only code in the repository is the owner
 ## Test And Design-Only Material
 
 - [Test Plan](Governance-First-Security-Architecture-Test-Plan-v0.1.md) - Safe governance-control test categories.
-- [Synthetic Test Case Set](Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md) - Synthetic-only test cases.
+- [Synthetic Test Case Set](Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md) - Documentary reference synthetic test cases (`DOC-TC-001` through `DOC-TC-024`).
 - [Implementation Roadmap](Governance-First-Security-Architecture-Implementation-Roadmap-v0.1.md) - Historical staged path with implementation still unauthorized.
 - [Prototype Boundary Definition](Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md) - No-network, no-real-data, no-real-effect boundary.
 - [Prototype Design Readiness Checklist](Governance-First-Security-Architecture-Prototype-Design-Readiness-Checklist-v0.1.md) - Preconditions for design discussion.
@@ -101,7 +101,7 @@ The package is documentation-first. The only code in the repository is the owner
 ## Prototype Implementation
 
 - [Prototype Implementation Plan](Governance-First-Security-Architecture-Prototype-Implementation-Plan-v0.1.md) - Bounded Phase 1 and Phase 2 implementation scope for the governance decision simulator (Alternative B path).
-- [governance-simulator/](governance-simulator/) - Owner-approved synthetic governance decision simulator: simulator module, runner, synthetic test cases, and the Phase 2 scope decision. Accepted via GFSA-REV-013 and -014.
+- [governance-simulator/](governance-simulator/) - Owner-approved stdlib-only synthetic governance decision simulator (`STC-001` through `STC-015`): simulator module, runner, synthetic test cases, and the Phase 2 scope decision. Accepted via GFSA-REV-013, -014, and reconciled under -016.
 
 ## External Review And Revision
 
