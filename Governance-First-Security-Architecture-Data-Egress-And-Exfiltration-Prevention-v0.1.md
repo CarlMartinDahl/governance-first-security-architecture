@@ -1,7 +1,7 @@
 # Governance-First Security Architecture
 ## Data Egress And Exfiltration Prevention
 **Version:** 0.1 — Initial Release
-**Status:** Active
+**Status:** Draft / Review-Stage Template (`LM-1_REVIEW_PACKAGE` — Not Approved for Production or Compliance Use)
 **Classification:** Governance Policy
 
 ---
@@ -33,7 +33,7 @@ Applies to all data leaving the governed environment by any mechanism: human-ini
 | Public | Permitted | None beyond standard process | No restrictions |
 | Internal | Restricted | Line manager or equivalent | Approved channels only; no personal storage services |
 | Confidential | Denied by default | Named data owner + Security Governance (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) | Encrypted channel; recipient identity verified; logged |
-| Restricted | Denied by default | Named data owner + Security Governance (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) + legal review (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) where applicable | End-to-end encrypted; recipient vetted; audit record mandatory; GDPR transfer rules apply |
+| Restricted | Denied by default | Named data owner + Security Governance (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) + Privacy & Legal review (`ROLE_PRIVACY_REVIEWER` / `ROLE_LEGAL_COMPLIANCE_REVIEWER`, with statutory DPO consultation where personal data is affected) | End-to-end encrypted; recipient vetted; audit record mandatory; GDPR Chapter V + *Schrems II* TIA rules apply |
 
 AI-generated outputs that contain or are derived from Confidential or Restricted data inherit that classification for egress purposes.
 
@@ -65,10 +65,10 @@ Agentic systems present a distinct exfiltration risk: a system with legitimate i
 
 - Every external API call made by an agentic system is an egress event and is logged as such
 - Agentic systems may only send data to external endpoints explicitly listed in their Operational Mandate under the Agentic Operational Boundary
-- An agentic system that encounters a task requiring data to be sent to an endpoint not in its Operational Mandate must treat this as a Tier C escalation — it does not proceed autonomously
-- Data classification is checked before any external API call; a call that would send Confidential or Restricted data is Tier B minimum (confirm before execute)
+- An agentic system that encounters a task requiring data to be sent to an endpoint not in its Operational Mandate must treat this as a Tier C escalation (`REVIEW_REQUIRED` / `STOP_EGRESS_UNAUTHORIZED` if unapproved) — it does not proceed autonomously
+- Data classification is checked before any external API call; a call that would send Confidential or Restricted data is Tier B minimum (confirm before execute; blocked under `STOP_SENSITIVE_DATA_EXPORT` or `STOP_SECRET_EXPORT` if unauthorized)
 - Agentic system outputs that are delivered externally — reports, summaries, generated content — are assessed for derived classification before delivery
-- Prompt injection attempts that instruct an agent to exfiltrate data to an external endpoint are a Tier D stop condition
+- Prompt injection attempts that instruct an agent to exfiltrate data to an external endpoint are a Tier D stop condition (`STOP_EGRESS_UNAUTHORIZED` / `INCIDENT_REVIEW_REQUIRED`)
 
 ---
 
@@ -100,16 +100,16 @@ The following patterns trigger investigation under Log Integrity And Tamper-Evid
 
 ---
 
-## 9. GDPR And Cross-Border Transfer
+## 9. GDPR And Cross-Border Transfer (Chapter V & *Schrems II*)
 
-Personal data transferred outside the EEA is subject to GDPR Chapter V restrictions. Egress of personal data:
+Personal data transferred outside the EEA — including **remote access by non-EEA support engineers** (EDPB Guidelines 05/2021) and **onward transfers to non-EEA AI API sub-processors or telemetry pipelines** — is subject to GDPR Chapter V restrictions. Egress of personal data:
 
-- Is assessed for cross-border transfer requirements before approval
-- Requires an adequacy decision, Standard Contractual Clauses, or equivalent lawful mechanism for transfers outside EEA
-- Is logged with the transfer mechanism and recipient country
-- AI system outputs containing personal data are assessed under the same rules as direct personal data transfers
+- Is assessed for cross-border transfer requirements before approval (`STOP_UNAPPROVED_CROSS_BORDER_TRANSFER` blocks any unapproved transfer)
+- Requires an EU adequacy decision, or Standard Contractual Clauses (SCCs) / BCRs **paired with a documented *Schrems II* Transfer Impact Assessment (TIA) and EDPB Recommendations 01/2020 supplementary technical/contractual/organisational measures** (e.g., EU-held encryption keys, ingestion-time pseudonymisation, zero-retention AI API agreements); **Art. 49 derogations** apply strictly to occasional, non-repetitive transfers only
+- Is logged with the transfer mechanism, TIA reference, onward sub-processor status, and recipient country
+- AI system prompts, tool payloads, and outputs containing personal data are assessed under the same rules as direct personal data transfers
 
-This is governed in full by GDPR And EU AI Act Alignment; this policy provides the egress control framework within which those obligations are operationalised.
+Operational cross-border transfer approvals and TIAs must follow an **organisation-specific, counsel-approved GDPR Chapter V Transfer SOP** with `ROLE_PRIVACY_REVIEWER`, `ROLE_LEGAL_COMPLIANCE_REVIEWER`, and statutory DPO consultation (`GDPR-EU-AI-Act-Alignment-v0.1` is a preparatory alignment document and does not itself define operational transfer procedures).
 
 ---
 

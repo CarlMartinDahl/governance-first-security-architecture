@@ -95,9 +95,9 @@ Selective neutralization terminates the specific agent while all other agents co
 ### Steps
 
 1. **Preserve agent state before termination:**
-   - If not already done in quarantine, capture a process/container snapshot and memory dump
+   - For self-hosted container/VM agents: capture a process/container snapshot and memory dump if not already done in quarantine; for managed/SaaS API agents: snapshot session state, API gateway transcripts, tool-call logs, and active token metadata
    - Hash and store this snapshot in the evidence store
-   - This must happen BEFORE termination — state is destroyed on process kill
+   - This must happen BEFORE termination where time permits — ephemeral state is lost on kill (use Track 4 if active exfiltration precludes delay)
 
 2. **Revoke the agent's identity token:**
    - Mark the token as revoked in the identity registry
@@ -106,7 +106,7 @@ Selective neutralization terminates the specific agent while all other agents co
    - Verify propagation before terminating the process (to prevent token reuse during a restart attempt)
 
 3. **Terminate the agent process:**
-   - Send a graceful shutdown signal first; wait a maximum of 30 seconds
+   - Send a graceful shutdown signal first (capped at 5–10 seconds for confirmed hostile agents; up to 30 seconds only for non-hostile/low-risk containment)
    - If the agent does not shut down gracefully, force-terminate
    - If the agent resists termination (e.g., attempts to respawn), escalate immediately to Track 3
 
@@ -120,7 +120,7 @@ Selective neutralization terminates the specific agent while all other agents co
    - Check for any output the agent delivered downstream before neutralization; assess whether those outputs require recall or remediation
    - Check for any persistent state the agent wrote (files, database entries, configuration changes) during the incident window; flag for review
 
-6. **Log neutralization completion** in the audit log and Stop-State-Registry-v0.1.
+6. **Log neutralization completion** in the incident/audit log, referencing the applicable canonical stop-state identifier from `Stop-State-Registry-v0.1`.
 
 7. **Verify no impact on other agents:**
    - Confirm all other agents are still operating normally
@@ -234,10 +234,10 @@ This option requires explicit Governance Authority authorization and is only app
 |---|---|---|---|
 | Single agent, ongoing harm | CONFIRMED | Low | Track 2 |
 | Single agent, potential harm, uncertain | PROBABLE | Low | Track 1 then 2 |
-| Single agent, investigation value | CONFIRMED | Low | Deceptive Containment |
-| Coordinated agents, ongoing | CONFIRMED | Medium | Track 3 |
+| Single agent, forensic investigation value | CONFIRMED | Low | Track 1 (Quarantine + forensic capture); DCE remains non-operational / exploratory only |
+| Coordinated agents, ongoing | CONFIRMED | Medium | Track 1 (pipeline quarantine) then Track 3 |
 | Any agent, imminent critical harm | Any | Any | Track 4 |
-| Full environment compromised | Any | — | Stop-State-Policy-v0.1 |
+| Full environment compromised | Any | — | Stop-State-Policy-v0.1 / `LOCKDOWN_REQUIRED` |
 
 ---
 

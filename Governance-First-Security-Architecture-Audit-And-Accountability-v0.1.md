@@ -622,15 +622,24 @@ Default rule:
 Log enough to reconstruct decisions, not enough to bury them.
 ```
 
+## Audit Log Privacy & Minimisation Boundary
+
+Every governance and incident audit event can contain personal data (such as `actor`, `requester`, `reviewer`, `approver`, and `suspected actor` — the latter potentially implicating GDPR Art. 10 and employee-privacy protections). Accordingly:
+
+- **Pseudonymous actor IDs:** Use pseudonymous internal actor identifiers in routine audit logs with separated identity-lookup tables where feasible, rather than embedding unnecessary direct personal identifiers.
+- **No raw prompt/output personal data in WORM:** Do not store verbatim personal-data prompts/outputs inside immutable WORM logs by default (see `Log-Retention-And-Rotation-Policy-v0.1` Section 4.3 payload separation).
+- **Strict purpose limitation:** Security and governance audit logs must **not** be repurposed for unrelated employee HR performance scoring without explicit legal review, DPIA, and labour-law consultation.
+- **Need-to-know access for `suspected actor` records:** Incident records naming a suspected individual are restricted to `ROLE_INCIDENT_REVIEWER`, `ROLE_LEGAL_COMPLIANCE_REVIEWER`, and `ROLE_PRIVACY_REVIEWER` / DPO under bounded retention ceilings.
+
 ## Open Questions
 
 1. What is the minimal audit event schema for version 0?
 2. Which events must be tamper-evident?
-3. Which events require long retention?
-4. Which events contain personal data?
+3. Which events require long retention (bounded by GDPR Art. 5(1)(e) ceilings)?
+4. Which events contain personal data and require ingestion-time pseudonymisation or payload separation?
 5. Which audit logs require egress controls?
 6. Which roles are required in a minimal prototype?
 7. How should AI assistance be represented in audit records?
 8. How should review and approval be separated?
 9. How should emergency overrides be audited?
-10. Which audit requirements need legal/compliance review?
+10. Which audit requirements need legal/compliance and statutory DPO review?

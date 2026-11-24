@@ -304,19 +304,17 @@ Do not discount to zero if the goal is to test willingness to pay.
 ```text
 Hi [Name],
 
-I am testing a narrow Governance Decision Assessment for teams using AI in sensitive workflows.
+I run focused 2–3 hour or 1-day Governance Decision Assessments for teams rolling out sensitive AI-assisted or agentic workflows.
 
-The assessment is not a software implementation and not a compliance claim.
+Instead of selling software or claiming certification, the session maps one concrete workflow into an actionable Decision & Guardrail Blueprint that plugs directly into your existing IAM, AI Gateway/DLP, ISO 42001 / NIST AI RMF, and EU AI Act Art. 14 governance work:
 
-The goal is to help answer one practical question:
+- Which AI/agentic actions can run autonomously, require confirmation, must escalate, or must hard-stop?
+- Who holds named human accountability (and where are GDPR / EU AI Act / DPO boundaries)?
+- What egress limits, stop-state gaps, and explicit Do-Not-Automate rules must be enforced before rollout?
 
-Which AI/security decisions can be allowed, blocked, escalated, exported, and audited?
+Deliverables use the open Assessment Worksheet (with a worked example included) and Framework Delta Map: a workflow decision map, guardrail matrix, stop-state gap register, Do-Not-Automate list, and prioritized 30/60/90-day next safe actions.
 
-The output is a short decision map, allow/block/escalate/export/audit matrix, stop-state gap list, and do-not-automate list.
-
-I am looking for 2-3 teams where this is a real enough problem to test as a paid workshop or assessment.
-
-Would this be relevant to one AI-assisted workflow, enterprise customer concern, board/risk question, or security review area you are dealing with?
+Would this be relevant to an AI-assisted or agentic workflow, board/risk question, or customer security review you are tackling right now?
 ```
 
 ## Follow-Up Questions For Prospects

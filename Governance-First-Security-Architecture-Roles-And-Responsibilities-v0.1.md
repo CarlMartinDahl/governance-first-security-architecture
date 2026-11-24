@@ -192,15 +192,25 @@ Staffing requirements state the minimum number of distinct persons who must hold
 | `ROLE_SECURITY_REVIEWER` | 1 | 2 when trigger surface map review is required |
 | `ROLE_TECHNICAL_REVIEWER` | 1 | 2 for prototype capability expansion decisions |
 | `ROLE_LEGAL_COMPLIANCE_REVIEWER` | 1 | External reviewer acceptable as redundancy |
-| `ROLE_PRIVACY_REVIEWER` | 1 | May be combined with ROLE_LEGAL_COMPLIANCE_REVIEWER if competence is held |
-| `ROLE_AI_GOVERNANCE_REVIEWER` | 1 | Required distinct from ROLE_SECURITY_REVIEWER |
-| `ROLE_INCIDENT_REVIEWER` | 1 active + 1 escalation path | Escalation path must not be blocked by the incident |
+| `ROLE_PRIVACY_REVIEWER` | 1 | In non-DPO small teams, may be combined with `ROLE_LEGAL_COMPLIANCE_REVIEWER` only with a recorded Four-Eyes compensating control (`Role-Registry-v0.1` line 619); **must never** combine a statutory GDPR DPO with corporate legal counsel or operational approvers |
+| `ROLE_AI_GOVERNANCE_REVIEWER` | 1 | Distinct from `ROLE_SECURITY_REVIEWER` in large enterprises; see Organization Sizing Tiering below for mid-market combinations |
+| `ROLE_INCIDENT_REVIEWER` (incl. `AI Operator` ops) | 1 active + 1 escalation path | Escalation path must not be blocked by the incident |
 | `ROLE_APPROVER` | 1 per approval event | Must be distinct from the requester |
 | `ROLE_EXTERNAL_REVIEWER` | 1 per external review event | Must be organizationally independent |
 
 Where a staffing minimum is not met, the affected governance control is nominal.
 
 Nominal controls must be recorded in the gap register and a compensating control must be defined before the associated decision proceeds.
+
+### Practical Organization Sizing & Role-Combination Tiering
+
+To avoid governance paralysis in real enterprises (`GFSA-REV-018`), adopting organisations should map canonical `ROLE_*` identities to practical enterprise hats scaled by organisational size while preserving absolute independence rules:
+
+| Organization Tier | Practical Role Consolidation (4–5 Enterprise Hats) | Acceptable Operational Adaptations |
+| --- | --- | --- |
+| **Small / Early-Stage (<100 staff)** | (1) Business/System Owner (`ROLE_SYSTEM_OWNER`/`ROLE_APPROVER`); (2) Security & Tech Lead (`ROLE_SECURITY_REVIEWER`/`ROLE_TECHNICAL_REVIEWER`/`ROLE_AI_GOVERNANCE_REVIEWER`); (3) External Legal/Privacy Counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`/`ROLE_PRIVACY_REVIEWER`); (4) On-Call Ops (`AI Operator`/`ROLE_INCIDENT_REVIEWER`) | Keep Requester ≠ Approver on high-risk actions; use automated regression tests instead of 48h manual Confirm gates on minor model updates; engage external DPO/legal counsel on demand |
+| **Mid-Sized Enterprise (100–1,000 staff)** | (1) Business/Product Owner; (2) Security & AI Risk Lead (combines Security + AI Governance with documented compensating control); (3) Privacy/DPO (independent statutory DPO kept separate from Corporate Legal); (4) Technical Architect; (5) SOC/MLOps On-Call (`AI Operator`) | Combine Security + AI Governance where distinct headcount does not exist; enforce strict 3-person chain only on Tier C/D high-risk actions; async post-hoc audit for Tier A low-risk actions |
+| **Large Enterprise (1,000+ staff)** | Full separation across dedicated InfoSec, AI Governance, Independent Statutory DPO, Corporate Legal, Enterprise Architecture, CAB/MRM Approvers, and 24/7 SOC (`AI Operator`) | Integrate canonical `ROLE_*` checks directly into existing IAM, ServiceNow/Jira CAB, AI Gateway, and MRM workflows rather than creating parallel bureaucracy |
 
 ## Independence Requirements
 
@@ -215,6 +225,7 @@ These pairings must never be held by the same person. No compensating control is
 | Designer of trigger surface map | Security Reviewer approving that map | Self-review is not review |
 | `ROLE_USER_REQUESTER` for a decision | `ROLE_APPROVER` for that same decision | Self-approval is not approval |
 | `ROLE_AI_ASSISTANT` | Any human approval role | AI may not approve AI-generated output |
+| **Statutory GDPR DPO (Arts. 37–39)** | `ROLE_SYSTEM_OWNER`, `ROLE_APPROVER`, `ROLE_SECURITY_REVIEWER`, or corporate `ROLE_LEGAL_COMPLIANCE_REVIEWER` | GDPR Art. 38(3) & Art. 38(6) conflict-of-interest prohibition (CJEU C-453/21, *X-Fab Dresden*): a DPO cannot determine processing purposes/means or defend corporate interests while independently monitoring compliance |
 
 ### Strong independence requirements
 
@@ -291,21 +302,19 @@ A gap register entry for a staffing or independence gap is not a finding that th
 
 ## Current Project State
 
-At time of writing, the following role assignments are active for this documentation project:
+At time of writing, the following role assignments are active for this documentation project (and its bounded Phase 1/2 synthetic simulator):
 
 ```text
-Lifecycle Mode: LM-1_REVIEW_PACKAGE
+Lifecycle Mode: LM-1_REVIEW_PACKAGE (with bounded LM-3 synthetic simulator executed under GFSA-REV-013/-014/-016)
 Operational Decision Mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE
-Requester: ROLE_USER_REQUESTER — project owner
+Requester: ROLE_USER_REQUESTER — project owner (Martin Dahl)
 AI Assistant: ROLE_AI_ASSISTANT — documentation and analysis only
-System Owner: not formally assigned
-Security Reviewer: not formally assigned
+System Owner: nominal (sole project maintainer acts as owner; formal multi-person assignment required before any operational/Phase 3 transition)
+Security Reviewer: not formally assigned (external challenge provided via GFSA-REV-009/-012/-015)
 Governance Reviewer: not formally assigned
-External Reviewers: engaged (GFSA-REV-009; GFSA-REV-012, completed 2026-09-27)
+External Reviewers: engaged (GFSA-REV-009; GFSA-REV-012, completed 2026-09-27; broader external legal/DPO and CISO review pending)
 ```
 
-All governance controls that require a named human role beyond ROLE_USER_REQUESTER and ROLE_AI_ASSISTANT are currently nominal.
+All governance controls that require distinct named human role holders beyond the sole project maintainer remain nominal in this repository context.
 
-This is expected at the current lifecycle stage.
-
-This document should be populated with formal role assignments before the project transitions to prototype design, external review, or any production-adjacent activity.
+This document must be populated with formal, multi-person role assignments before any adopting organisation transitions to live pilot (Phase 3+) or production-adjacent activity.

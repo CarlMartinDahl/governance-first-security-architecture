@@ -16,64 +16,62 @@ This is a focused review package suggestion for a security-oriented reviewer.
 
 The purpose of this bundle is to ask for critical security-oriented feedback on the Governance-First Security Architecture without asking for approval, validation, implementation, or production readiness.
 
-## Suggested Message
+## Suggested Message (English)
+
+```text
+Hi,
+
+I would value a critical security/CISO perspective on an independent AI decision-governance overlay I have been structuring: Governance-First Security Architecture (v0.1.1).
+
+It is a documentation-first review framework (plus a small offline stdlib-only synthetic simulator), not a built product and not a security or compliance claim.
+
+The core thesis is simple: before an AI assistant or agent acts, govern authority, evidence, operating mode, egress boundary, typed stop states, and human accountability — complementing existing ISO 27001 / NIST AI RMF / ISO 42001 / Zero Trust programs.
+
+I am not looking for endorsement — I want your toughest pushback:
+- What is weak, redundant, or over-engineered?
+- Where would this create operational friction in a real enterprise?
+- What should be cut?
+
+If you have 15 minutes, I can share just 3 short documents: the Executive Overview, the 1-page Framework Delta & Scope Map, and the Minimal Viable Governance Kernel.
+```
+
+## Suggested Message (Swedish)
 
 ```text
 Hej,
 
-Jag skulle värdesätta ett kritiskt säkerhetsperspektiv på en modell jag håller på att strukturera upp.
+Jag skulle värdesätta ett kritiskt säkerhets-/CISO-perspektiv på en beslutsstyrningsmodell för AI-flöden som jag strukturerar upp: Governance-First Security Architecture (v0.1.1).
 
-Arbetsnamnet är Governance-First Security Architecture.
+Det är ett dokumentationsdrivet granskningsramverk (plus en liten offline-simulator i Python stdlib), inte en färdig produkt och inte någon säkerhets- eller compliance-claim.
 
-Det är fortfarande bara ett dokumentationskoncept, inte ett byggt system, inte en säkerhetsclaim och inte någon compliance-claim.
+Grundidén är att komplettera befintliga ISO 27001 / NIST AI RMF / ISO 42001 / Zero Trust-program genom att styra vad en AI-assistent eller agent får göra innan handling sker: behörighet, underlag, läge, egress-gräns, typade stop-states och mänskligt ansvar.
 
-Grundidén är att säkerhet inte bara ska handla om vem som kommer in i ett system, utan också om vad som får hända efteråt:
+Det jag värderar mest är din hårdaste kritik:
+- Vad låter svagt, överarbetat eller överflödigt?
+- Var skulle det skapa operativ friktion i en verklig organisation?
+- Vad bör strykas helt?
 
-- vilken behörighet finns,
-- vilket underlag finns,
-- vilket läge är systemet i,
-- vad får lämna systemet,
-- vem är ansvarig,
-- när måste systemet stoppa,
-- när krävs mänsklig granskning.
-
-Det jag skulle värdera mest är inte ett godkännande, utan din kritiska blick:
-
-- Vad låter svagt?
-- Vad är oklart?
-- Vad saknas?
-- Vad är för brett?
-- Vad ska jag absolut inte påstå?
-- Vad skulle vara farligt att bygga utan mer granskning?
-
-Om du vill kan jag skicka ett fokuserat review-paket med översikt, teknisk brief, governance-kärna, stop-state-register, beslutmatris, hotmodell och granskningsfrågor.
+Om du har 15 minuter räcker det att titta på 3 korta dokument: Executive Overview, 1-sidig Framework Delta & Scope Map samt Minimal Viable Governance Kernel.
 ```
 
-## Recommended First Documents
+## Recommended First Documents (15-Minute Fast Path)
 
-Send these first if the reviewer agrees to review:
+Send these **3 documents only** first so a busy CISO or security architect can challenge the thesis immediately:
 
-1. `README.md`
-2. `Governance-First-Security-Architecture-Executive-Overview-v0.1.md`
-3. `Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md`
-4. `Governance-First-Security-Architecture-Threat-Model-v0.1.md`
-5. `Governance-First-Security-Architecture-Ingress-Egress-Policy-v0.1.md`
-6. `Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md`
-7. `Governance-First-Security-Architecture-Decision-State-Matrix-v0.1.md`
-8. `Governance-First-Security-Architecture-Abuse-Case-Library-v0.1.md`
-9. `Governance-First-Security-Architecture-Prototype-Boundary-Definition-v0.1.md`
-10. `Governance-First-Security-Architecture-Prototype-Review-Request-v0.1.md`
+1. `Governance-First-Security-Architecture-Executive-Overview-v0.1.md`
+2. `Governance-First-Security-Architecture-Framework-Delta-And-Scope-Map-v0.1.md`
+3. `Governance-First-Security-Architecture-Minimal-Viable-Governance-Kernel-v0.1.md`
 
 ## Optional Deep-Dive Documents
 
-Send these only if the reviewer wants more detail:
+Send these only if the reviewer wants deeper inspection of specific controls:
 
-- `Governance-First-Security-Architecture-Asset-Register-v0.1.md`
-- `Governance-First-Security-Architecture-Asset-To-Kernel-Mapping-v0.1.md`
-- `Governance-First-Security-Architecture-Audit-And-Accountability-v0.1.md`
-- `Governance-First-Security-Architecture-Recovery-Rollback-Incidents-v0.1.md`
+- `Governance-First-Security-Architecture-Machine-Time-Threat-Model-v0.1.md`
+- `Governance-First-Security-Architecture-Pre-Authorized-Circuit-Breaker-Policy-v0.1.md`
+- `Governance-First-Security-Architecture-Agentic-Operational-Boundary-v0.1.md`
+- `Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md`
+- `Governance-First-Security-Architecture-Decision-State-Matrix-v0.1.md`
 - `Governance-First-Security-Architecture-External-Review-Checklist-v0.1.md`
-- `Governance-First-Security-Architecture-Documentation-Freeze-And-Review-Gate-v0.1.md`
 
 ## Questions For Security Reviewer
 

@@ -1,7 +1,7 @@
 # Governance-First Security Architecture
 ## Insider Threat Governance
 **Version:** 0.1 — Initial Release
-**Status:** Active
+**Status:** Draft / Review-Stage Template (`LM-1_REVIEW_PACKAGE` — Not Approved for Production or Compliance Use)
 **Classification:** Governance Policy
 
 ---
@@ -102,21 +102,23 @@ These indicators trigger the Stop State process and credential revocation under 
 
 ## 8. Whistleblower And Safe Reporting Protection
 
-Insider threat governance must not suppress legitimate internal reporting. Individuals who report suspected policy violations, security incidents, or governance failures through defined channels are protected from retaliation. The reporting channel defined in SECURITY.md is available for sensitive internal reports as well as external vulnerability disclosure.
+Insider threat governance must not suppress legitimate internal reporting. Individuals who report suspected policy violations, security incidents, or governance failures through defined channels are protected from retaliation.
+
+Internal whistleblowing reports must be routed through a **dedicated internal reporting channel compliant with Directive (EU) 2019/1937 (EU Whistleblowing Directive)** and applicable national transposition law — providing strict confidentiality of the reporter's identity, impartial designated recipients, **7-day acknowledgment**, **3-month feedback**, access segregation, and GDPR-compliant retention/erasure. `SECURITY.md` is strictly for external security vulnerability disclosure and must **not** be used as an internal employee whistleblowing channel.
 
 Any action taken against an individual in retaliation for a good-faith internal report is itself a governance violation.
 
 ---
 
-## 9. Privacy And Legal Constraints
+## 9. Privacy, Employment Law, And AI Act Constraints
 
-Insider threat monitoring must operate within applicable privacy law. In the EU/EEA context:
+Insider threat monitoring must operate within applicable privacy, employment, and AI law. In the EU/EEA context, before deploying any employee behavioural monitoring:
 
-- Monitoring of employee activity requires a documented lawful basis under GDPR
-- The scope and nature of monitoring must be proportionate to the risk
-- Individuals must be informed that monitoring occurs (in employment agreements or equivalent)
-- Data collected through monitoring is used only for the stated security purpose and retained only as long as necessary
-- Any use of monitoring data in disciplinary or legal proceedings is reviewed by legal counsel before use
+- **Lawful basis & transparency (GDPR Arts. 6, 13–14):** Monitoring requires a documented statutory lawful basis — typically legitimate interest (`Art. 6(1)(f)` with a documented Legitimate Interest Assessment) or legal obligation / national employment-law basis (`Art. 6(1)(c)` / `Art. 88`), **not** employee consent (which is generally invalid due to employer-employee subordination under Recital 43). Employees must receive transparent, specific standalone privacy notices (not generic boilerplate in employment contracts).
+- **Mandatory DPIA & DPO consultation (GDPR Art. 35):** Because employees are vulnerable data subjects, systematic behavioural monitoring triggers a mandatory **Data Protection Impact Assessment (DPIA)** with statutory **DPO advice (Art. 35(2))** prior to deployment (and Art. 36 prior consultation if residual risk remains high).
+- **Works council / employee-representative co-determination (GDPR Art. 88):** Deployment must satisfy national labour-law consultation or co-determination requirements (for example, German *BetrVG § 87(1)(6)*, French *CSE*, Swedish *MBL*, Dutch *WOR*); evidence gathered without mandatory consultation may be unlawful and inadmissible.
+- **EU AI Act workplace rules (currently binding):** Any AI/ML system used to monitor or evaluate employee behaviour falls under **Annex III(4)(b) high-risk AI**, requiring advance notification to **workers' representatives and affected workers (Art. 26(7))**, human oversight (Art. 26(2)), and logging (Art. 26(6)). Any emotion, stress, or sentiment inference in the workplace is **strictly prohibited under Art. 5(1)(f)** (`STOP_PROHIBITED_AI_USE`).
+- **Purpose limitation & Art. 22 safeguards:** Monitoring data is used strictly for the stated security purpose, retained only per bounded ceilings, never repurposed for unrelated HR performance scoring, and any automated suspension affecting an employee must provide **GDPR Art. 22(3)** human review and contestability, with legal counsel review before any disciplinary or legal use.
 
 ---
 

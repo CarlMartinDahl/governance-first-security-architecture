@@ -107,13 +107,13 @@ These conditions always generate a Critical alert regardless of baseline:
 | HR-02 | Agent interacts with a partner not in its baseline interaction list | Unauthorised communication |
 | HR-03 | Outbound network connection from inference engine to external IP | Potential exfiltration |
 | HR-04 | Authentication token used after revocation timestamp | Credential replay attack |
-| HR-05 | Log stream silent for > 2 minutes during active session | Potential log suppression |
+| HR-05 | Out-of-band session heartbeat and log stream both silent for > 2 minutes during an active agent session (distinct from idle/awaiting-human-approval states; infrastructure-wide forwarding lag follows `Log-Integrity-And-Tamper-Evidence-v0.1` 15-min alert) | Potential log suppression without self-DoS on slow inference or human confirmation waits |
 | HR-06 | Agent process spawns a child process not in approved process list | Potential code execution |
 | HR-07 | System prompt hash at runtime does not match approved hash | Configuration tampering |
 | HR-08 | Agent activity detected outside permitted operating hours | Temporal boundary violation |
 | HR-09 | Multiple failed authentication attempts from same agent identity | Potential credential stuffing or brute force |
 | HR-10 | Agent attempts to read or write the audit log directly | Potential evidence tampering |
-| HR-11 | Instruction-like pattern detected in tool return or fetched content during active session | Potential prompt injection via Untrusted Zone |
+| HR-11 | Instruction-like pattern in tool return or fetched content **correlated with** an out-of-mandate tool/egress attempt or privilege escalation (standalone heuristic text matches alert at Medium severity to avoid false-positive alert fatigue on code, emails, or runbooks) | High-confidence prompt injection via Untrusted Zone |
 
 ### 5.2 Threshold Rules (Alert When Baseline Exceeded)
 
@@ -160,7 +160,7 @@ The detection engine must maintain a pipeline view: a composite signal that aggr
 
 **Pipeline anomaly score calculation:** Each active agent in a pipeline contributes its current anomaly score to a running pipeline total. Individual anomaly scores are weighted by the agent's authority tier in the pipeline (orchestrators weighted higher than leaf agents). The pipeline threshold is defined in the Operational Mandate and reviewed as part of baseline establishment.
 
-**Response to cross-agent correlation alerts:** CA-01 through CA-03 alerts are treated as High or Critical regardless of the individual agent severity that contributed to them. CA-04, CA-05, and CA-06 are always Critical. All cross-agent correlation alerts require immediate human triage with no auto-resolution permitted. A CA-04 or CA-05 alert triggers the Group Isolation track in Active-Neutralization-Runbook-v0.1. CA-06 alerts likewise trigger Group Isolation; the full rule is defined in CA-06-Lateral-Peer-Coordination-Rule-v0.1.
+**Response to cross-agent correlation alerts:** CA-01 through CA-03 alerts are treated as High or Critical regardless of the individual agent severity that contributed to them. CA-04, CA-05, and CA-06 are always Critical. All cross-agent correlation alerts require immediate human triage with no auto-resolution permitted. A CA-04, CA-05, or CA-06 alert triggers **Track 1 (Quarantine)** across affected pipeline agents followed by **Track 3 (Group Neutralization)** in `Active-Neutralization-Runbook-v0.1` once coordinated compromise is confirmed; the full CA-06 rule is defined in `CA-06-Lateral-Peer-Coordination-Rule-v0.1`.
 
 This section remediates Gap C identified in GFSA-RED-TEAM-FINDINGS-v0.1.
 

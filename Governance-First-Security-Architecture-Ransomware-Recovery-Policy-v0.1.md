@@ -1,7 +1,7 @@
 # Governance-First Security Architecture
 ## Ransomware Recovery Policy
 **Version:** 0.1 — Initial Release
-**Status:** Active
+**Status:** Draft / Review-Stage Template (`LM-1_REVIEW_PACKAGE` — Not Approved for Production or Compliance Use)
 **Classification:** Governance Policy
 
 ---
@@ -48,9 +48,10 @@ Recovery from the air-gapped backup is verified through the restoration testing 
 
 ### 4.3 Named Decision Authorities
 Before an incident, the following roles must be named and alternates designated:
-- **Ransomware Incident Commander** — overall incident authority
-- **Payment Decision Authority** — mapped in `Role-Registry-v0.1` to `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER` with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` participation; the only authority permitted to approve ransom payment consideration
+- **Ransomware Incident Commander** — overall incident authority (`ROLE_INCIDENT_REVIEWER` / designated executive commander)
+- **Payment Decision Authority** — executive/Board-level corporate authority (CEO / CFO / Board delegate, mapped in `Role-Registry-v0.1` to `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER`) with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` (specialized external counsel) and statutory DPO consultation where personal data is affected; the only authority permitted to approve ransom payment consideration
 - **Legal Counsel Contact** — engaged immediately upon incident declaration
+- **Data Protection Officer (DPO) / Privacy Lead** — engaged immediately when personal data availability, integrity, or confidentiality is impacted
 - **Law Enforcement Liaison** — designated contact for reporting obligations
 - **Communications Authority** — authorised to communicate externally about the incident
 
@@ -60,9 +61,9 @@ Before an incident, the following roles must be named and alternates designated:
 
 1. **Isolate affected systems** immediately — disconnect from network; do not power off (preserve forensic evidence in memory where possible)
 2. **Declare ransomware incident** — activates this policy and the Recovery Rollback Incidents process
-3. **Engage named authorities** — Incident Commander, Legal Counsel, and Communications Authority notified within 1 hour
+3. **Engage named authorities** — Incident Commander, Legal Counsel, DPO/Privacy Lead, and Communications Authority notified within 1 hour
 4. **Preserve air-gapped backup integrity** — confirm air-gapped backup has not been reached; if uncertain, treat as compromised
-5. **Assess exfiltration** — determine whether data was exfiltrated before encryption; this determines regulatory notification requirements regardless of payment decision
+5. **Assess availability, integrity, and exfiltration impact** — under GDPR Art. 4(12) and EDPB Guidelines 01/2021, ransomware **encryption/unavailability alone** is a personal data breach even without exfiltration; assess both encryption impact and potential exfiltration immediately to inform statutory notification clocks regardless of payment decision
 6. **Do not pay and do not negotiate** — Payment Decision Authority has not yet convened; no individual has authority to initiate contact with attackers at this stage
 
 ---
@@ -72,8 +73,8 @@ Before an incident, the following roles must be named and alternates designated:
 1. **Scope the infection** — identify which systems are encrypted, which are clean, and the likely entry point
 2. **Identify the variant** — determine ransomware family; consult public decryption resources before payment is considered
 3. **Assess backup viability** — test restoration from clean backup copy; confirm backup data is not itself encrypted or corrupted
-4. **Assess exfiltration scope** — identify what data categories may have been exfiltrated; this triggers GDPR breach notification assessment (72-hour clock)
-5. **Convene Payment Decision Authority** — with legal counsel, assess: recovery without payment feasibility, insurance coverage, sanctions screening (paying certain threat actors is illegal), law enforcement position
+4. **Assess personal-data breach & NIS2/AI Act scope** — identify affected personal data (confidentiality, integrity, and availability impact) and determine whether the organisation acts as Controller (Art. 33(1) 72-hour supervisory authority assessment) or Processor (Art. 33(2) notification to Controller without undue delay); evaluate **NIS2 Art. 23 24-hour early warning** and **EU AI Act Art. 73** serious-incident triggers if governed AI systems are impacted
+5. **Convene Payment Decision Authority** — with specialized legal counsel, assess: recovery without payment feasibility, insurance coverage, sanctions and AML/terrorist-financing screening (paying sanctioned threat actors is a criminal offence in many jurisdictions), national payment prohibitions, and law enforcement reporting deadlines
 
 ---
 
@@ -82,13 +83,13 @@ Before an incident, the following roles must be named and alternates designated:
 This is the highest-stakes governance decision in a ransomware incident. The following framework governs it.
 
 ### 7.1 Who Decides
-Only the named Payment Decision Authority (`ROLE_SYSTEM_OWNER` / `ROLE_APPROVER`), with legal counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) present, may authorise exploration of payment. No other individual or role has this authority.
+Only the named executive/Board-level Payment Decision Authority (`ROLE_SYSTEM_OWNER` / `ROLE_APPROVER` with CEO/CFO/Board mandate), with specialized legal counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) present, may authorise exploration of payment. No other individual or role has this authority.
 
 ### 7.2 Prerequisites Before Payment Is Considered
 - Restoration from backup has been assessed as infeasible within acceptable recovery time, OR backup has been confirmed compromised
-- Legal counsel has confirmed that payment does not violate sanctions obligations (paying sanctioned threat actors is a criminal offence in many jurisdictions)
-- Cyber insurance provider has been notified and their requirements confirmed
-- Law enforcement has been notified (notification does not preclude payment; it creates a record)
+- Legal counsel has confirmed that payment does not violate sanctions, AML, counter-terrorist financing, or national statutory prohibitions
+- Cyber insurance provider has been notified and their policy and statutory reimbursement requirements confirmed
+- Law enforcement has been notified within any applicable national statutory window (for example, jurisdictions requiring a formal police complaint within 72 hours as a legal prerequisite for cyber-insurance ransom reimbursement)
 
 ### 7.3 Payment Does Not Guarantee Recovery
 Decision-makers must understand:
@@ -117,13 +118,15 @@ All deliberations and the final decision — whether to pay or not — are docum
 
 | Obligation | Trigger | Timeline |
 |---|---|---|
-| GDPR breach notification to supervisory authority | Personal data confirmed or likely exfiltrated | 72 hours from awareness |
-| GDPR notification to affected individuals | High risk to individuals confirmed | Without undue delay |
-| NIS2 / sector reporting | Significant impact on service continuity | Per applicable regulation |
-| Law enforcement reporting | Recommended in all cases | As early as feasible |
+| GDPR Art. 33(1) notification to supervisory authority (Controller) | Personal data confidentiality, integrity, **or availability** breach (including encryption without exfiltration), unless unlikely to result in risk to rights and freedoms | Without undue delay and, where feasible, within **72 hours** of becoming aware (phased reporting permitted under Art. 33(4)) |
+| GDPR Art. 33(2) notification (Processor) | Organisation acts as a Data Processor and becomes aware of a personal data breach | Notify the **Data Controller** without undue delay (do not notify DPA directly) |
+| GDPR Art. 34 notification to affected individuals | Breach is **likely** to result in a high risk to individuals' rights and freedoms (subject to Art. 34(3) exceptions) | Without undue delay |
+| NIS2 Directive Art. 23 reporting (covered entities) | Significant incident affecting service continuity or security | **24 hours** early warning; **72 hours** incident notification; **1 month** final report |
+| EU AI Act Art. 73 serious incident reporting (where high-risk AI affected) | Serious incident involving a high-risk AI system | **2 days** (widespread infringement / critical infrastructure); **10 days** (death); **15 days** (general serious incident) |
+| Law enforcement reporting | Recommended in all cases; legally required in some jurisdictions for insurance reimbursement | As early as feasible (verify national statutory deadlines, e.g., 72h) |
 | Insurance notification | Policy requirement | Per policy terms; typically immediate |
 
-The 72-hour GDPR clock runs from when the organisation becomes aware of a breach — not from when it is confirmed. Uncertainty does not pause the clock.
+Under EDPB Guidelines 9/2022, GDPR "awareness" begins when the controller has a **reasonable degree of certainty** that a security incident has occurred leading to personal data compromise; brief initial verification is permitted, and remaining factual uncertainty is handled via phased notifications (GDPR Art. 33(4)) rather than delaying past 72 hours.
 
 ---
 
