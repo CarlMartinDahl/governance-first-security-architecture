@@ -126,6 +126,7 @@ Documents produced in direct response to identified gaps from external review. E
 ## Commercial Discovery
 
 - [Governance Decision Assessment Workshop Offer](Governance-First-Security-Architecture-Governance-Decision-Assessment-Workshop-Offer-v0.1.md) - Narrow paid problem-validation offer without software or claims.
+- [Governance Decision Assessment Worksheet](Governance-First-Security-Architecture-Assessment-Worksheet-v0.1.md) - Compact, runnable workshop template for mapping decisions, six-gate kernel checks, stop-state gaps, and do-not-automate boundaries.
 
 ## Repository Governance
 
