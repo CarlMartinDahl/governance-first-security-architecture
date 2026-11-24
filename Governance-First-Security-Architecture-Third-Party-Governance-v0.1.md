@@ -176,6 +176,10 @@ For each active third party, the following must be recorded and kept current:
 | Accountability owner | Named internal individual |
 | Onboarding date | Date access was granted |
 | Last review date | Date of most recent review |
+| GDPR legal role | Data Processor (Art. 28), Sub-processor, Joint Controller (Art. 26), Independent Controller, or Non-personal data only |
+| Data agreement reference | Art. 28 DPA, Art. 26 Joint Controller arrangement, or Controller Data Sharing Agreement reference |
+| Sub-processor chain | Approved sub-processors and advance-notification / objection terms (Art. 28(2)) |
+| Cross-border transfer & TIA | EEA-only, Adequacy decision, or SCCs + *Schrems II* TIA & EDPB 01/2020 supplementary measures (including non-EEA remote support access) |
 | Status | Active, suspended, revoked |
 
 ## Relationship To Other Modules

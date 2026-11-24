@@ -243,16 +243,17 @@ Reviewer questions:
 
 ## Compliance Review
 
-Please review the GDPR and EU AI Act alignment language.
+Please review the GDPR, EU AI Act (Regulation (EU) 2024/1689), and NIS2 alignment language.
 
 Questions:
 
-- Is the language appropriately cautious?
-- Does it avoid claiming compliance?
-- Which GDPR principles should be mapped first?
-- Which EU AI Act risk-management concepts should be mapped first?
-- What legal/compliance expertise is required?
-- Which parts should not be discussed without legal review?
+- Is the language appropriately cautious, and does it avoid claiming compliance?
+- Are WORM/tamper-evident audit logs reconciled cleanly with GDPR Art. 5(1)(e) storage limitation and Art. 17 erasure (payload separation / crypto-shredding)?
+- Is the statutory DPO boundary (GDPR Arts. 37–39 & Art. 38(3)/(6) independence) cleanly separated from operational approvers and corporate legal counsel?
+- Are currently binding 2025–2026 EU AI Act duties adequately hooked (Art. 4 literacy, Art. 5 prohibited practices, Art. 19/26(6) 6-month log floor vs. Art. 18(1) 10-year provider docs, Art. 25 reclassification, Art. 27 FRIA, Art. 50 external transparency, Art. 73 incident reporting)?
+- Are GDPR Art. 22 automated decision-making / *SCHUFA* anti-rubber-stamping safeguards and EU AI Act Art. 14(4)(b) automation-bias controls sufficient?
+- Are *Schrems II* Transfer Impact Assessments (TIAs), supplementary measures, and Art. 88 / works-council employee-monitoring limits properly addressed?
+- What legal/compliance expertise is required, and which parts must not be applied operationally without qualified counsel?
 
 ## Post-Quantum And Future AI Review
 
@@ -285,7 +286,7 @@ Suggested test examples:
 
 ```text
 Missing source -> block
-Missing lawful purpose -> block
+Missing documented GDPR lawful basis / purpose -> block (STOP_LAWFUL_BASIS_MISSING)
 Stale authority -> human review or block
 Sensitive export without approval -> block
 AI requests self-escalation -> block

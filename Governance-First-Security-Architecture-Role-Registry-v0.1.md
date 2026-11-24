@@ -648,26 +648,39 @@ Operational Decision Mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE
 Requester: ROLE_USER_REQUESTER
 AI Assistant: ROLE_AI_ASSISTANT
 System Owner: not formally assigned in this documentation package
-External Reviewers: not yet assigned
+External Reviewers: engaged (GFSA-REV-009; GFSA-REV-012, completed 2026-09-27; broader legal/DPO and CISO review pending)
 ```
 
 The user is currently approving targeted review, feedback handling, bounded documentation corrections, and repository-readiness work only.
 
 No production authority, compliance authority, security validation authority, prototype authority, or automation authority is assigned.
 
+## Statutory Data Protection Officer (DPO) Boundary (GDPR Arts. 37–39)
+
+Where an adopting organisation is required to appoint a statutory **Data Protection Officer (DPO)** under GDPR Art. 37(1) (public authorities, or organisations conducting large-scale systematic monitoring or large-scale Art. 9 processing):
+
+- The statutory DPO is an **independent advisory and monitoring role** (GDPR Arts. 38–39) — **not** an operational approver determining the purposes and means of processing.
+- Under **GDPR Art. 38(3) & Art. 38(6)** (and CJEU Case C-453/21, *X-Fab Dresden*), the statutory DPO must not receive instructions regarding DPO tasks, must report directly to highest management, and **must not be combined** with `ROLE_SYSTEM_OWNER`, `ROLE_APPROVER`, `ROLE_SECURITY_REVIEWER`, or corporate legal defense (`ROLE_LEGAL_COMPLIANCE_REVIEWER`).
+- Operational privacy implementation and workflow sign-offs belong to `ROLE_PRIVACY_REVIEWER` (a business/privacy lead), who consults the statutory DPO for independent advice (including mandatory DPIA advice under GDPR Art. 35(2)) and supervisory authority liaison.
+
 ## Domain Function-To-Canonical-Role Mapping
 
-Several domain-specific policy documents refer to specialized governance or operational functions by domain label (for example, *Continuity Governance* or *Log Governance*). Rather than expanding the minimal canonical role set, those domain functions map directly to the canonical `ROLE_*` identities in this registry (resolved under `GFSA-REV-016`, issue `#10`):
+Several domain-specific policy documents refer to specialized governance or operational functions by domain label (for example, *Continuity Governance*, *AI Operator*, or *Governance Authority*). Rather than expanding the minimal canonical role set, those domain functions map directly to the canonical `ROLE_*` identities in this registry (reconciled under `GFSA-REV-016` and `GFSA-REV-018`):
 
 | Domain Function Label | Canonical Role Mapping | Primary Policy Documents |
 | --- | --- | --- |
+| `AI Operator` | Operational on-call function under `ROLE_INCIDENT_REVIEWER` and `ROLE_SECURITY_REVIEWER` (SOC / MLOps operator holding triage, reversible quarantine, and Track 4 emergency containment authority) | `Monitoring-And-Detection-Operations-v0.1`; `Active-Neutralization-Runbook-v0.1`; `Log-Retention-And-Rotation-Policy-v0.1` |
+| `Governance Authority` | `ROLE_SYSTEM_OWNER` and `ROLE_GOVERNANCE_REVIEWER` (with `ROLE_APPROVER` for scoped operational sign-offs and Track 4 ratification) | `Monitoring-And-Detection-Operations-v0.1`; `Active-Neutralization-Runbook-v0.1`; `Pre-Authorized-Circuit-Breaker-Policy-v0.1`; `Governance-Maturity-Model-v0.1` |
+| `Data owner` / `Data Governance` | `ROLE_SYSTEM_OWNER` (business/data accountability) and `ROLE_GOVERNANCE_REVIEWER` / `ROLE_PRIVACY_REVIEWER` (reclassification and personal-data handling) | `Data-Classification-And-Handling-Policy-v0.1`; `Data-Egress-And-Exfiltration-Prevention-v0.1`; `Stop-State-Registry-v0.1` |
+| `Evidence reviewer` | `ROLE_GOVERNANCE_REVIEWER` or domain-appropriate reviewer (`ROLE_SECURITY_REVIEWER` / `ROLE_TECHNICAL_REVIEWER` / `ROLE_LEGAL_COMPLIANCE_REVIEWER`) | `Stop-State-Registry-v0.1`; `Evidence-And-Source-Policy-v0.1` |
+| `Communications Authority` | `ROLE_SYSTEM_OWNER` / `ROLE_APPROVER` delegate (with `ROLE_LEGAL_COMPLIANCE_REVIEWER` review for external incident or public declassification statements) | `Data-Classification-And-Handling-Policy-v0.1`; `Ransomware-Recovery-Policy-v0.1` |
 | `Continuity Governance` | `ROLE_SYSTEM_OWNER` and `ROLE_GOVERNANCE_REVIEWER` (with `ROLE_INCIDENT_REVIEWER` verifying operational recovery criteria) | `Business-Continuity-And-Disaster-Recovery-Governance-v0.1` |
-| `Log Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER` (named human holders only; never a service account; liaises with `ROLE_LEGAL_COMPLIANCE_REVIEWER`) | `Log-Integrity-And-Tamper-Evidence-v0.1` |
+| `Log Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER` (named human holders only; never a service account; regulatory verification rests with `ROLE_LEGAL_COMPLIANCE_REVIEWER` / `ROLE_PRIVACY_REVIEWER` + DPO) | `Log-Integrity-And-Tamper-Evidence-v0.1` |
 | `Vulnerability Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_TECHNICAL_REVIEWER` (coordinated with `ROLE_GOVERNANCE_REVIEWER` for SLA exceptions) | `Vulnerability-Disclosure-And-Patch-Governance-v0.1` |
 | `Cryptographic Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_TECHNICAL_REVIEWER` | `Cryptographic-Standards-Policy-v0.1` |
 | `Security Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER` | `Data-Egress-And-Exfiltration-Prevention-v0.1`; `Lateral-Movement-Containment-v0.1`; `Privileged-Access-Management-Policy-v0.1` |
 | `Security Operations` | `ROLE_INCIDENT_REVIEWER` and `ROLE_SECURITY_REVIEWER` (containment and isolation authority) | `Lateral-Movement-Containment-v0.1` |
-| `Payment Decision Authority` | `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER`, with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` participation (four-eyes / executive-legal boundary) | `Ransomware-Recovery-Policy-v0.1` |
+| `Payment Decision Authority` | Executive/Board-level `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER` (CEO/CFO/Board mandate), with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` (specialized counsel) and DPO consultation | `Ransomware-Recovery-Policy-v0.1` |
 
 When a domain policy requires named approval or sign-off from one of the domain functions above, the named human actor must hold the mapped canonical `ROLE_*` assignment recorded under the Role Assignment Record rules.
 
