@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-018
+
+```text
+feedback_id: GFSA-REV-018
+reviewer_id: INT-AI-002 (Martin Dahl + AI-assisted adversarial dual-perspective pre-review)
+reviewer_type: Internal AI-assisted Legal/GDPR/EU AI Act and CISO/Enterprise Architect pre-review (not external legal advice or external validation)
+date_received: 2026-11-24
+source_document: Adversarial dual-perspective pre-review of v0.1.0 baseline across Legal/GDPR/EU AI Act/Privacy and CISO/Enterprise Security Architecture perspectives
+feedback_summary: Structured internal pre-review identified critical and high-severity legal, regulatory, maturity-scoring, role-mapping, operational-feasibility, and workshop-usability defects prior to external legal/DPO and CISO outreach, remediated in full across P1, P2, and P3 for v0.1.1: (P1 Legal & Factual Accuracy) Corrected EU AI Act operational log retention in Log-Retention-And-Rotation-Policy-v0.1 from 10 years to the statutory 6-month floor (Arts. 19(1)/26(6)) distinct from Art. 18(1) 10-year provider compliance documentation; replaced fabricated 5-year NIS2 rule with NIS2 Art. 23 reporting clocks (24h/72h/1m); eliminated indefinite personal-data log ceilings and specified WORM metadata + separated/crypto-shreddable personal-data payload architecture (reconciling GDPR Arts. 5(1)(c), 5(1)(e), 17); updated EU AI Act timing boundary to 2026-11-24 binding dates with Art. 4, 5, 14(4)(b), 25, 27 FRIA, 50, 73, and GDPR Art. 22 / SCHUFA safeguards; registered four canonical legal/privacy stop states in Stop-State-Registry-v0.1; corrected Ransomware-Recovery-Policy-v0.1 to include encryption/availability breaches (GDPR Art. 4(12)), processor Art. 33(2) routing, NIS2 24h / AI Act Art. 73 clocks, and Board/CEO Payment Decision Authority; recalibrated Governance-Maturity-Model-v0.1 to strict cumulative Operational Maturity (1.7/4.0, separating Design/Spec Readiness); marked DCE and Agentic-Identity-Security as Exploratory Research (non-operational), reframed unsourced 2026 incident stories as illustrative scenarios per No-source-no-conclusion, and fixed the stateless LLM reset interrogation fallacy. (P2 Operational, Role & Privacy Integrity) Added statutory GDPR DPO boundary (Arts. 37–39 & Art. 38(3)/(6) conflict-of-interest prohibition) and mapped AI Operator, Governance Authority, Data owner/Data Governance, Evidence reviewer, and Communications Authority in Role-Registry-v0.1; added Organization Sizing & Role-Combination Tiering in Roles-And-Responsibilities-v0.1; updated Status headers from Active to Draft/Review-Stage Template on five operational policies; updated Insider-Threat-Governance-v0.1 (DPIA, Art. 88/works-council, EU AI Act Annex III(4)(b)/Art. 5(1)(f), Directive 2019/1937 whistleblowing separation), Data-Classification-And-Handling-Policy-v0.1 (risk-based GDPR overlay, Art. 28/26 controller/processor split, Art. 25 fine-tuning warning, DSAR SOP boundary), Data-Egress-And-Exfiltration-Prevention-v0.1 (Schrems II TIA + EDPB 01/2020 supplementary measures + onward transfers), Third-Party-Governance-v0.1 (GDPR/DPA/TIA register fields), Monitoring-And-Detection-Operations-v0.1 (HR-05 heartbeat, HR-11 correlation tuning, Track 1/Track 3 routing), Active-Neutralization-Runbook-v0.1 (SaaS/container preservation, DCE non-operational matrix entry), Audit-And-Accountability-v0.1 (audit privacy minimisation boundary), External-Review-Checklist-v0.1, README.md, and DOCUMENT-INDEX.md. (P3 Strategic Positioning & Commercial Discovery) Added Governance-First-Security-Architecture-Framework-Delta-And-Scope-Map-v0.1.md (delta vs ISO 27001/NIST CSF/Zero Trust/NIST AI RMF/ISO 42001/OWASP Agentic/MITRE ATLAS, Core vs Baseline vs Exploratory partition, Enterprise Runtime Modes, and Tier 1 Deterministic vs Tier 2 Attested enforcement split); upgraded Assessment-Worksheet-v0.1.md (NDA/confidentiality box, Gate 0 Legal/AI Act pre-screen, agentic authority tiers, Enterprise Runtime Modes, worked example); sharpened Workshop-Offer-v0.1.md outreach and streamlined Security-Reviewer-Bundle-v0.1.md to a 3-document 15-minute CISO fast path.
+source_reference: INT-LEGAL-CISO-PRE-REVIEW-2026-11-24
+affected_document: Log-Retention-And-Rotation-Policy-v0.1; Log-Integrity-And-Tamper-Evidence-v0.1; GDPR-EU-AI-Act-Alignment-v0.1; Stop-State-Registry-v0.1; Ransomware-Recovery-Policy-v0.1; Governance-Maturity-Model-v0.1; Deceptive-Containment-Environment-Conceptual-Foundation-v0.1; Agentic-Identity-Security-Conceptual-Foundation-v0.1; Role-Registry-v0.1; Roles-And-Responsibilities-v0.1; Insider-Threat-Governance-v0.1; Data-Classification-And-Handling-Policy-v0.1; Data-Egress-And-Exfiltration-Prevention-v0.1; Third-Party-Governance-v0.1; Monitoring-And-Detection-Operations-v0.1; Active-Neutralization-Runbook-v0.1; Audit-And-Accountability-v0.1; External-Review-Checklist-v0.1; Security-Reviewer-Bundle-v0.1; Governance-Decision-Assessment-Workshop-Offer-v0.1; Assessment-Worksheet-v0.1; Framework-Delta-And-Scope-Map-v0.1 (new); README.md; DOCUMENT-INDEX.md; CITATION.cff; Post-Review-Revision-Log-v0.1
+affected_section: Statutory retention & GDPR WORM separation; EU AI Act 2025-2026 timing & Art. 4/5/14/18/19/25/26/27/50/73; GDPR Art. 22/33/35/37-39/88 & Schrems II TIA; Maturity Model strict cumulative scoring; Role Registry DPO & operational roles; Monitoring/Runbook feasibility; Exploratory Research framing; Framework Delta Map & Workshop Worksheet
+feedback_category: LEGAL_COMPLIANCE_RISK; PRIVACY_RISK; OVERCLAIM; ROLE_AUTHORITY; TECHNICAL_FEASIBILITY; SCOPE; MISSING_CONTROL; DOCUMENTATION_CLARITY
+severity: CRITICAL
+action_type: CLARIFY_TEXT; WEAKEN_CLAIM; REMOVE_CLAIM; ADD_STOP_STATE; UPDATE_ROLE_REGISTRY; NARROW_SCOPE; CREATE_NEW_DOCUMENT
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_LEGAL_COMPLIANCE_REVIEWER; ROLE_PRIVACY_REVIEWER; ROLE_SECURITY_REVIEWER; ROLE_GOVERNANCE_REVIEWER
+status: RESOLVED
+resolution_summary: All P1, P2, and P3 findings remediated on branch fix/legal-ciso-prereview-v0.1.1 and verified via automated CI checks (simulator 15/15 PASS, NO_NETWORK gate PASS, zero external deps, canonical vocabulary and link checks) prior to tagging v0.1.1.
+linked_change: Branch fix/legal-ciso-prereview-v0.1.1; v0.1.1 GitHub Release
+do_not_claim_impact: This internal AI-assisted pre-review and remediation does NOT constitute legal advice, GDPR or EU AI Act compliance, external validation, security certification, or Phase 3 authorization. Same self-assessment conflict-of-interest caveat as GFSA-REV-010 and GFSA-REV-011 applies: independent external legal/DPO and CISO reviews remain required and open.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Conducted transparently with explicit self-assessment disclosure. External Validation maturity level remains Level 2/4 until independent external legal/DPO and CISO reviewers challenge the v0.1.1 package directly.
+```
+
 ### Feedback Item GFSA-REV-017
 
 ```text
@@ -778,6 +804,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-018 | LEGAL_COMPLIANCE_RISK; PRIVACY_RISK; OVERCLAIM; ROLE_AUTHORITY; TECHNICAL_FEASIBILITY; SCOPE; MISSING_CONTROL; DOCUMENTATION_CLARITY | CRITICAL | Legal/GDPR/EU AI Act & CISO pre-review remediation across 26 docs (incl. Framework-Delta-And-Scope-Map-v0.1, Assessment-Worksheet-v0.1, Maturity Model, Role Registry, Log Retention/Integrity, Ransomware, Insider Threat, Data Classification/Egress) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-017 | DOCUMENTATION_CLARITY; SCOPE; TEST_COVERAGE; PROTOTYPE_BOUNDARY | LOW | .github/workflows/ci-verify.yml (new); Assessment-Worksheet-v0.1 (new); CITATION.cff; README; DOCUMENT-INDEX; Post-Review-Revision-Log | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-016 | TERMINOLOGY; ROLE_AUTHORITY; STOP_STATE; PROTOTYPE_BOUNDARY; TEST_COVERAGE; TECHNICAL_FEASIBILITY; DOCUMENTATION_CLARITY | HIGH | Stop-State-Registry; Stop-State-Policy; Capability-Change-Gate; Synthetic-Test-Case-Set; PDG-028-Review-Package; Prototype-Data-Schema; Role-Registry + 7 policy docs; Prototype-Implementation-Plan; governance-simulator (issues #3, #4, #5, #8, #9, #10) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-015 | DOCUMENTATION_CLARITY; OVERCLAIM; TECHNICAL_FEASIBILITY | MEDIUM | Corpus sweep across 24 documents (PR #13, PR #14; issues #7, #11, #12) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -829,21 +856,21 @@ Current review and release state:
 External feedback received:              YES
 Blocking feedback open:                  NO
 Prototype implementation:                PHASE 1 AND PHASE 2 EXECUTED under owner-approved decisions (GFSA-REV-013, GFSA-REV-014, GFSA-REV-016; Prototype-Phase-2-Decision-v0.1) — further implementation NOT AUTHORIZED; Phase 3 requires a new documented owner decision
-Prototype design discussion authorized:  YES — PDG-028 external review condition satisfied by GFSA-REV-012 (Sami, 2026-09-27)
+Prototype design discussion authorized:  YES — PDG-028 external review condition satisfied by GFSA-REV-012 (EXT-TECH-003, 2026-09-27)
 Phase 1 acceptance test:                 PASSED — 9 PASS / 0 FAIL (GFSA-REV-013, 2026-09-27)
 Phase 2 acceptance test:                 PASSED — 15 PASS / 0 FAIL, accepted (GFSA-REV-014) and re-verified under GFSA-REV-016 (2026-11-24) with canonical vocabulary, stdlib-only YAML runner, and deterministic in-process NO_NETWORK socket guard
 Commercial validation authorized:        WORKSHOP/ASSESSMENT DISCOVERY ONLY
 Public GitHub repository:                ACTIVE_AND_VERIFIED
 Public release blockers open:            NO
 Private vulnerability reporting:         ENABLED_AND_PUBLIC_PATH_VERIFIED
-Public review outreach:                  ACTIVE — GFSA-REV-009 received and partially resolved; GFSA-REV-012, GFSA-REV-014, GFSA-REV-015, GFSA-REV-016 resolved
-Internal pre-review:                     COMPLETED — GFSA-REV-010 (2026-09-26); CLOSED via GFSA-REV-011
+Public review outreach:                  ACTIVE — GFSA-REV-009 IN_REVISION; GFSA-REV-012, -014, -015, -016, -017 resolved; independent external legal/DPO and CISO reviews pending
+Internal pre-reviews:                    COMPLETED — GFSA-REV-010 (PDG-028, CLOSED via -011) and GFSA-REV-018 (Legal/GDPR/EU AI Act & CISO pre-review, RESOLVED for v0.1.1; self-assessment caveat applies)
 SWOT gap remediation:                    COMPLETED — GFSA-REV-011 (2026-09-26); all seven gaps resolved
-External PDG-028 review:                 COMPLETED — GFSA-REV-012 (Sami, 2026-09-27); four conditions resolved
-Corpus sweep and reconciliation:         COMPLETED — GFSA-REV-015 (PR #13/#14) and GFSA-REV-016 (owner decisions & bounded Phase 2 defect remediation for issues #3, #4, #5, #8, #9, #10)
+External PDG-028 review:                 COMPLETED — GFSA-REV-012 (EXT-TECH-003, 2026-09-27); four conditions resolved
+Corpus sweep and reconciliation:         COMPLETED — GFSA-REV-015 (PR #13/#14) and GFSA-REV-016 (PR #16; issues #3, #4, #5, #8, #9, #10)
 Automated repository verification:       ENABLED — .github/workflows/ci-verify.yml (stdlib-only simulator, NO_NETWORK guard, canonical vocabulary, and entry-point link checks; GFSA-REV-017)
-Baseline release:                        v0.1.0 (citable baseline synchronized with CITATION.cff; GFSA-REV-017)
-Open blocking items:                     NONE — issues #3, #4, #5, #8, #9, #10 resolved under GFSA-REV-016; Gap O empirical validation remains open (GFSA-REV-009 IN_REVISION)
+Baseline release:                        v0.1.1 (citable baseline synchronized with CITATION.cff; GFSA-REV-018)
+Open blocking items:                     NONE for repository consistency — Gap O empirical validation (GFSA-REV-009) and independent external legal/DPO & CISO validation remain open
 Gap O status:                            ANALYTICALLY_ADDRESSED_IN_SIMULATOR — synthetic coverage via STC-010/STC-011 (Phase 2); empirical validation of CA-06 not performed; narrowed, not closed; must be acknowledged in all future detection and implementation work
 ```
 
