@@ -1,0 +1,131 @@
+name: Repository Verification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Simulator & Governance Consistency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12 (stdlib only)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Governance Decision Simulator (runner entry point)
+        run: |
+          python3 governance-simulator/run_simulator.py
+          test -f governance-simulator/output/no_network_gate_log.txt
+          test -f governance-simulator/output/run_summary.json
+
+      - name: Run Governance Decision Simulator (standalone module entry point)
+        run: |
+          python3 governance-simulator/governance_simulator.py
+
+      - name: Verify stdlib boundary, canonical vocabulary, edge cases, and entry-point links
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          import re
+          import socket
+          import sys
+
+          root = pathlib.Path(".")
+
+          # 1. Stdlib-only boundary: no PyYAML in governance-simulator/
+          for py_file in (root / "governance-simulator").glob("*.py"):
+              text = py_file.read_text(encoding="utf-8")
+              assert "import yaml" not in text and "PyYAML" not in text, (
+                  f"External YAML dependency reference found in {py_file}"
+              )
+
+          # 2. No retired non-canonical mode strings in simulator or Capability-Change-Gate
+          retired_modes = ("LM-4_PRODUCTION", "ODM-5_SYNTHETIC_TEST")
+          check_paths = [
+              root / "governance-simulator" / "governance_simulator.py",
+              root / "governance-simulator" / "synthetic_test_cases.yaml",
+              root / "Governance-First-Security-Architecture-Capability-Change-Gate-v0.1.md",
+          ]
+          for path in check_paths:
+              text = path.read_text(encoding="utf-8")
+              for bad in retired_modes:
+                  assert bad not in text, f"Retired mode {bad} found in {path}"
+
+          # 3. Catalogue disambiguation: Synthetic-Test-Case-Set uses DOC-TC-, not ## STC-
+          doc_tc_path = root / "Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md"
+          doc_tc_text = doc_tc_path.read_text(encoding="utf-8")
+          assert not re.search(r"^## STC-", doc_tc_text, flags=re.MULTILINE), (
+              "Found legacy '## STC-' heading in Synthetic-Test-Case-Set-v0.1.md"
+          )
+          assert len(re.findall(r"^## DOC-TC-\d{3}\b", doc_tc_text, flags=re.MULTILINE)) == 24, (
+              "Expected 24 DOC-TC-NNN headings in Synthetic-Test-Case-Set-v0.1.md"
+          )
+
+          # 4. Local markdown links in core entry-point documents must resolve
+          link_re = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+          for doc_name in ("README.md", "DOCUMENT-INDEX.md", "ONBOARDING.md"):
+              doc_path = root / doc_name
+              text = doc_path.read_text(encoding="utf-8")
+              for target in link_re.findall(text):
+                  if target.startswith(("http://", "https://", "mailto:", "#")):
+                      continue
+                  clean_target = target.split("#", 1)[0]
+                  if not clean_target:
+                      continue
+                  resolved = (doc_path.parent / clean_target).resolve()
+                  assert resolved.exists(), f"Broken link in {doc_name}: {target}"
+
+          # 5. Canonical stop-state & NO_NETWORK guard edge-case assertions
+          sys.path.insert(0, str(root / "governance-simulator"))
+          import governance_simulator as gs
+
+          assert gs.check_no_network_gate(write_log=True) is True
+          try:
+              socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+              raise AssertionError("socket.socket was not blocked by NO_NETWORK_GATE")
+          except gs.NetworkAccessBlockedError:
+              pass
+
+          base = dict(
+              test_id="CI-EDGE",
+              lifecycle_mode="LM-3_LIMITED_SYNTHETIC_PROTOTYPE",
+              operational_decision_mode="ODM-0_READ_ONLY",
+              action_class="READ",
+              risk_level="LOW",
+              authority_outcome="AUTHORIZED",
+              evidence_outcome="EVIDENCE_PRESENT",
+              egress_class="INTERNAL",
+              stop_state="",
+              capability_outcome="NO_CHANGE",
+              ai_human_boundary="WITHIN_ROLE",
+              audit_outcome="AUDIT_RECORD_PRESENT",
+              rollback_outcome="NO_RECOVERY_REQUIRED",
+          )
+
+          r_prod = gs.run(dict(base, lifecycle_mode="LM-6_PRODUCTION"))
+          assert r_prod["got"] == "REVIEW_REQUIRED" and r_prod["stop"] == "STOP_UNKNOWN", r_prod
+
+          r_ai = gs.run(dict(base, ai_human_boundary="AI_OUTSIDE_ROLE"))
+          assert r_ai["got"] == "BLOCK" and r_ai["stop"] == "STOP_AI_AUTHORITY_EXCEEDED", r_ai
+
+          r_lock = gs.run(dict(base, stop_state="LOCKDOWN_REQUIRED"))
+          assert r_lock["got"] == "LOCKDOWN" and r_lock["stop"] == "LOCKDOWN_REQUIRED", r_lock
+
+          r_ca06 = gs.run(dict(base, lateral_peer_signal="DETECTED"))
+          assert r_ca06["got"] == "INCIDENT_RESPONSE" and r_ca06["stop"] == "STOP_LATERAL_PEER_COORDINATION", r_ca06
+
+          print("All CI repository consistency and edge-case checks passed.")
+          PY

@@ -161,7 +161,8 @@ The primary review audience includes CISOs, AI-governance leads, legal and risk 
 ### Commercial Discovery Path
 
 1. [Governance Decision Assessment Workshop Offer](Governance-First-Security-Architecture-Governance-Decision-Assessment-Workshop-Offer-v0.1.md)
-2. [Post-Review Revision Log](Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md)
+2. [Governance Decision Assessment Worksheet](Governance-First-Security-Architecture-Assessment-Worksheet-v0.1.md)
+3. [Post-Review Revision Log](Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md)
 
 The complete package is organized in [DOCUMENT-INDEX.md](DOCUMENT-INDEX.md).
 
