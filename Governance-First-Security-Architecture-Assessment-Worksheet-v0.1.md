@@ -2,108 +2,92 @@
 
 ## Status
 
-Operational workshop template (commercial discovery).
+Operational workshop template (commercial discovery — updated under `GFSA-REV-018`).
 
-This worksheet is not a new architecture layer. It operationalizes the existing canonical documents (`Minimal-Viable-Governance-Kernel-v0.1`, `Decision-State-Matrix-v0.1`, `Stop-State-Registry-v0.1`, `Role-Registry-v0.1`, and `Governance-Decision-Assessment-Workshop-Offer-v0.1`) into a single runnable 2–3 hour or 1-day assessment sheet.
+This worksheet is not a new architecture layer. It operationalizes the Core AI Decision-Governance Overlay (`Framework-Delta-And-Scope-Map-v0.1`, `Minimal-Viable-Governance-Kernel-v0.1`, `Agentic-Operational-Boundary-v0.1`, `Decision-State-Matrix-v0.1`, `Stop-State-Registry-v0.1`, `Role-Registry-v0.1`, and `GDPR-EU-AI-Act-Alignment-v0.1`) into a runnable 2–3 hour or 1-day workshop sheet for **both assistive and agentic AI workflows**.
 
-It does not authorize software implementation, runtime enforcement, live integration, or security/compliance claims.
+It does not constitute legal advice, compliance certification, security validation, or authorization for production automation.
 
 ---
 
 ## Core Assessment Formula
 
 ```text
-Authority + Evidence + Mode & Risk + Egress + Stop Path + Accountability
-before any governed AI-assisted action.
+Authority + Evidence + Mode/Tier & Risk + Egress + Stop Path + Accountability
+before any governed AI-assisted or agentic action.
 ```
 
 Rule: **The most restrictive valid signal wins.** A stop state is a valid governance outcome, not a system failure.
 
 ---
 
-## 1. Assessment Scope & Sponsor (Complete Before Session)
+## 1. Pre-Session Scope, Confidentiality & Legal Hygiene
 
 | Field | Entry |
 | --- | --- |
-| Organization / Team (anonymized if shared) | |
+| Organization / Team | |
+| NDA / Confidentiality Classification | `[ ] Mutual NDA executed` / `[ ] Client Confidential — Internal Only` |
+| Data Ownership & Facilitator GDPR Role | Completed worksheet belongs to Client; facilitator processes no live customer PII or production secrets during session |
+| Artifact Retention & Deletion | Retained strictly for agreed engagement window (`____ days`), then deleted or returned per client instruction |
 | Workshop Format | `[ ] Option A (2–3 hours)` / `[ ] Option B (1 working day)` |
 | Single Workflow In Scope | |
-| Executive Sponsor / Problem Owner | |
-| Participants (Business / Tech / Security / Risk / Legal) | |
-| Current Lifecycle Mode (`Mode-Model-Normalization-v0.1`) | `LM-0` / `LM-1` / `LM-2` / `LM-3` / `LM-4` / `LM-5` / `LM-6` |
-| Out-Of-Scope Confirmation | No software build, no live integration, no compliance/security certification |
+| Executive Sponsor & Participants | Sponsor: `__________` · Roles: Business / Tech / Security / Privacy-DPO / Legal |
+| Target Enterprise Runtime Mode (`Framework-Delta-And-Scope-Map-v0.1`) | `OBSERVE_ONLY` / `ADVISORY_DRAFT` / `SUPERVISED_CONFIRM` / `BOUNDED_AUTONOMOUS` |
+| Existing Enterprise Stack to Map Into | AI Gateway / IAM / Policy Engine (OPA/Cedar) / DLP / SIEM / ISO 42001 or NIST AI RMF program |
+
+> **Live-data prohibition:** Use synthetic or anonymized workflow examples during the workshop. Do **not** paste live personal data, credentials, or production secrets into this worksheet.
 
 ---
 
-## 2. Decision Map & Allow / Block / Escalate / Export / Audit Matrix
+## 2. Gate 0 — Legal, Privacy & EU AI Act Pre-Screen (10 Minutes)
 
-Map each decision point in the selected workflow (aim for 5–10 concrete decision steps).
+Complete before mapping workflow actions (escalate any `YES` or `UNCLEAR` to `ROLE_LEGAL_COMPLIANCE_REVIEWER`, `ROLE_PRIVACY_REVIEWER`, and independent statutory **DPO**):
 
-| Step ID | Decision / Action | Action Class (`OBSERVE`, `ANALYZE`, `DOCUMENT`, `RECOMMEND`, `CHANGE`, `EXPORT`, `EXECUTE`, `ESCALATE`, `OVERRIDE`, `RECOVER`) | Risk Level (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`) | AI Role (`ROLE_AI_ASSISTANT` — recommend/draft only) | Named Human Authority (`ROLE_*` from Role Registry) | Required Evidence | Egress Class (`NO_EGRESS`, `PUBLIC_SAFE`, `INTERNAL_ONLY`, `SENSITIVE`, `SECRET`, `REGULATED`, `BLOCKED`) | Default Decision (`ALLOW`, `ALLOW_WITH_CONDITIONS`, `NEEDS_MORE_EVIDENCE`, `NEEDS_AUTHORITY`, `REVIEW_REQUIRED`, `NEEDS_CAPABILITY_REVIEW`, `BLOCK`, `QUARANTINE`, `LOCKDOWN`, `INCIDENT_RESPONSE`) | Mandatory Audit Record |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| D-01 | | | | | | | | | |
-| D-02 | | | | | | | | | |
-| D-03 | | | | | | | | | |
-| D-04 | | | | | | | | | |
-| D-05 | | | | | | | | | |
-
----
-
-## 3. Six-Gate Kernel Check (Per High-Risk Or Sensitive Decision)
-
-Check each critical step against the six required kernel gates (`Minimal-Viable-Governance-Kernel-v0.1`):
-
-| Gate | Assessment Question | Current State (`PASS` / `PARTIAL` / `GAP`) | Evidence / Gap Notes |
-| --- | --- | --- | --- |
-| **1. Authority** | Is a named human `ROLE_*` assigned with explicit approval scope, expiration, and separation of duties (requester ≠ approver; AI never self-approves)? | | |
-| **2. Evidence** | Are source authority, freshness/staleness limits, and counter-evidence rules defined before action? | | |
-| **3. Mode & Risk** | Does the workflow enforce explicit operating modes (`READ_ONLY`, `PLAN_ONLY`, `REVIEW_ONLY`, `APPROVED_ACTION`, `LOCKDOWN`, `INCIDENT`) and fail closed on unknown mode? | | |
-| **4. Egress** | Is external/tool/API output classified separately from internal access? Are `SECRET` and `REGULATED` exports blocked by default? | | |
-| **5. Stop Path** | Are canonical stop states defined with clear trigger, required reviewer, and containment path (`Stop-State-Registry-v0.1`)? | | |
-| **6. Audit & Rollback** | Is every decision, override, and stop state recorded in an immutable audit trail with a verified rollback/recovery path? | | |
-
----
-
-## 4. Canonical Quick Reference
-
-### Canonical Roles (`Role-Registry-v0.1`)
-- `ROLE_USER_REQUESTER` — submits requests; may approve low-risk documentation only.
-- `ROLE_SYSTEM_OWNER` — owns system scope, continuity sign-off, and scoped risk acceptance.
-- `ROLE_APPROVER` — holds scoped human approval authority (distinct from requester for high-risk actions).
-- `ROLE_GOVERNANCE_REVIEWER` — owns governance process integrity and stop-state review.
-- `ROLE_SECURITY_REVIEWER` — reviews security, egress, secrets, and capability-change impact.
-- `ROLE_TECHNICAL_REVIEWER` — reviews technical feasibility, architecture, and rollback readiness.
-- `ROLE_LEGAL_COMPLIANCE_REVIEWER` — reviews legal/regulatory language and transfer obligations.
-- `ROLE_PRIVACY_REVIEWER` — reviews personal-data handling and GDPR boundaries.
-- `ROLE_AI_GOVERNANCE_REVIEWER` — reviews AI autonomy, role boundaries, and multi-agent risks.
-- `ROLE_INCIDENT_REVIEWER` — holds containment, isolation, and recovery-verification authority.
-- `ROLE_AI_ASSISTANT` — assistive only; **never approves**, never self-escalates.
-
-### Key Canonical Stop States (`Stop-State-Registry-v0.1`)
-| Stop State | Default Decision | Typical Trigger |
+| Screening Question | Answer (`YES` / `NO` / `UNCLEAR`) | Triggered Canonical Gate / Required Action |
 | --- | --- | --- |
-| `STOP_AUTHORITY_MISSING` | `BLOCK` | Required human authority absent or unverified |
-| `STOP_EVIDENCE_INSUFFICIENT` / `STOP_SOURCE_STALE` | `NEEDS_MORE_EVIDENCE` / `REVIEW_REQUIRED` | Missing, stale, or conflicting basis for decision |
-| `STOP_MODE_BOUNDARY` | `BLOCK` | Action disallowed in current lifecycle/operational mode |
-| `STOP_SECRET_EXPORT` | `BLOCK` (`INCIDENT_RESPONSE` on 3+ compound hostile signals) | Secret, key, or token may leave boundary |
-| `STOP_SENSITIVE_DATA_EXPORT` / `STOP_EGRESS_UNAUTHORIZED` | `BLOCK` | Unapproved personal/restricted data or external exit |
-| `STOP_CAPABILITY_CHANGE` / `STOP_HIDDEN_CAPABILITY` | `NEEDS_CAPABILITY_REVIEW` | New tool, permission, or scope expansion introduced |
-| `STOP_AI_AUTHORITY_EXCEEDED` / `STOP_AI_SELF_ESCALATION` | `BLOCK` | AI acts outside role or attempts to expand authority |
-| `STOP_LATERAL_PEER_COORDINATION` | `INCIDENT_RESPONSE` | Unsanctioned cross-agent lateral coordination (CA-06) |
-| `STOP_UNKNOWN` | `REVIEW_REQUIRED` | Classification, mode, or authority cannot be determined |
-| `LOCKDOWN_REQUIRED` | `LOCKDOWN` | Broad containment required pending return-to-normal review |
-| `INCIDENT_REVIEW_REQUIRED` | `INCIDENT_RESPONSE` | Potential security, data, or governance incident |
+| **EU AI Act Art. 5 (Prohibited Practices):** Does the workflow involve workplace emotion inference (Art. 5(1)(f)), social scoring, or manipulative exploitation? | | If `YES` → Hard stop (`STOP_PROHIBITED_AI_USE`) |
+| **EU AI Act High-Risk (Annex I / Annex III) or Art. 25 Reclassification:** Does it affect employment/worker monitoring (Annex III(4)(b)), credit/insurance, critical infrastructure, or fine-tune/rebrand a third-party model? | | If `YES` → Counsel classification + Art. 27 FRIA check (`STOP_DPIA_OR_FRIA_REQUIRED`) + Art. 4 literacy + Art. 73 incident routing |
+| **EU AI Act Art. 50 Transparency:** Do natural persons interact with AI or receive synthetic content requiring disclosure/marking? | | If `YES` → Add external disclosure requirement to Section 3 |
+| **GDPR Personal / Art. 9 Data & Lawful Basis:** Does the workflow process personal data or special-category data? Is Art. 5(1)(b) purpose + Art. 6(1)/9(2) lawful basis documented in RoPA? | | If missing → `STOP_LAWFUL_BASIS_MISSING`; if high-risk/employee monitoring → mandatory GDPR Art. 35 DPIA + DPO advice + Art. 88/works-council check |
+| **GDPR Chapter V Cross-Border Transfer:** Do prompts, tool calls, sub-processors, or support access cross outside the EEA? | | If `YES` without adequacy or SCC + *Schrems II* TIA → `STOP_UNAPPROVED_CROSS_BORDER_TRANSFER` |
+| **GDPR Art. 22 Automated Decisions:** Can the workflow or an automated block produce legal or similarly significant effects on a natural person? | | If `YES` → Enforce non-rubber-stamped human review (*SCHUFA* / AI Act Art. 14(4)(b)) + human contestability path (Art. 22(3)) |
 
 ---
 
-## 5. Stop-State Gap List & Do-Not-Automate Register
+## 3. Decision Map & Guardrail Matrix (5–8 Concrete Workflow Steps)
 
-### Stop-State Gaps Identified
-| Gap ID | Workflow Step | Missing Or Weak Stop Condition | Target Canonical Stop State | Named Owner | Target Resolution |
+Map each step using the customer's **actual job titles** alongside canonical GFSA authority tiers and decisions:
+
+| Step ID | Workflow Step & Tool / System Touched | AI Authority Tier (`Assistive`, `Tier A Autonomous`, `Tier B Confirm`, `Tier C Escalate`, `Tier D Stop`) | Risk (`LOW`, `MED`, `HIGH`, `CRIT`) | Accountable Human Owner / Approver (Customer Title + `ROLE_*`) | Egress & Data Tier (`Internal` / `Confidential` / `Restricted` + External Endpoint?) | Decision & Stop State on Failure (`ALLOW`, `ALLOW_WITH_CONDITIONS`, `REVIEW_REQUIRED`, `BLOCK`, `INCIDENT_RESPONSE` + `STOP_*`) |
+| --- | --- | --- | --- | --- | --- | --- |
+| D-01 | | | | | | |
+| D-02 | | | | | | |
+| D-03 | | | | | | |
+| D-04 | | | | | | |
+| D-05 | | | | | | |
+
+---
+
+## 4. Six-Gate Kernel Check & Enforcement Split
+
+| Gate | Core Question | Enforcement Layer (`Tier 1 Inline Policy` vs `Tier 2 Human/Attested`) | Status (`PASS` / `PARTIAL` / `GAP`) | Gap / Technical Guardrail Needed |
+| --- | --- | --- | --- | --- |
+| **1. Authority** | Named human owner/approver assigned; requester ≠ approver on high-risk steps; AI never self-approves; DPO independent? | Tier 1 (IAM/token) + Tier 2 (role record) | | |
+| **2. Evidence** | Source authority, freshness limits, and counter-evidence defined (plus anti-automation-bias display for human approvers)? | Tier 2 (signed attestation / UI cue) | | |
+| **3. Mode & Capability** | Explicit runtime mode (`OBSERVE_ONLY` / `ADVISORY_DRAFT` / `SUPERVISED_CONFIRM` / `BOUNDED_AUTONOMOUS`) enforced; new tools/fine-tuning gated? | Tier 1 (AI Gateway / tool allowlist) + Tier 2 (Capability Change Gate) | | |
+| **4. Egress & Transfer** | External APIs/tools allowlisted in Operational Mandate; secrets/restricted data blocked by default; Chapter V / TIA verified? | Tier 1 (Egress Gateway / DLP) | | |
+| **5. Stop & Circuit Breakers** | Fail-closed canonical stop states wired to reversible pre-authorized circuit breakers (machine-time containment) + escalation path? | Tier 1 (Circuit Breaker) + Tier 2 (SOC/IR) | | |
+| **6. Privacy-Safe Audit & Rollback** | Privacy-minimised, retention-bounded tamper-evident audit trail (metadata/hashes in WORM, PII separated/erasable per GDPR Art. 5(1)(e)/17) + verified rollback? | Tier 1 (Log pipeline) + Tier 2 (Recovery test) | | |
+
+---
+
+## 5. Stop-State Gaps, Do-Not-Automate Register & Next Safe Actions
+
+### Stop-State Gaps
+| Gap ID | Step | Missing Control / Guardrail | Target Canonical Stop State | Named Owner | Target Implementation Point (AI Gateway / IAM / DLP / SOP) |
 | --- | --- | --- | --- | --- | --- |
 | GAP-01 | | | | | |
 | GAP-02 | | | | | |
-| GAP-03 | | | | | |
 
 ### Explicit Do-Not-Automate List
 Actions in this workflow that must **remain human-decided** (four-eyes where high/critical risk) and must not be delegated to autonomous AI execution:
@@ -112,11 +96,8 @@ Actions in this workflow that must **remain human-decided** (four-eyes where hig
 2. `___________________________________________________________________` (Rationale: `____________________`)
 3. `___________________________________________________________________` (Rationale: `____________________`)
 
----
-
-## 6. Prioritized Next Safe Actions (Workshop Output Summary)
-
-| Priority | Action | Owner (`ROLE_*` / Named Person) | Dependency / Blocker | Verification Evidence |
+### Prioritized Next Safe Actions (30/60/90-Day Blueprint)
+| Priority | Action | Owner | Target System / Governance Artifact | Verification Evidence |
 | --- | --- | --- | --- | --- |
 | 1 | | | | |
 | 2 | | | | |
@@ -124,11 +105,26 @@ Actions in this workflow that must **remain human-decided** (four-eyes where hig
 
 ---
 
+## 6. Worked Example (Synthetic Illustration — Customer Refund & Escalation Agent)
+
+*Illustrative example showing expected workshop output granularity (synthetic only — not production advice):*
+
+| Step ID | Workflow Step & Tool Touched | AI Authority Tier | Risk | Accountable Human Owner | Egress & Data Tier | Decision & Failure Stop State |
+| --- | --- | --- | --- | --- | --- | --- |
+| EX-01 | Read order & return policy via internal CRM API | `Tier A Autonomous` (`BOUNDED_AUTONOMOUS`) | `LOW` | Support Ops Lead (`ROLE_SYSTEM_OWNER`) | Internal only (`Confidential` routine customer data; Art. 6(1)(b) contract basis) | `ALLOW` (fail closed → `STOP_MODE_BOUNDARY` if unapproved CRM endpoint called) |
+| EX-02 | Issue refund ≤ €50 via Billing API | `Tier A Autonomous` (bounded tool allowlist + daily velocity circuit breaker) | `MED` | Finance Ops Manager (`ROLE_APPROVER`) | Internal Billing API; Art. 50 customer AI notice shown | `ALLOW_WITH_CONDITIONS` (exceeds daily velocity → circuit breaker `QUARANTINE`) |
+| EX-03 | Issue refund > €50 or override return window | `Tier B Confirm` (`SUPERVISED_CONFIRM`) | `HIGH` | Team Lead (`ROLE_APPROVER`; shown order evidence + fraud flags to avoid rubber-stamping) | Internal Billing API | `REVIEW_REQUIRED` (`STOP_AUTHORITY_MISSING` if unconfirmed) |
+| EX-04 | Export customer dispute history to external non-EEA analytics tool | `Tier C Escalate` / `Tier D Stop` | `CRIT` | Privacy Lead (`ROLE_PRIVACY_REVIEWER`) + Legal (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) | External non-EEA (`Restricted` bulk PII) | `BLOCK` (`STOP_UNAPPROVED_CROSS_BORDER_TRANSFER` / `STOP_SENSITIVE_DATA_EXPORT`) |
+
+**Do-Not-Automate (Example):** (1) Refunds > €500 or fraud-flagged account closures (GDPR Art. 22 significant effect → mandatory human decision + contestability); (2) Adding new Billing API scopes or fine-tuning the model on customer tickets (Capability Change Gate + EU AI Act Art. 25 check).
+
+---
+
 ## Boundary Reminder
 
 ```text
-This worksheet is a structured governance assessment and review aid only.
-Completion of this worksheet does not constitute legal advice, regulatory
-compliance, GDPR/EU AI Act certification, security validation, or authorization
-for production AI deployment or runtime automation.
+This worksheet is a structured governance assessment and design aid only.
+Completion of this worksheet does not constitute legal advice, GDPR or EU AI Act
+compliance, certification, security validation, or authorization for production
+AI deployment or runtime automation.
 ```

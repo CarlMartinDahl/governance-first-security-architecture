@@ -30,10 +30,10 @@ The canonical project source is `https://github.com/CarlMartinDahl/governance-fi
 
 | Area | Status |
 | --- | --- |
-| Repository | Documentation only |
+| Repository | Documentation-first (with bounded Phase 1/2 synthetic simulator & CI verification) |
 | Documentation package | Frozen for external review |
 | External feedback | Received and logged |
-| Targeted external review | PDG-028 boundary review completed (GFSA-REV-012); broader external review remains limited |
+| Targeted external review | PDG-028 boundary review completed (GFSA-REV-012); broader external review (legal/DPO, CISO) remains open |
 | Commercial validation | Workshop and assessment discovery only |
 | Prototype implementation | Phase 1 and Phase 2 synthetic simulator executed and accepted; Phase 3 not authorized |
 | Production use | Not authorized |
@@ -119,8 +119,9 @@ The primary review audience includes CISOs, AI-governance leads, legal and risk 
 ### Executive Path
 
 1. [Executive Overview](Governance-First-Security-Architecture-Executive-Overview-v0.1.md)
-2. [Technical Review Brief](Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md)
-3. [External Review Checklist](Governance-First-Security-Architecture-External-Review-Checklist-v0.1.md)
+2. [Framework Delta And Scope Map](Governance-First-Security-Architecture-Framework-Delta-And-Scope-Map-v0.1.md)
+3. [Technical Review Brief](Governance-First-Security-Architecture-Technical-Review-Brief-v0.1.md)
+4. [External Review Checklist](Governance-First-Security-Architecture-External-Review-Checklist-v0.1.md)
 
 ### Security Practitioner Path
 
