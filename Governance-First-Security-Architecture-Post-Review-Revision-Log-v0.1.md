@@ -258,6 +258,32 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-017
+
+```text
+feedback_id: GFSA-REV-017
+reviewer_id: OWNER-MAINT-2026-11-24 (Martin Dahl)
+reviewer_type: Owner-authorized repository-governance maintenance and v0.1.0 baseline release preparation
+date_received: 2026-11-24
+source_document: Post-reconciliation repository readiness review following PR #16 (GFSA-REV-016)
+feedback_summary: Three bounded maintenance actions executed to lock in post-reconciliation quality before tagging the citable v0.1.0 baseline release without expanding the governance model or authorizing Phase 3: (1) Added a lightweight, stdlib-only GitHub Actions verification workflow (.github/workflows/ci-verify.yml) that runs both simulator entry points, verifies NO_NETWORK GATE PASS and output artifacts, enforces zero external dependencies in governance-simulator/, blocks regression to retired mode names or conflicting STC-/DOC-TC- headings, validates core entry-point markdown links, and runs canonical stop-state edge-case assertions on every PR and push to main. (2) Added Governance-First-Security-Architecture-Assessment-Worksheet-v0.1.md as a compact, runnable operational template for 2–3 hour and 1-day Governance Decision Assessment workshops, derived strictly from existing canonical kernel, decision-matrix, stop-state, and role documents (not a new model layer), and linked it in README.md and DOCUMENT-INDEX.md. (3) Updated CITATION.cff to version 0.1.0 with release date 2026-11-24 in preparation for the formal v0.1.0 GitHub Release.
+source_reference: OWNER-RELEASE-PREP-2026-11-24
+affected_document: .github/workflows/ci-verify.yml (new); Governance-First-Security-Architecture-Assessment-Worksheet-v0.1.md (new); CITATION.cff; README.md; DOCUMENT-INDEX.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md
+affected_section: CI verification workflow; Commercial Discovery operational template; citation metadata; Revision Log GFSA-REV-017 and Current Review State
+feedback_category: DOCUMENTATION_CLARITY; SCOPE; TEST_COVERAGE; PROTOTYPE_BOUNDARY
+severity: LOW
+action_type: CLARIFY_TEXT; CREATE_NEW_DOCUMENT
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_GOVERNANCE_REVIEWER; ROLE_TECHNICAL_REVIEWER
+status: RESOLVED
+resolution_summary: Lightweight CI verification workflow, runnable workshop assessment worksheet, and CITATION.cff v0.1.0 metadata added and verified cleanly prior to tagging v0.1.0 on main.
+linked_change: Branch chore/ci-worksheet-v0.1.0-prep; v0.1.0 GitHub Release
+do_not_claim_impact: Adding a repository CI check, workshop template, and v0.1.0 tag does NOT authorize Phase 3, does NOT expand the governance model, and does NOT constitute security validation, compliance validation, product-market fit, or production readiness.
+prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
+notes: Repository-governance maintenance only per GOVERNANCE.md Current Decision Authority. Documentation freeze against model expansion and Phase 3 implementation block remain in force.
+```
+
 ### Feedback Item GFSA-REV-016
 
 ```text
@@ -752,6 +778,7 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-017 | DOCUMENTATION_CLARITY; SCOPE; TEST_COVERAGE; PROTOTYPE_BOUNDARY | LOW | .github/workflows/ci-verify.yml (new); Assessment-Worksheet-v0.1 (new); CITATION.cff; README; DOCUMENT-INDEX; Post-Review-Revision-Log | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-016 | TERMINOLOGY; ROLE_AUTHORITY; STOP_STATE; PROTOTYPE_BOUNDARY; TEST_COVERAGE; TECHNICAL_FEASIBILITY; DOCUMENTATION_CLARITY | HIGH | Stop-State-Registry; Stop-State-Policy; Capability-Change-Gate; Synthetic-Test-Case-Set; PDG-028-Review-Package; Prototype-Data-Schema; Role-Registry + 7 policy docs; Prototype-Implementation-Plan; governance-simulator (issues #3, #4, #5, #8, #9, #10) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-015 | DOCUMENTATION_CLARITY; OVERCLAIM; TECHNICAL_FEASIBILITY | MEDIUM | Corpus sweep across 24 documents (PR #13, PR #14; issues #7, #11, #12) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
 | GFSA-REV-014 | TEST_COVERAGE; PROTOTYPE_BOUNDARY; DOCUMENTATION_CLARITY | MEDIUM | Post-Review-Revision-Log; governance-simulator Phase 2 acceptance record (PR #6) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
@@ -814,6 +841,8 @@ Internal pre-review:                     COMPLETED — GFSA-REV-010 (2026-09-26)
 SWOT gap remediation:                    COMPLETED — GFSA-REV-011 (2026-09-26); all seven gaps resolved
 External PDG-028 review:                 COMPLETED — GFSA-REV-012 (Sami, 2026-09-27); four conditions resolved
 Corpus sweep and reconciliation:         COMPLETED — GFSA-REV-015 (PR #13/#14) and GFSA-REV-016 (owner decisions & bounded Phase 2 defect remediation for issues #3, #4, #5, #8, #9, #10)
+Automated repository verification:       ENABLED — .github/workflows/ci-verify.yml (stdlib-only simulator, NO_NETWORK guard, canonical vocabulary, and entry-point link checks; GFSA-REV-017)
+Baseline release:                        v0.1.0 (citable baseline synchronized with CITATION.cff; GFSA-REV-017)
 Open blocking items:                     NONE — issues #3, #4, #5, #8, #9, #10 resolved under GFSA-REV-016; Gap O empirical validation remains open (GFSA-REV-009 IN_REVISION)
 Gap O status:                            ANALYTICALLY_ADDRESSED_IN_SIMULATOR — synthetic coverage via STC-010/STC-011 (Phase 2); empirical validation of CA-06 not performed; narrowed, not closed; must be acknowledged in all future detection and implementation work
 ```
