@@ -459,7 +459,7 @@ Secret, credential, token, key, or equivalent protected material may leave the s
 
 Required action:
 
-Block export and consider incident review.
+Block export immediately (`BLOCK` for standalone `STOP_SECRET_EXPORT`) and initiate incident review if real or suspected secret exposure occurred. When combined with a compound hostile signal (3 or more simultaneous hostile indicators, such as hostile action class, `CRITICAL` risk, and `SECRET` egress), escalate to `STOP_COMPOUND_HOSTILE_SIGNAL` (`INCIDENT_RESPONSE`).
 
 Allowed continuation:
 
@@ -614,6 +614,39 @@ Related controls:
 
 - Capability change gate.
 - Abuse case library.
+
+### STOP_CAPABILITY_OVERRIDE
+
+Category: Capability stop (incident-escalating).
+
+Trigger:
+
+An actor or process attempts to override or bypass a configured capability gate, control boundary, or mode restriction without documented authorization.
+
+Required action:
+
+Halt immediately and escalate to `INCIDENT_RESPONSE`.
+
+Allowed continuation:
+
+Containment and forensic investigation only.
+
+Required reviewer:
+
+Security reviewer, technical reviewer, and incident reviewer.
+
+Audit requirement:
+
+Record attempted override target, actor, mode context, and blocked control boundary.
+
+Recovery requirement:
+
+Verify no control bypass or unauthorized capability change persisted before resuming.
+
+Related controls:
+
+- Capability change gate.
+- Recovery and incident policy.
 
 ## AI-Human Governance Stops
 
@@ -836,6 +869,45 @@ Related abuse cases:
 - Covert agent coordination.
 - Side-channel data exfiltration.
 - Swarm formation without authorization.
+
+Distinction from `STOP_LATERAL_PEER_COORDINATION`: `STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION` covers a single unauthorized channel or direct agent-to-agent call outside the sanctioned topology and defaults to `BLOCK`. When lateral peer coordination signals indicate active coordinated evasion, covert cross-agent execution, or CA-06 lateral peer coordination (see `CA-06-Lateral-Peer-Coordination-Rule-v0.1` and `Machine-Time-Threat-Model-v0.1` MT-04), `STOP_LATERAL_PEER_COORDINATION` applies and escalates to `INCIDENT_RESPONSE`.
+
+### STOP_LATERAL_PEER_COORDINATION
+
+Category: Agentic stop (incident-escalating).
+
+Trigger:
+
+Cross-agent lateral peer coordination signal (CA-06 / MT-04) is detected indicating coordinated unauthorized peer-to-peer action across agent boundaries without sanctioned orchestration.
+
+Required action:
+
+Halt affected agents immediately and escalate to `INCIDENT_RESPONSE`.
+
+Allowed continuation:
+
+Containment and forensic investigation only.
+
+Required reviewer:
+
+Security reviewer, AI governance reviewer, and incident reviewer.
+
+Audit requirement:
+
+Record participating agent identifiers, observed lateral coordination signal, correlation rule reference (`CA-06`), and preservation status.
+
+Recovery requirement:
+
+Independent forensic review and explicit re-authorization of each agent before return to normal.
+
+Related controls:
+
+- CA-06 Lateral Peer Coordination Rule.
+- Monitoring and detection operations (Section 5.4).
+- Lateral movement containment.
+- Machine-time threat model (MT-04).
+
+Note: Empirical validation of CA-06 against a live detection engine has not been performed (Gap O remains open / analytically addressed in synthetic simulator only).
 
 ### STOP_EMERGENT_SWARM_BEHAVIOUR
 
@@ -1146,6 +1218,40 @@ Related controls:
 
 - Recovery and incident policy.
 
+### STOP_COMPOUND_HOSTILE_SIGNAL
+
+Category: Incident state (compound hostile escalation).
+
+Trigger:
+
+Three or more simultaneous hostile indicators are present on a single governed action (for example: a hostile stop state such as `STOP_SECRET_EXPORT`, a hostile action class such as `EXPORT`/`DELETE`/`OVERRIDE`, `CRITICAL` risk level, and `SECRET` egress class).
+
+Required action:
+
+Halt immediately and escalate to `INCIDENT_RESPONSE`.
+
+Allowed continuation:
+
+Containment, evidence preservation, and forensic review only.
+
+Required reviewer:
+
+Security reviewer and incident reviewer.
+
+Audit requirement:
+
+Record all simultaneous hostile indicators, attempted action class, egress class, and escalation timestamp without repeating protected values.
+
+Recovery requirement:
+
+Incident review and verification before return to normal.
+
+Related controls:
+
+- Stop state policy.
+- Recovery and incident policy.
+- Prototype implementation plan (HostileSignalDetector).
+
 ## Recovery States
 
 ### STOP_ROLLBACK_MISSING
@@ -1238,6 +1344,24 @@ Earlier documents used `BLOCKED_*` labels and several local review labels before
 
 `BLOCKED_FROM_EXPORT` is an asset-handling classification, not a stop-state identifier. It should result in `STOP_EGRESS_UNAUTHORIZED` or a more specific egress stop when an export is attempted.
 
+### Phase 1/2 Simulator Legacy Stop-State Crosswalk
+
+The initial Phase 1 and Phase 2 runs of the Governance Decision Simulator (`GFSA-REV-013`, `GFSA-REV-014`) used local simulator stop-state labels prior to vocabulary reconciliation under `GFSA-REV-016` (issue `#8`). The simulator has since been aligned to canonical registry identifiers; this crosswalk preserves historical traceability for earlier acceptance records.
+
+| Historical Simulator Label (`GFSA-REV-013`/`-014`) | Canonical Registry Identifier | Canonical Default Decision |
+| --- | --- | --- |
+| `STOP_MISSING_AUTHORITY` | `STOP_AUTHORITY_MISSING` | `BLOCK` (or `NEEDS_AUTHORITY` on non-hostile authority-only gaps) |
+| `STOP_MODE_BOUNDARY_VIOLATION` | `STOP_MODE_BOUNDARY` | `BLOCK` |
+| `STOP_AI_BOUNDARY_VIOLATION` | `STOP_AI_AUTHORITY_EXCEEDED` | `BLOCK` |
+| `STOP_PROHIBITED_EGRESS` | `STOP_EGRESS_UNAUTHORIZED` | `BLOCK` |
+| `STOP_LOCKDOWN` | `LOCKDOWN_REQUIRED` | `LOCKDOWN` |
+| `STOP_INCIDENT_ACTIVE` | `INCIDENT_REVIEW_REQUIRED` | `INCIDENT_RESPONSE` |
+| `STOP_SECRET_EXPORT` | `STOP_SECRET_EXPORT` (standalone) / `STOP_COMPOUND_HOSTILE_SIGNAL` (3+ compound hostile indicators) | `BLOCK` / `INCIDENT_RESPONSE` |
+| `STOP_LATERAL_PEER_COORDINATION` | `STOP_LATERAL_PEER_COORDINATION` | `INCIDENT_RESPONSE` |
+| `STOP_COMPOUND_HOSTILE_SIGNAL` | `STOP_COMPOUND_HOSTILE_SIGNAL` | `INCIDENT_RESPONSE` |
+| `STOP_CAPABILITY_OVERRIDE` | `STOP_CAPABILITY_OVERRIDE` | `INCIDENT_RESPONSE` |
+| `STOP_UNKNOWN` | `STOP_UNKNOWN` | `REVIEW_REQUIRED` |
+
 ## Canonical Decision Mapping
 
 | Stop State | Default Decision |
@@ -1253,17 +1377,19 @@ Earlier documents used `BLOCKED_*` labels and several local review labels before
 | STOP_ESCALATION_NOT_APPROVED | BLOCK |
 | STOP_AI_SELF_ESCALATION | BLOCK |
 | STOP_EGRESS_UNAUTHORIZED | BLOCK |
-| STOP_SECRET_EXPORT | BLOCK |
+| STOP_SECRET_EXPORT | BLOCK (escalates to `STOP_COMPOUND_HOSTILE_SIGNAL` / `INCIDENT_RESPONSE` on 3+ compound hostile indicators) |
 | STOP_SENSITIVE_DATA_EXPORT | BLOCK |
 | STOP_BULK_EXPORT | BLOCK |
 | STOP_CAPABILITY_CHANGE | NEEDS_CAPABILITY_REVIEW |
 | STOP_HIDDEN_CAPABILITY | NEEDS_CAPABILITY_REVIEW |
+| STOP_CAPABILITY_OVERRIDE | INCIDENT_RESPONSE |
 | STOP_AI_AUTHORITY_EXCEEDED | BLOCK |
 | STOP_HUMAN_REVIEW_REQUIRED | REVIEW_REQUIRED |
 | STOP_UNSUPPORTED_CONFIDENCE | NEEDS_MORE_EVIDENCE |
 | STOP_AGENT_AUTHORITY_CHAIN_BROKEN | BLOCK |
 | STOP_AGENT_IDENTITY_MISMATCH | INCIDENT_RESPONSE |
 | STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION | BLOCK |
+| STOP_LATERAL_PEER_COORDINATION | INCIDENT_RESPONSE |
 | STOP_EMERGENT_SWARM_BEHAVIOUR | INCIDENT_RESPONSE |
 | STOP_AUDIT_RECORD_MISSING | BLOCK |
 | STOP_ACCOUNTABILITY_MISSING | BLOCK |
@@ -1273,11 +1399,12 @@ Earlier documents used `BLOCKED_*` labels and several local review labels before
 | INCIDENT_REVIEW_REQUIRED | INCIDENT_RESPONSE |
 | INCIDENT_FREEZE | INCIDENT_RESPONSE |
 | INCIDENT_ISOLATION | INCIDENT_RESPONSE |
+| STOP_COMPOUND_HOSTILE_SIGNAL | INCIDENT_RESPONSE |
 | STOP_ROLLBACK_MISSING | REVIEW_REQUIRED |
 | REVIEW_REQUIRED_RECOVERY | REVIEW_REQUIRED |
 
 ## Current Consistency Decision
 
-This registry should be treated as the canonical stop-state vocabulary for future documents unless a later registry supersedes it.
+This registry should be treated as the canonical stop-state vocabulary for future documents and for the synthetic Governance Decision Simulator unless a later registry supersedes it.
 
-Earlier stop-state names remain useful as historical or local terms, but future prototype design should map them to this registry.
+Earlier stop-state names remain useful as historical or local terms, mapped via the crosswalk tables above.

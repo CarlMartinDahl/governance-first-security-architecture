@@ -245,6 +245,8 @@ Must not:
 
 ## BLOCKED_SECRET_EXPORT
 
+Canonical registry identifier: `STOP_SECRET_EXPORT`.
+
 Meaning:
 
 Secrets, tokens, keys, credentials, or similarly sensitive control material are being exposed or exported.
@@ -252,9 +254,11 @@ Secrets, tokens, keys, credentials, or similarly sensitive control material are 
 Default result:
 
 ```text
-BLOCK
-INCIDENT_REVIEW_REQUIRED
+BLOCK (standalone STOP_SECRET_EXPORT)
+INCIDENT_REVIEW_REQUIRED (when real or suspected secret exposure occurs)
 ```
+
+Escalation rule: when `STOP_SECRET_EXPORT` co-occurs with a compound hostile signal (3 or more simultaneous hostile indicators, such as hostile action class, `CRITICAL` risk, and `SECRET` egress), the evaluation escalates to `STOP_COMPOUND_HOSTILE_SIGNAL` with default decision `INCIDENT_RESPONSE`.
 
 Allowed next steps:
 
