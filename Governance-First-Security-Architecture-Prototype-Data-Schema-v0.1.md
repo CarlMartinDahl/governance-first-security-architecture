@@ -105,12 +105,12 @@ notes
 
 #### test_id
 
-Unique synthetic test identifier.
+Unique synthetic test identifier. Use `DOC-TC-NNN` for documentary reference test cases (`Synthetic-Test-Case-Set-v0.1`) and `STC-NNN` for executed Governance Decision Simulator test cases (`governance-simulator/synthetic_test_cases.yaml`).
 
 Example:
 
 ```text
-STC-003
+DOC-TC-003
 ```
 
 #### test_name
@@ -591,7 +591,7 @@ The schema should be considered invalid if:
 ## Example SyntheticTestCase
 
 ```text
-test_id: STC-003
+test_id: DOC-TC-003
 test_name: Secret Export Attempt
 test_version: v0.1
 test_status: DRAFT
@@ -620,8 +620,8 @@ boundary_label: SYNTHETIC_TEST_CASE_ONLY
 ## Example SimulatedDecision
 
 ```text
-decision_id: DEC-STC-003-001
-test_id: STC-003
+decision_id: DEC-DOC-TC-003-001
+test_id: DOC-TC-003
 decision_label: SIMULATED_DECISION_ONLY
 simulated_decision: BLOCK
 triggered_stop_state: STOP_SECRET_EXPORT
@@ -637,10 +637,10 @@ boundary_reminder: This is a synthetic simulated governance decision only. It is
 ## Example MockAuditRecord
 
 ```text
-mock_event_id: MOCK-AUDIT-STC-003-001
+mock_event_id: MOCK-AUDIT-DOC-TC-003-001
 mock_audit_label: MOCK_AUDIT_RECORD
-test_id: STC-003
-decision_id: DEC-STC-003-001
+test_id: DOC-TC-003
+decision_id: DEC-DOC-TC-003-001
 timestamp_simulated: 2026-01-01T00:00:00Z
 lifecycle_mode: LM-1_REVIEW_PACKAGE
 operational_decision_mode: ODM-3_APPROVED_DOCUMENTATION_CHANGE

@@ -101,17 +101,17 @@ If you are unfamiliar with the project, reading `ONBOARDING.md` first (approxima
 
 ---
 
-### Document 3 — Synthetic Test Case Set (STC-003 and STC-004 specifically)
+### Document 3 — Synthetic Test Case Set (DOC-TC-003 and DOC-TC-004 specifically)
 
 **File:** `Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md`  
-**Estimated reading time:** 10 minutes (STC-003 and STC-004 only)  
-**Sections:** STC-003 (Secret Export Attempt) and STC-004 (Personal Data Export Without Review)
+**Estimated reading time:** 10 minutes (DOC-TC-003 and DOC-TC-004 only)  
+**Sections:** DOC-TC-003 (Secret Export Attempt) and DOC-TC-004 (Personal Data Export Without Review) *(formerly numbered STC-003 and STC-004 prior to the GFSA-REV-016 catalogue disambiguation reserving `STC-NNN` for the executed simulator set)*
 
 **Purpose:** These two test cases involve mock secret-like values and synthetic personal data. The reviewer must assess whether these test cases are safely designed or whether they could be misread as instructions for bypassing controls.
 
 **Key questions this document answers:**
-- Does STC-003 adequately isolate the mock key value so it cannot be used as a bypass template?
-- Does STC-004 adequately distinguish synthetic personal data from real personal data?
+- Does DOC-TC-003 adequately isolate the mock key value so it cannot be used as a bypass template?
+- Does DOC-TC-004 adequately distinguish synthetic personal data from real personal data?
 - Do these test cases test the control or inadvertently document how to evade it?
 
 ---
@@ -163,9 +163,9 @@ Does this process gap weaken the boundary in practice? Is there a structural ris
 
 ---
 
-### Question 2 — Are test cases STC-003 and STC-004 safely designed?
+### Question 2 — Are test cases DOC-TC-003 and DOC-TC-004 safely designed?
 
-*Based on `Synthetic-Test-Case-Set-v0.1` STC-003 (Secret Export Attempt) and STC-004 (Personal Data Export Without Review):*
+*Based on `Synthetic-Test-Case-Set-v0.1` DOC-TC-003 (Secret Export Attempt) and DOC-TC-004 (Personal Data Export Without Review) — formerly STC-003 and STC-004:*
 
 Do these test cases adequately:
 - isolate mock secret values so they cannot serve as bypass templates,
@@ -213,7 +213,7 @@ Question 1b — NO_NETWORK verification process sufficient?
 Answer: [Yes / No / Yes with conditions]
 Explanation:
 
-Question 2 — STC-003 and STC-004 safely designed?
+Question 2 — DOC-TC-003 and DOC-TC-004 safely designed?
 Answer: [Yes / No / Yes with conditions]
 Explanation:
 
@@ -344,7 +344,7 @@ The document review does not give clearance for first run or implementation. Abo
 
 1. Remove the exception permitting edited real project data from `Prototype-Boundary-Definition-v0.1` (Question 1a)
 2. Define a documented, independent NO_NETWORK verification procedure with named responsibility, test method, and blocking outcome (Question 1b — **primary blocker**)
-3. Add explicit non-use statement to STC-003 and STC-004; verify mock values do not appear in outputs or logs (Question 2)
+3. Add explicit non-use statement to `DOC-TC-003` and `DOC-TC-004` (formerly `STC-003` and `STC-004` at the time of review); verify mock values do not appear in outputs or logs (Question 2)
 4. Ensure CA-06 is not described as a functioning detection control anywhere in the architecture; carry Gap O forward as an open item (Question 3)
 
 This table must be updated when each condition is resolved.

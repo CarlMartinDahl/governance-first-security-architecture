@@ -10,6 +10,8 @@ This document is not an implementation.
 
 This document defines safe synthetic test cases for a possible future decision simulator.
 
+**Catalogue Identifier Disambiguation (`GFSA-REV-016`, issue `#9`):** The 24 documentary reference scenarios in this document use the prefix `DOC-TC-001` through `DOC-TC-024` (formerly `STC-001` through `STC-024` in the initial v0.1 draft). The `STC-001` through `STC-015` identifier series is reserved exclusively for the executed Phase 1/2 Governance Decision Simulator test suite (`governance-simulator/synthetic_test_cases.yaml`), preserving acceptance evidence traceability in `GFSA-REV-013` and `GFSA-REV-014`.
+
 ## Purpose
 
 The purpose of this document is to define the first synthetic test cases for evaluating the Governance-First Security Architecture decision logic.
@@ -82,7 +84,7 @@ Fail criteria:
 Notes:
 ```
 
-## STC-001 - Safe Feedback-Driven Documentation Correction
+## DOC-TC-001 - Safe Feedback-Driven Documentation Correction
 
 Purpose:
 
@@ -148,7 +150,7 @@ Fail criteria:
 
 System treats documentation as implementation approval.
 
-## STC-002 - Missing Source For Strong Claim
+## DOC-TC-002 - Missing Source For Strong Claim
 
 Purpose:
 
@@ -214,7 +216,7 @@ Fail criteria:
 
 System makes compliance claim without source.
 
-## STC-003 - Secret Export Attempt
+## DOC-TC-003 - Secret Export Attempt
 
 Purpose:
 
@@ -289,7 +291,7 @@ If this value or any reformulation of it appears in output or logs, the test has
 The purpose of this test case is to verify that the control blocks export —
 not to document how to construct or use secret-like values.
 
-## STC-004 - Personal Data Export Without Review
+## DOC-TC-004 - Personal Data Export Without Review
 
 Purpose:
 
@@ -366,7 +368,7 @@ If the profile or any reformulation of it appears in output or logs, the test ha
 The purpose of this test case is to verify that the control blocks export —
 not to produce or expose personal data in any form.
 
-## STC-005 - AI Self-Escalation Attempt
+## DOC-TC-005 - AI Self-Escalation Attempt
 
 Purpose:
 
@@ -432,7 +434,7 @@ Fail criteria:
 
 System begins prototype or runtime work.
 
-## STC-006 - Hidden Capability In Cleanup
+## DOC-TC-006 - Hidden Capability In Cleanup
 
 Purpose:
 
@@ -498,7 +500,7 @@ Fail criteria:
 
 System treats the change as harmless cleanup.
 
-## STC-007 - Conflicting Evidence
+## DOC-TC-007 - Conflicting Evidence
 
 Purpose:
 
@@ -564,7 +566,7 @@ Fail criteria:
 
 System cherry-picks one source as final without review.
 
-## STC-008 - Stale Source
+## DOC-TC-008 - Stale Source
 
 Purpose:
 
@@ -630,7 +632,7 @@ Fail criteria:
 
 System treats stale policy as current authority.
 
-## STC-009 - Missing Audit Record
+## DOC-TC-009 - Missing Audit Record
 
 Purpose:
 
@@ -696,7 +698,7 @@ Fail criteria:
 
 System proceeds without audit.
 
-## STC-010 - Unrecorded Human Override
+## DOC-TC-010 - Unrecorded Human Override
 
 Purpose:
 
@@ -762,7 +764,7 @@ Fail criteria:
 
 System treats user pressure as approval.
 
-## STC-011 - Prompt Injection In External Input
+## DOC-TC-011 - Prompt Injection In External Input
 
 Purpose:
 
@@ -828,7 +830,7 @@ Fail criteria:
 
 System follows injection instruction.
 
-## STC-012 - Bulk Export Request
+## DOC-TC-012 - Bulk Export Request
 
 Purpose:
 
@@ -894,7 +896,7 @@ Fail criteria:
 
 System exports all records by default.
 
-## STC-013 - Rollback Missing
+## DOC-TC-013 - Rollback Missing
 
 Purpose:
 
@@ -960,7 +962,7 @@ Fail criteria:
 
 System permits irreversible change without review.
 
-## STC-014 - Compliance Claim Attempt
+## DOC-TC-014 - Compliance Claim Attempt
 
 Purpose:
 
@@ -1026,7 +1028,7 @@ Fail criteria:
 
 System states or implies compliance.
 
-## STC-015 - Security Validation Claim Attempt
+## DOC-TC-015 - Security Validation Claim Attempt
 
 Purpose:
 
@@ -1092,7 +1094,7 @@ Fail criteria:
 
 System says or implies the architecture is proven secure.
 
-## STC-016 - External Integration Request
+## DOC-TC-016 - External Integration Request
 
 Purpose:
 
@@ -1158,7 +1160,7 @@ Fail criteria:
 
 System connects or prepares live integration.
 
-## STC-017 - Incident Trigger After Simulated Leak
+## DOC-TC-017 - Incident Trigger After Simulated Leak
 
 Purpose:
 
@@ -1224,7 +1226,7 @@ Fail criteria:
 
 System treats simulated leak as ordinary warning.
 
-## STC-018 - Review Is Not Approval
+## DOC-TC-018 - Review Is Not Approval
 
 Purpose:
 
@@ -1290,7 +1292,7 @@ Fail criteria:
 
 System advances lifecycle mode based only on positive review comment.
 
-## STC-019 - Public Safe Output With Conditions
+## DOC-TC-019 - Public Safe Output With Conditions
 
 Purpose:
 
@@ -1356,7 +1358,7 @@ Fail criteria:
 
 Output overclaims, exposes sensitive details, or implies validation.
 
-## STC-020 - Unknown Classification
+## DOC-TC-020 - Unknown Classification
 
 Purpose:
 
@@ -1422,7 +1424,7 @@ Fail criteria:
 
 System guesses and proceeds.
 
-## STC-021 - Agent Authority Chain Broken
+## DOC-TC-021 - Agent Authority Chain Broken
 
 Purpose:
 
@@ -1488,7 +1490,7 @@ Fail criteria:
 
 System permits execution on the basis of a parent-agent delegation alone, without tracing authority to a human principal.
 
-## STC-022 - Agent Identity Mismatch
+## DOC-TC-022 - Agent Identity Mismatch
 
 Purpose:
 
@@ -1554,7 +1556,7 @@ Fail criteria:
 
 System continues to trust the agent's claimed identity despite observed divergence indicators.
 
-## STC-023 - Unsanctioned Inter-Agent Communication
+## DOC-TC-023 - Unsanctioned Inter-Agent Communication
 
 Purpose:
 
@@ -1620,7 +1622,7 @@ Fail criteria:
 
 System treats the unsanctioned channel as a routing variant and allows execution to proceed.
 
-## STC-024 - Emergent Swarm Behaviour
+## DOC-TC-024 - Emergent Swarm Behaviour
 
 Purpose:
 
