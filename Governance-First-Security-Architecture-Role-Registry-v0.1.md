@@ -655,8 +655,24 @@ The user is currently approving targeted review, feedback handling, bounded docu
 
 No production authority, compliance authority, security validation authority, prototype authority, or automation authority is assigned.
 
+## Domain Function-To-Canonical-Role Mapping
+
+Several domain-specific policy documents refer to specialized governance or operational functions by domain label (for example, *Continuity Governance* or *Log Governance*). Rather than expanding the minimal canonical role set, those domain functions map directly to the canonical `ROLE_*` identities in this registry (resolved under `GFSA-REV-016`, issue `#10`):
+
+| Domain Function Label | Canonical Role Mapping | Primary Policy Documents |
+| --- | --- | --- |
+| `Continuity Governance` | `ROLE_SYSTEM_OWNER` and `ROLE_GOVERNANCE_REVIEWER` (with `ROLE_INCIDENT_REVIEWER` verifying operational recovery criteria) | `Business-Continuity-And-Disaster-Recovery-Governance-v0.1` |
+| `Log Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER` (named human holders only; never a service account; liaises with `ROLE_LEGAL_COMPLIANCE_REVIEWER`) | `Log-Integrity-And-Tamper-Evidence-v0.1` |
+| `Vulnerability Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_TECHNICAL_REVIEWER` (coordinated with `ROLE_GOVERNANCE_REVIEWER` for SLA exceptions) | `Vulnerability-Disclosure-And-Patch-Governance-v0.1` |
+| `Cryptographic Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_TECHNICAL_REVIEWER` | `Cryptographic-Standards-Policy-v0.1` |
+| `Security Governance` | `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER` | `Data-Egress-And-Exfiltration-Prevention-v0.1`; `Lateral-Movement-Containment-v0.1`; `Privileged-Access-Management-Policy-v0.1` |
+| `Security Operations` | `ROLE_INCIDENT_REVIEWER` and `ROLE_SECURITY_REVIEWER` (containment and isolation authority) | `Lateral-Movement-Containment-v0.1` |
+| `Payment Decision Authority` | `ROLE_SYSTEM_OWNER` and `ROLE_APPROVER`, with mandatory `ROLE_LEGAL_COMPLIANCE_REVIEWER` participation (four-eyes / executive-legal boundary) | `Ransomware-Recovery-Policy-v0.1` |
+
+When a domain policy requires named approval or sign-off from one of the domain functions above, the named human actor must hold the mapped canonical `ROLE_*` assignment recorded under the Role Assignment Record rules.
+
 ## Current Consistency Decision
 
-This Role Registry should be treated as the initial canonical role vocabulary for future review and prototype design.
+This Role Registry should be treated as the canonical role vocabulary for review, policy documents, and prototype design.
 
-Future documents should map authority, review, approval, stop, and recovery actions to these roles or a later superseding registry.
+Domain-specific labels in policy documents resolve through the Domain Function-To-Canonical-Role Mapping above unless a later superseding registry introduces dedicated `ROLE_*` identifiers.

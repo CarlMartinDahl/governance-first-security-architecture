@@ -258,12 +258,38 @@ Each feedback item should identify prototype impact:
 
 ## Recorded Feedback
 
+### Feedback Item GFSA-REV-016
+
+```text
+feedback_id: GFSA-REV-016
+reviewer_id: EXT-TECH-003 (issues #3, #4, #5, #8, #9, #10); OWNER-DECISION-2026-11-24 (Martin Dahl)
+reviewer_type: Owner-authorized governance reconciliation and bounded Phase 2 defect remediation responding to external contributor findings (#3, #4, #5, #8, #9, #10)
+date_received: 2026-11-24
+source_document: Open GitHub review issues #3, #4, #5, #8, #9, #10; owner decision review of GFSA-REV-014 and GFSA-REV-015
+feedback_summary: Owner decisions executed and verified across all six remaining open review issues, plus formal acceptance of GFSA-REV-014 and GFSA-REV-015. (1) Issue #8 (vocabulary reconciliation): Confirmed canonical documents as source of truth; aligned governance-simulator/governance_simulator.py and governance-simulator/synthetic_test_cases.yaml to Mode-Model-Normalization-v0.1 and Stop-State-Registry-v0.1 (removing non-canonical LM-4_PRODUCTION, fixing normalize() so unknown modes set STOP_UNKNOWN rather than REVIEW_REQUIRED, aligning LOCKDOWN_REQUIRED -> LOCKDOWN in STC-004, STOP_UNKNOWN -> REVIEW_REQUIRED, STOP_AI_AUTHORITY_EXCEEDED -> BLOCK, and STOP_CAPABILITY_CHANGE -> NEEDS_CAPABILITY_REVIEW in STC-014); registered STOP_LATERAL_PEER_COORDINATION, STOP_COMPOUND_HOSTILE_SIGNAL, and STOP_CAPABILITY_OVERRIDE in Stop-State-Registry-v0.1 with explicit STOP_SECRET_EXPORT standalone (BLOCK) vs compound hostile (INCIDENT_RESPONSE) rule, distinction between STOP_UNSANCTIONED_INTER_AGENT_COMMUNICATION and STOP_LATERAL_PEER_COORDINATION, and a Phase 1/2 legacy simulator crosswalk; aligned Stop-State-Policy-v0.1 BLOCKED_SECRET_EXPORT; fixed ODM-5_SYNTHETIC_TEST -> ODM-5_APPROVED_SYNTHETIC_PROTOTYPE_ACTION in Capability-Change-Gate-v0.1. (2) Issue #9 (catalogue disambiguation): Renamed the 24 documentary reference test cases in Synthetic-Test-Case-Set-v0.1 to DOC-TC-001 through DOC-TC-024, reserving STC-001 through STC-015 exclusively for the executed simulator suite (preserving GFSA-REV-013/-014 evidence traceability); updated PDG-028-Review-Package-v0.1 and Prototype-Data-Schema-v0.1 accordingly. (3) Issue #10 (role mapping and plan/code alignment): Added Domain Function-To-Canonical-Role Mapping in Role-Registry-v0.1 mapping the seven domain labels (Continuity Governance, Log Governance, Vulnerability Governance, Cryptographic Governance, Security Governance, Security Operations, Payment Decision Authority) to existing canonical ROLE_* identities and updated all seven referencing policy documents; aligned Prototype-Implementation-Plan-v0.1 component list and Section 6 with the shipped simulator functions and output/no_network_gate_log.txt. (4) Issues #3, #4, #5 (bounded Phase 2 simulator defect remediation — not Phase 3): Preserved Python stdlib-only boundary by removing PyYAML and adding a stdlib-only loader in governance_simulator.py; reconciled run_simulator.py and governance_simulator.py so both entry points load synthetic_test_cases.yaml as the single authoritative suite and write mock audit records, test results, run_summary.json (using timezone-aware UTC timestamps), and output/no_network_gate_log.txt; replaced the environment-dependent non-blocking connect_ex probe with a deterministic in-process socket guard (patching socket.socket and socket.create_connection with immediate self-test verification and logged method/environment metadata, while preserving external OS/sandbox isolation verification per PDG-028 Condition 1b).
+source_reference: OWNER-RECONCILIATION-2026-11-24; issues #3, #4, #5, #8, #9, #10
+affected_document: Governance-First-Security-Architecture-Stop-State-Registry-v0.1.md; Governance-First-Security-Architecture-Stop-State-Policy-v0.1.md; Governance-First-Security-Architecture-Capability-Change-Gate-v0.1.md; Governance-First-Security-Architecture-Synthetic-Test-Case-Set-v0.1.md; Governance-First-Security-Architecture-PDG-028-Review-Package-v0.1.md; Governance-First-Security-Architecture-Prototype-Data-Schema-v0.1.md; Governance-First-Security-Architecture-Role-Registry-v0.1.md; Governance-First-Security-Architecture-Business-Continuity-And-Disaster-Recovery-Governance-v0.1.md; Governance-First-Security-Architecture-Cryptographic-Standards-Policy-v0.1.md; Governance-First-Security-Architecture-Data-Egress-And-Exfiltration-Prevention-v0.1.md; Governance-First-Security-Architecture-Lateral-Movement-Containment-v0.1.md; Governance-First-Security-Architecture-Log-Integrity-And-Tamper-Evidence-v0.1.md; Governance-First-Security-Architecture-Privileged-Access-Management-Policy-v0.1.md; Governance-First-Security-Architecture-Ransomware-Recovery-Policy-v0.1.md; Governance-First-Security-Architecture-Vulnerability-Disclosure-And-Patch-Governance-v0.1.md; Governance-First-Security-Architecture-Prototype-Implementation-Plan-v0.1.md; Governance-First-Security-Architecture-Post-Review-Revision-Log-v0.1.md; governance-simulator/governance_simulator.py; governance-simulator/run_simulator.py; governance-simulator/synthetic_test_cases.yaml; .gitignore
+affected_section: Stop-State Registry definitions, legacy crosswalk, and Canonical Decision Mapping; Stop-State Policy BLOCKED_SECRET_EXPORT; Capability-Change-Gate ODM-5; Synthetic-Test-Case-Set DOC-TC-001..024; PDG-028 Document 3 / Question 2; Prototype-Data-Schema examples; Role Registry domain function mapping and policy references; Prototype-Implementation-Plan Module Responsibilities and Section 6; governance-simulator stdlib loader, socket guard, runner API, and canonical vocabulary
+feedback_category: TERMINOLOGY; ROLE_AUTHORITY; STOP_STATE; PROTOTYPE_BOUNDARY; TEST_COVERAGE; TECHNICAL_FEASIBILITY; DOCUMENTATION_CLARITY
+severity: HIGH
+action_type: CLARIFY_TEXT; ADD_STOP_STATE; UPDATE_ROLE_REGISTRY; NARROW_SCOPE
+decision: ACCEPT
+assigned_owner: Project owner
+required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER; ROLE_GOVERNANCE_REVIEWER
+status: RESOLVED
+resolution_summary: All six open review issues (#3, #4, #5, #8, #9, #10) resolved under owner decisions, and GFSA-REV-014 and GFSA-REV-015 formally accepted. Re-verification run on 2026-11-24 (Python 3.12.16, Linux-6.18.57-x86_64): both python3 governance-simulator/run_simulator.py and python3 governance-simulator/governance_simulator.py executed synthetic_test_cases.yaml with zero third-party dependencies, NO_NETWORK GATE PASS (in-process socket guard self-test verified and logged to output/no_network_gate_log.txt), and 15 PASS / 0 FAIL across STC-001 through STC-015 using canonical registry stop states and normalized modes. Edge-case assertions verified STOP_UNKNOWN -> REVIEW_REQUIRED, LOCKDOWN_REQUIRED -> LOCKDOWN, STOP_AI_AUTHORITY_EXCEEDED -> BLOCK, out-of-scope LM-6_PRODUCTION rejection, and active socket interception.
+linked_change: Branch fix/issues-3-4-5-8-9-10-reconciliation (reconciliation PR closing issues #3, #4, #5, #8, #9, #10)
+do_not_claim_impact: This reconciliation is bounded Phase 2 defect maintenance and documentation alignment only. It does NOT authorize Phase 3 or any further prototype expansion. It does NOT constitute security validation, compliance validation, or production readiness. The in-process NO_NETWORK socket guard prevents simulator network calls independent of OS socket timing, but is not a live host firewall; independent host/sandbox isolation remains an external pre-run verification procedure under Prototype-Boundary-Definition-v0.1. Gap O remains analytically addressed in the synthetic simulator only and is empirically unvalidated (GFSA-REV-009 remains IN_REVISION). All simulator outputs remain SIMULATED_DECISION_ONLY.
+prototype_impact: PROTOTYPE_TEST_CHANGE
+notes: Serves as the anonymized feedback and owner-decision record requested across issues #3, #4, #5, #8, #9, and #10 (originating from external contributor EXT-TECH-003). Historical narrative text in GFSA-REV-010, GFSA-REV-012, GFSA-REV-013, and GFSA-REV-014 was preserved intact; traceability from historical Phase 1/2 labels to canonical vocabulary is maintained via the crosswalk table in Stop-State-Registry-v0.1.
+```
+
 ### Feedback Item GFSA-REV-015
 
 ```text
 feedback_id: GFSA-REV-015
 reviewer_id: EXT-TECH-003
-reviewer_type: External contributor corpus consistency sweep (Sami) with parallel AI-assisted document analysis; entry proposed via pull request, owner acceptance required
+reviewer_type: External contributor corpus consistency sweep (Sami) with parallel AI-assisted document analysis; merged via PR #13 and formally accepted by project owner
 date_received: 2026-09-28
 source_document: Full-corpus consistency sweep of all root documents and governance-simulator/ against the merged revision-log state, filed as issues #7 through #12 on the canonical repository; structural analysis comment on issue #3
 feedback_summary: Systematic sweep of the corpus (stale current-state claims, stop-state and mode vocabulary drift, cross-document references, internal policy contradictions, overclaim wording) identified 52 distinct findings after deduplication, filed as six issues (#7 stale current-state cluster across roughly 15 documents; #8 simulator stop-state and mode vocabulary diverges from the Stop-State Registry with no crosswalk, including a three-way STOP_SECRET_EXPORT classification conflict and conflicting mode-ID meanings such as LM-4_PRODUCTION; #9 two incompatible synthetic test-case catalogues sharing the STC-001..015 identifiers; #10 cross-document reference defects including roles with no Role Registry entry and CA-06 parentage; #11 internal contradictions in log retention, deletion authority, backup test frequency, and CA-05 severity; #12 eight overclaim lines identified from roughly 230 triaged candidates). This pull request applies the bounded documentation corrections for the doc-side findings: current-state blocks updated to the merged revision-log state, overclaim wording weakened to intent framing, retention precedence and deletion-authority cross-references aligned, ransomware restore-test frequency clarified, CA-05 severity made consistent with its circuit-breaker trigger, CA-06 added to Monitoring-And-Detection-Operations Section 5.4 and related documents, Incident-Response-Policy references repointed to Recovery-Rollback-Incidents-v0.1, DOCUMENT-INDEX gaps closed, and the three forward-looking repository notes in the CA-06 rule document removed. Historical review-request text was left unmodified.
@@ -273,15 +299,15 @@ affected_section: current-state blocks and status tables; Main Security Idea and
 feedback_category: DOCUMENTATION_CLARITY; OVERCLAIM; TECHNICAL_FEASIBILITY
 severity: MEDIUM
 action_type: CLARIFY_TEXT; WEAKEN_CLAIM
-decision: PENDING
+decision: ACCEPT
 assigned_owner: Project owner
 required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER; ROLE_GOVERNANCE_REVIEWER
-status: PROPOSED
-resolution_summary: Pending owner decision. Corrections in this pull request cover the doc-side findings only. Findings that require owner decisions are deliberately not applied: role registration or mapping (#10), stop-state crosswalk or rename (#8), STC catalogue rename or renumber (#9), and all code-side fixes (#3, #4, #5).
-linked_change: This pull request (24 documents); issues #7, #8, #9, #10, #11, #12; comment on issue #3
-do_not_claim_impact: These corrections do not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. Vocabulary and catalogue decisions remain with the project owner. All corrections are documentation-only.
+status: RESOLVED
+resolution_summary: Accepted by project owner (PR #13 merged 2026-09-29; README follow-up PR #14 merged 2026-10-01; issues #7, #11, #12 closed). Remaining owner-decision items (#8, #9, #10) and code-side findings (#3, #4, #5) subsequently resolved under GFSA-REV-016.
+linked_change: PR #13 (24 documents); PR #14 (README.md); issues #7, #11, #12 closed; follow-on issues #3, #4, #5, #8, #9, #10 resolved in GFSA-REV-016
+do_not_claim_impact: These corrections do not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. All corrections in PR #13/#14 were documentation-only.
 prototype_impact: PROTOTYPE_DOC_UPDATE_ONLY
-notes: Proposed by external contributor (Sami, EXT-TECH-003). Full findings list with file and line evidence is recorded in the contributor workspace and in issues #7 through #12. Historical and dated narrative sections were deliberately left untouched; only current-state claims were corrected. Where a correction required choosing between conflicting values (retention precedence, CA-05 severity), the proposed choice is stated in the pull request and the owner may substitute a different value.
+notes: Proposed by external contributor (Sami, EXT-TECH-003) and formally accepted by project owner. Historical and dated narrative sections were deliberately left untouched; only current-state claims were corrected.
 ```
 
 ### Feedback Item GFSA-REV-014
@@ -289,7 +315,7 @@ notes: Proposed by external contributor (Sami, EXT-TECH-003). Full findings list
 ```text
 feedback_id: GFSA-REV-014
 reviewer_id: EXT-TECH-003
-reviewer_type: External contributor verification run (Sami) — entry proposed via pull request; owner acceptance required
+reviewer_type: External contributor verification run (Sami) — merged via PR #6 and formally accepted by project owner
 date_received: 2026-09-27
 source_document: Phase 2 Governance Decision Simulator — governance-simulator/governance_simulator.py; governance-simulator/run_simulator.py; governance-simulator/synthetic_test_cases.yaml; governance-simulator/Prototype-Phase-2-Decision-v0.1.md
 feedback_summary: Proposed Phase 2 acceptance record per Prototype-Phase-2-Decision-v0.1 acceptance criterion 5. The Phase 2 decision document was committed and owner-approved on 2026-09-27. Scope executed per commits d1894d6, 63367b7, 9baca02: STC-010 through STC-015 added (Gap O lateral peer coordination coverage and edge-case expansion), owner-recorded result 15/15 PASS. Independent contributor verification run, 2026-09-27, standalone module path (python3 governance_simulator.py): 15 PASS / 0 FAIL; all Phase 1 cases STC-001 through STC-009 unchanged and passing; Gap O synthetic tests behave per the decision doc (STC-010 signal present → INCIDENT_RESPONSE / STOP_LATERAL_PEER_COORDINATION; STC-011 signal absent → ALLOW, no false positive). NO_NETWORK GATE: returned FAIL on the contributor environment (macOS, Python 3.12.8) — recorded as an environment-dependent result of the probe implementation, open finding issue #3; owner acceptance runs recorded PASS. The documented YAML runner path (run_simulator.py) fails at HEAD with an ImportError — open finding issue #5; the contributor verification therefore used the module's embedded case list, not synthetic_test_cases.yaml.
@@ -299,15 +325,15 @@ affected_section: Recorded Feedback — GFSA-REV-014; Current Review State — P
 feedback_category: TEST_COVERAGE; PROTOTYPE_BOUNDARY; DOCUMENTATION_CLARITY
 severity: MEDIUM
 action_type: CLARIFY_TEXT
-decision: PENDING
+decision: ACCEPT
 assigned_owner: Project owner
 required_reviewer: ROLE_TECHNICAL_REVIEWER; ROLE_SECURITY_REVIEWER
-status: PROPOSED
-resolution_summary: Pending owner decision. If accepted as proposed: Phase 2 acceptance criteria items 1–3 recorded as met (15/15 PASS, Gap O tests pass with expected outputs, no Phase 1 regressions); item 4 qualified by the open NO_NETWORK probe finding (issue #3); item 5 satisfied by this entry; Gap O status updated from OPEN to ANALYTICALLY_ADDRESSED_IN_SIMULATOR (narrowed, not closed).
-linked_change: This pull request (GFSA-REV-014 entry and Current Review State updates); open findings tracked in issues #3, #4, #5
-do_not_claim_impact: This entry does not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. The simulator operates on synthetic data only. Gap O is narrowed analytically and remains empirically unvalidated until tested against a real detection engine. CA-06 is not a functioning detection control. The NO_NETWORK boundary is a simulator constraint with an open portability finding, not a live network control. Because the YAML runner path is broken at HEAD, synthetic_test_cases.yaml was not executed in the contributor verification run. All results are SIMULATED_DECISION_ONLY.
+status: RESOLVED
+resolution_summary: Accepted by project owner (PR #6 merged 2026-09-28; formal acceptance finalized 2026-11-24 alongside GFSA-REV-016). Phase 2 acceptance criteria items 1–3 and 5 met (15/15 PASS, Gap O tests pass with expected outputs, no Phase 1 regressions, acceptance record committed); item 4 (NO_NETWORK gate) and the three code findings recorded at verification (issues #3, #4, #5) subsequently resolved and re-verified under GFSA-REV-016. Gap O status updated from OPEN to ANALYTICALLY_ADDRESSED_IN_SIMULATOR (narrowed, not closed).
+linked_change: PR #6 (GFSA-REV-014 entry and Current Review State updates); follow-on code findings #3, #4, #5 resolved in GFSA-REV-016
+do_not_claim_impact: This entry does not constitute security validation, compliance validation, production readiness, or authorization for Phase 3 or any prototype extension. The simulator operates on synthetic data only. Gap O is narrowed analytically and remains empirically unvalidated until tested against a real detection engine. CA-06 is not a functioning detection control. The NO_NETWORK boundary is a simulator constraint, not a live network control. All results are SIMULATED_DECISION_ONLY.
 prototype_impact: PROTOTYPE_TEST_CHANGE
-notes: Proposed by external contributor (Sami, EXT-TECH-003) to complete the Phase 2 decision document's own completion criteria. Acceptance, rejection, and any wording changes are the project owner's decision. Three open findings are filed separately and are not resolved by this entry: issue #3 (NO_NETWORK gate environment-dependent result), issue #4 (PyYAML dependency vs stdlib-only boundary), issue #5 (run_simulator.py incompatible with governance_simulator.py at HEAD).
+notes: Proposed by external contributor (Sami, EXT-TECH-003) to complete the Phase 2 decision document's own completion criteria and accepted by the project owner. The three code findings noted at initial verification (issues #3, #4, #5) were remediated and re-verified under GFSA-REV-016.
 ```
 
 ### Feedback Item GFSA-REV-013
@@ -726,6 +752,9 @@ notes: Blocks prototype implementation discussion until updated.
 
 | Feedback ID | Category | Severity | Affected Document | Decision | Status | Prototype Impact |
 | --- | --- | --- | --- | --- | --- | --- |
+| GFSA-REV-016 | TERMINOLOGY; ROLE_AUTHORITY; STOP_STATE; PROTOTYPE_BOUNDARY; TEST_COVERAGE; TECHNICAL_FEASIBILITY; DOCUMENTATION_CLARITY | HIGH | Stop-State-Registry; Stop-State-Policy; Capability-Change-Gate; Synthetic-Test-Case-Set; PDG-028-Review-Package; Prototype-Data-Schema; Role-Registry + 7 policy docs; Prototype-Implementation-Plan; governance-simulator (issues #3, #4, #5, #8, #9, #10) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
+| GFSA-REV-015 | DOCUMENTATION_CLARITY; OVERCLAIM; TECHNICAL_FEASIBILITY | MEDIUM | Corpus sweep across 24 documents (PR #13, PR #14; issues #7, #11, #12) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
+| GFSA-REV-014 | TEST_COVERAGE; PROTOTYPE_BOUNDARY; DOCUMENTATION_CLARITY | MEDIUM | Post-Review-Revision-Log; governance-simulator Phase 2 acceptance record (PR #6) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-013 | TEST_COVERAGE; PROTOTYPE_BOUNDARY | INFO | governance-simulator (governance_simulator.py; run_simulator.py; synthetic_test_cases.yaml) | ACCEPT | RESOLVED | PROTOTYPE_TEST_CHANGE |
 | GFSA-REV-012 | PROTOTYPE_BOUNDARY; SECURITY_RISK; TEST_COVERAGE; DOCUMENTATION_CLARITY | HIGH | Prototype-Boundary-Definition; Synthetic-Test-Case-Set; CA-06-Control-Test; Prototype-Design-Readiness-Checklist (PDG-028) | ACCEPT | RESOLVED | PROTOTYPE_BOUNDARY_CHANGE |
 | GFSA-REV-011 | DOCUMENTATION_CLARITY; MISSING_CONTROL; SCOPE; ROLE_AUTHORITY | MEDIUM | PDG-032; Readiness Template; Threat-Intelligence-Intake (new); Governance-Maturity-Model (new); Provider-And-Platform-Constraints; ONBOARDING.md (new) | ACCEPT | RESOLVED | PROTOTYPE_DOC_UPDATE_ONLY |
@@ -772,19 +801,20 @@ Current review and release state:
 ```text
 External feedback received:              YES
 Blocking feedback open:                  NO
-Prototype implementation:                PHASE 1 AND PHASE 2 EXECUTED under owner-approved decisions (GFSA-REV-013; Prototype-Phase-2-Decision-v0.1) — further implementation NOT AUTHORIZED; Phase 3 requires a new documented owner decision
+Prototype implementation:                PHASE 1 AND PHASE 2 EXECUTED under owner-approved decisions (GFSA-REV-013, GFSA-REV-014, GFSA-REV-016; Prototype-Phase-2-Decision-v0.1) — further implementation NOT AUTHORIZED; Phase 3 requires a new documented owner decision
 Prototype design discussion authorized:  YES — PDG-028 external review condition satisfied by GFSA-REV-012 (Sami, 2026-09-27)
 Phase 1 acceptance test:                 PASSED — 9 PASS / 0 FAIL (GFSA-REV-013, 2026-09-27)
-Phase 2 acceptance test:                 PASSED — 15 PASS / 0 FAIL, independently verified 2026-09-27 (GFSA-REV-014; entry PROPOSED, pending owner acceptance)
+Phase 2 acceptance test:                 PASSED — 15 PASS / 0 FAIL, accepted (GFSA-REV-014) and re-verified under GFSA-REV-016 (2026-11-24) with canonical vocabulary, stdlib-only YAML runner, and deterministic in-process NO_NETWORK socket guard
 Commercial validation authorized:        WORKSHOP/ASSESSMENT DISCOVERY ONLY
 Public GitHub repository:                ACTIVE_AND_VERIFIED
 Public release blockers open:            NO
 Private vulnerability reporting:         ENABLED_AND_PUBLIC_PATH_VERIFIED
-Public review outreach:                  ACTIVE — GFSA-REV-009 received and partially resolved; GFSA-REV-012 completed
+Public review outreach:                  ACTIVE — GFSA-REV-009 received and partially resolved; GFSA-REV-012, GFSA-REV-014, GFSA-REV-015, GFSA-REV-016 resolved
 Internal pre-review:                     COMPLETED — GFSA-REV-010 (2026-09-26); CLOSED via GFSA-REV-011
 SWOT gap remediation:                    COMPLETED — GFSA-REV-011 (2026-09-26); all seven gaps resolved
 External PDG-028 review:                 COMPLETED — GFSA-REV-012 (Sami, 2026-09-27); four conditions resolved
-Open blocking items:                     NONE for documentation — three open prototype code findings recorded as issues #3, #4, #5 (NO_NETWORK probe portability; PyYAML dependency boundary; runner/module incompatibility)
+Corpus sweep and reconciliation:         COMPLETED — GFSA-REV-015 (PR #13/#14) and GFSA-REV-016 (owner decisions & bounded Phase 2 defect remediation for issues #3, #4, #5, #8, #9, #10)
+Open blocking items:                     NONE — issues #3, #4, #5, #8, #9, #10 resolved under GFSA-REV-016; Gap O empirical validation remains open (GFSA-REV-009 IN_REVISION)
 Gap O status:                            ANALYTICALLY_ADDRESSED_IN_SIMULATOR — synthetic coverage via STC-010/STC-011 (Phase 2); empirical validation of CA-06 not performed; narrowed, not closed; must be acknowledged in all future detection and implementation work
 ```
 

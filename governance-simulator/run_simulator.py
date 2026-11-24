@@ -5,33 +5,31 @@ Not a real security control. Not a real compliance system.
 Not a production system.
 
 Usage:
-    python run_simulator.py
+    python3 run_simulator.py
+    # or from repository root:
+    python3 governance-simulator/run_simulator.py
 
-Requires: Python 3.10+. No external dependencies.
+Requires: Python 3.10+. Standard library only (no external dependencies).
 """
 
-import json
-import pathlib
+from __future__ import annotations
+
 import datetime
+import json
 import sys
 
-try:
-    import yaml
-except ImportError:
-    print("ERROR: PyYAML not found. Install with: pip install pyyaml")
-    sys.exit(1)
-
 from governance_simulator import (
+    BOUNDARY_REMINDER,
+    GATE_LOG_FILE,
+    MOCK_AUDIT_DIR,
+    OUTPUT_DIR,
+    SIMULATED_LABEL,
+    TEST_CASE_FILE,
+    TEST_RESULTS_DIR,
+    load_test_cases,
     no_network_gate,
     run_test_case,
-    OUTPUT_DIR,
-    MOCK_AUDIT_DIR,
-    TEST_RESULTS_DIR,
-    BOUNDARY_REMINDER,
-    SIMULATED_LABEL,
 )
-
-TEST_CASE_FILE = pathlib.Path("synthetic_test_cases.yaml")
 
 
 def main() -> None:
@@ -43,18 +41,16 @@ def main() -> None:
     MOCK_AUDIT_DIR.mkdir(parents=True, exist_ok=True)
     TEST_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # --- Load test cases ---
-    if not TEST_CASE_FILE.exists():
-        print(f"ERROR: Test case file not found: {TEST_CASE_FILE}")
+    # --- Load test cases (stdlib-only loader) ---
+    try:
+        test_cases = load_test_cases(TEST_CASE_FILE)
+    except FileNotFoundError as exc:
+        print(f"ERROR: {exc}")
         sys.exit(1)
 
-    with TEST_CASE_FILE.open() as f:
-        data = yaml.safe_load(f)
-
-    test_cases = data.get("test_cases", [])
-    print(f"Loaded {len(test_cases)} synthetic test cases.")
+    print(f"Loaded {len(test_cases)} synthetic test cases from {TEST_CASE_FILE.name}.")
     print()
-    print("-" * 60)
+    print("-" * 75)
 
     results = []
     pass_count = 0
@@ -90,25 +86,26 @@ def main() -> None:
 
         # Write mock audit record
         audit_path = MOCK_AUDIT_DIR / f"{test_id}_mock_audit.json"
-        audit_path.write_text(json.dumps(mock_audit, indent=2))
+        audit_path.write_text(json.dumps(mock_audit, indent=2) + "\n", encoding="utf-8")
 
         # Write test result
         result_path = TEST_RESULTS_DIR / f"{test_id}_result.json"
-        result_path.write_text(json.dumps(result, indent=2))
+        result_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
 
         results.append(result)
 
-    print("-" * 60)
+    print("-" * 75)
     print()
     print(f"Results: {pass_count} PASS / {fail_count} FAIL out of {len(test_cases)} test cases.")
+    print(f"Gate log written to {GATE_LOG_FILE}")
     print()
     print(f"[{SIMULATED_LABEL}]")
     print(f"[{BOUNDARY_REMINDER}]")
 
-    # Write run summary
+    # Write run summary (timezone-aware UTC timestamp)
     summary = {
         "label": SIMULATED_LABEL,
-        "run_timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        "run_timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "total": len(test_cases),
         "pass": pass_count,
         "fail": fail_count,
@@ -121,7 +118,7 @@ def main() -> None:
         "results": results,
     }
     summary_path = OUTPUT_DIR / "run_summary.json"
-    summary_path.write_text(json.dumps(summary, indent=2))
+    summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(f"Run summary written to {summary_path}")
 
     if fail_count > 0:

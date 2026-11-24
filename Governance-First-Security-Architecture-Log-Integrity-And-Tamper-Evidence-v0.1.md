@@ -83,10 +83,10 @@ Retention periods may be extended by regulatory obligation. Where a log type als
 
 ## 8. Log Access Control
 
-- Log access is read-only for all roles except Log Governance
-- Log Governance is a named role; no service account holds this role
+- Log access is read-only for all roles except the Log Governance function (mapped in `Role-Registry-v0.1` to named human holders of `ROLE_SECURITY_REVIEWER` and `ROLE_GOVERNANCE_REVIEWER`)
+- Log Governance is a named human governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`); no service account holds this authority
 - All access to logs — including read access — is itself logged in a separate audit trail
-- Bulk export of log data requires approval from the Log Governance role and is logged as a high-severity event
+- Bulk export of log data requires approval from the Log Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) and is logged as a high-severity event
 - No production system has credentials that allow modification or deletion of log records
 
 ---
@@ -123,7 +123,7 @@ Log integrity directly affects the organisation's ability to:
 - Meet NIS2, ISO 27001, and sector-specific audit requirements
 - Produce evidence in legal proceedings
 
-The Log Governance role is responsible for ensuring log practices meet current regulatory requirements and liaising with legal counsel when log evidence may be required.
+The Log Governance function (`ROLE_SECURITY_REVIEWER` / `ROLE_GOVERNANCE_REVIEWER`) is responsible for ensuring log practices meet current regulatory requirements and liaising with legal counsel (`ROLE_LEGAL_COMPLIANCE_REVIEWER`) when log evidence may be required.
 
 ---
 

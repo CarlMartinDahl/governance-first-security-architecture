@@ -418,7 +418,7 @@ Update (GFSA-REV-015, 2026-09-28): bounded synthetic prototype work within the c
 
 ### Future Synthetic Prototype Modes
 
-`LM-3_LIMITED_SYNTHETIC_PROTOTYPE` or `ODM-5_SYNTHETIC_TEST`, if separately approved in the future, may allow isolated mock actions and synthetic data. They do not authorize real secrets, live integrations, sensitive export, or production effects.
+`LM-3_LIMITED_SYNTHETIC_PROTOTYPE` or `ODM-5_APPROVED_SYNTHETIC_PROTOTYPE_ACTION`, if separately approved in the future, may allow isolated mock actions and synthetic data. They do not authorize real secrets, live integrations, sensitive export, or production effects.
 
 ### Future Validated Research Mode
 

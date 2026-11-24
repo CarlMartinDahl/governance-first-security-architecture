@@ -17,3 +17,7 @@ output/
 !.env.example
 *.pem
 *.key
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]

@@ -157,28 +157,27 @@ The directory must be possible to delete in its entirety without consequence to 
 
 ### governance_simulator.py
 
-Contains:
+Contains the core evaluation pipeline (conceptual role → shipped function/symbol mapping, reconciled under `GFSA-REV-016` / issue `#10`):
 
-- `NO_NETWORK_GATE` — pre-run assertion (see Section 6).
-- `HostileSignalDetector` — checks for hostile-action signals before rule evaluation.
-- `GovernanceInputNormalizer` — converts raw test-case fields to canonical vocabulary.
-- `RuleEvaluationLayer` — applies governance rules in priority order.
-- `DecisionResolver` — returns one simulated decision.
-- `MockAuditRecordBuilder` — builds a MOCK_AUDIT_RECORD.
-- `TestResultReporter` — compares expected vs actual decision.
+- `NO_NETWORK_GATE` → `no_network_gate()` / `check_no_network_gate()` — pre-run deterministic in-process socket guard and verification log writer (see Section 6).
+- `GovernanceInputNormalizer` → `normalize()` — validates lifecycle and operational modes against canonical `Mode-Model-Normalization-v0.1` vocabulary and sets `STOP_UNKNOWN` on unrecognized modes.
+- `HostileSignalDetector` → `detect()` — checks for incident stop states, compound hostile signals (3+ indicators), individual hostile stop states, and hostile action/risk/egress combinations before rule evaluation.
+- `RuleEvaluationLayer` → `evaluate()` — applies canonical governance rules in priority order.
+- `DecisionResolver` → `run()` / `run_test_case()` — orchestrates normalization, hostile detection, and rule evaluation to return one canonical simulated decision.
+- `MockAuditRecordBuilder` → `build_mock_audit_record()` — builds a `MOCK_AUDIT_RECORD` labeled `SIMULATED_DECISION_ONLY`.
+- `TestResultReporter` → `build_test_result()` / `load_test_cases()` — loads `synthetic_test_cases.yaml` using the Python standard library only (zero third-party packages) and compares expected vs actual decision.
 
 ### run_simulator.py
 
-- Loads `synthetic_test_cases.yaml`.
-- Calls `NO_NETWORK_GATE` first.
-- Iterates test cases.
-- Calls `governance_simulator.py` for each.
-- Writes output to `output/`.
-- Prints summary to stdout.
+- Calls `no_network_gate()` first (halting non-zero if guard installation or self-test fails) and writes `output/no_network_gate_log.txt`.
+- Loads `synthetic_test_cases.yaml` via the stdlib-only loader in `governance_simulator.py`.
+- Iterates test cases and calls `run_test_case()` for each.
+- Writes mock audit records (`output/mock_audit_records/`), individual test results (`output/test_results/`), and `output/run_summary.json`.
+- Prints summary to stdout. (`python3 governance_simulator.py` also executes the same authoritative YAML suite directly.)
 
 ### synthetic_test_cases.yaml
 
-- Contains only synthetic test cases.
+- Contains only synthetic test cases (`STC-001` through `STC-015`; distinct from the documentary reference catalogue `DOC-TC-001` through `DOC-TC-024` in `Synthetic-Test-Case-Set-v0.1`).
 - Must include at least:
   - Two cases with hostile signals that should return `BLOCK`.
   - Two cases with hostile signals that should return `INCIDENT_RESPONSE`.
@@ -196,28 +195,30 @@ The gate must be implemented as Python code inside `governance_simulator.py`.
 
 The gate must run before any other logic.
 
-The gate must:
+Note (`GFSA-REV-016`, issue `#3`): An earlier non-blocking `connect_ex("192.0.2.1", 80)` probe produced environment-dependent results (`EINPROGRESS` on POSIX stacks regardless of routeability). The gate is therefore implemented as a **deterministic, environment-independent in-process socket guard** paired with external OS-level isolation verification per `Prototype-Boundary-Definition-v0.1` (PDG-028 Condition 1b):
 
-1. Attempt to bind a socket to a local port.
-2. Confirm that no outbound network socket is reachable.
-3. If any outbound network check returns a routable address, halt immediately and exit with a non-zero code and the message:
+1. Install an in-process guard replacing `socket.socket` and `socket.create_connection` so that any socket creation or outbound connection attempt inside the simulator process raises `NetworkAccessBlockedError` and is recorded.
+2. Execute an immediate self-test confirming that an attempted socket call is intercepted and blocked by the guard (proving the guard is active before any test case is loaded or evaluated).
+3. If guard installation or the self-test fails, halt immediately and exit with a non-zero code and the message:
 
 ```text
-NO_NETWORK GATE FAILED: Outbound network access detected.
+NO_NETWORK GATE FAILED: In-process network guard could not be verified.
 This simulator must run offline. Halting.
 ```
 
-4. If the gate passes, print:
+4. If the guard is active and self-test passes, print:
 
 ```text
-NO_NETWORK GATE: PASS — Simulator is running offline.
+NO_NETWORK GATE: PASS — In-process socket guard active and verified (no outbound network permitted).
 ```
+
+Boundary note: This in-process guard positively prevents the simulator process from opening network sockets and is independent of OS socket timing semantics. It is a simulator containment control, not a live host firewall; independent host/sandbox network isolation remains an external pre-run verification procedure under `Prototype-Boundary-Definition-v0.1`.
 
 The gate must not be bypassed, commented out, or removed.
 
 If the gate is removed or bypassed, the simulator must be considered out of scope and must not be run.
 
-Verification log: Every run must write the gate result to `output/no_network_gate_log.txt` with a timestamp.
+Verification log: Every run must write the gate result, UTC timestamp, guard method, Python version, and platform metadata to `output/no_network_gate_log.txt`.
 
 ---
 
